@@ -4,7 +4,7 @@ import { store } from "./Redux/Store/Store"
 import { Provider } from 'react-redux'
 import Navbar from "./Components/Navbar"
 import Footer from './Components/Footer'
-import Home from './Pages/Home'
+import HomePage from './Pages/HomePage'
 
 const AppRouter: React.FC = () => {
     return (
@@ -12,7 +12,7 @@ const AppRouter: React.FC = () => {
             <BrowserRouter>
                 <Navbar />
                 <Routes>
-                    <Route path='/' element={<Home />} />
+                    <Route path='/' element={<HomePage />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>
