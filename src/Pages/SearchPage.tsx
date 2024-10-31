@@ -5,7 +5,7 @@ const SearchPage: React.FC = () => {
         <div>
 
         </div>
-    )
+    )    
 }
 
 export default SearchPage
