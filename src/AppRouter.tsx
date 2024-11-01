@@ -5,6 +5,9 @@ import { Provider } from 'react-redux'
 import Navbar from "./Components/Navbar"
 import Footer from './Components/Footer'
 import HomePage from './Pages/HomePage'
+import ProfilePage from './Pages/ProfilePage'
+import OrderPage from './Pages/OrderPage'
+import AddToCartPage from './Pages/AddToCartPage'
 
 const AppRouter: React.FC = () => {
     return (
@@ -13,6 +16,9 @@ const AppRouter: React.FC = () => {
                 <Navbar />
                 <Routes>
                     <Route path='/' element={<HomePage />} />
+                    <Route path='/OrderPage' element={<OrderPage />} />
+                    <Route path='/ProfilePage' element={<ProfilePage />} />
+                    <Route path='/AddToCartPage' element={<AddToCartPage />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>

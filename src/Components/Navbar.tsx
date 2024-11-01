@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FiShoppingCart } from "react-icons/fi";
+import { NavLink } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,10 +27,10 @@ const Navbar: React.FC = () => {
         <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} w-full md:flex md:items-center md:justify-between md:w-auto`} id="navbar-dropdown">
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-black md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
             <li>
-              <a href="#" className="block py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Home</a>
+              <NavLink to={"/"} className="block py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Home</NavLink>
             </li>
             <li>
-              <a href="#" className="block py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Profile</a>
+              <NavLink to={"/ProfilePage"} className="block py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Profile</NavLink>
             </li>
             <li>
               <button
@@ -60,10 +61,10 @@ const Navbar: React.FC = () => {
               </div>
             </li>
             <li>
-              <a href="#" className="block py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Order</a>
+              <NavLink to={"/OrderPage"} className="block py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Order</NavLink>
             </li>
             <li>
-              <a href="#" className="block py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0" aria-current="page"><FiShoppingCart /></a>
+              <NavLink to={"/AddToCartPage"} className="block py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0" aria-current="page"><FiShoppingCart /></NavLink>
             </li>
             <li>
               <div className='h-8 w-8 bg-white rounded-full'></div>
