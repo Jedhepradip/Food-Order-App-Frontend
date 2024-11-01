@@ -2,10 +2,10 @@ import React from 'react'
 
 const SearchPage: React.FC = () => {
     return (
-        <div>
-
-        </div>
-    )    
+        <>
+            <h1>SearchPage</h1>
+        </>
+    )
 }
 
 export default SearchPage
