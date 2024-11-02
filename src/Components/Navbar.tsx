@@ -71,8 +71,8 @@ const Navbar: React.FC = () => {
             </li>
           </ul>
           <div className="flex space-x-4 mt-4 md:mt-0 px-10">
-            <a href="#" className="py-2 px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-gray-600">Login</a>
-            <a href="#" className="py-2 px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-blue-500">Signup</a>
+            <NavLink to={"/LoginPage"} className="py-2 px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-gray-600">Login</NavLink>
+            <NavLink to={"/SigninPage"} className="py-2 px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-blue-500">Signup</NavLink>
           </div>
         </div>
       </div>
