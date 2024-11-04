@@ -82,7 +82,7 @@ const Login: React.FC = () => {
             </div>
 
             <div className='flex text-white'>
-              <NavLink to={"/SignIn"}>
+              <NavLink to={"/SigninPage"}>
                 <h1 className='mt-2 text-[13px] px-1 font-medium'>Create New Account? <span className='text-blue-500 hover:underline'>
                   SignIn</span></h1>
               </NavLink>

@@ -8,8 +8,11 @@ import HomePage from './Pages/HomePage'
 import ProfilePage from './Pages/ProfilePage'
 import OrderPage from './Pages/OrderPage'
 import AddToCartPage from './Pages/AddToCartPage'
+import SearchPage from './Pages/SearchPage'
+import Filtercuisines from './Pages/Filtercuisines'
 import SigninPage from './Forms/User-Profile-Form/SigninPage'
 import LoginPage from './Forms/User-Profile-Form/LoginPage'
+import ViewMenuPage from './Pages/ViewMenuPage'
 
 const AppContent: React.FC = () => {
     const location = useLocation();
@@ -25,8 +28,11 @@ const AppContent: React.FC = () => {
                 <Route path='/OrderPage' element={<OrderPage />} />
                 <Route path='/LoginPage' element={<LoginPage />} />
                 <Route path='/SigninPage' element={<SigninPage />} />
+                <Route path='/SearchPage' element={<SearchPage />} />
                 <Route path='/ProfilePage' element={<ProfilePage />} />
                 <Route path='/AddToCartPage' element={<AddToCartPage />} />
+                <Route path='/Filtercuisines' element={<Filtercuisines />} />
+                <Route path='/ViewMenuPage/:id' element={<ViewMenuPage />} />
             </Routes>
             {!hideNavbarFooter && <Footer />}
         </>
