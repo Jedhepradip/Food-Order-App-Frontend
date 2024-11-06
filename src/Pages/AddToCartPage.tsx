@@ -116,7 +116,7 @@ const AddToCartPage: React.FC = () => {
                             </form>
 
                         </div>
-                    </div>
+                    </div>                    
                 )}
             </div>
 
