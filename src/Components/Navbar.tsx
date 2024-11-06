@@ -69,7 +69,7 @@ const Navbar: React.FC = () => {
                 </div>
               </div>
             </li>
-            
+
             <li>
               <NavLink to={"/OrderPage"} className="block py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Order</NavLink>
             </li>
@@ -81,9 +81,10 @@ const Navbar: React.FC = () => {
             </li>
           </ul>
           <div className="flex space-x-4 mt-4 md:mt-0 px-10">
-            {token ? (
-              <span onClick={handlelogout} className="py-2 px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-gray-600">Logout</span>
-            )
+            {token ?
+              <>
+                <span onClick={handlelogout} className="py-2 px-4 shadow-lg font-bold shadow-gray-600 text-white rounded hover:bg-gray-600">Logout</span>
+              </>
               :
               <>
                 <NavLink to={"/LoginPage"} className="py-2 px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-gray-600">Login</NavLink>

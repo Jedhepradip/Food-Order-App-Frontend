@@ -134,9 +134,9 @@ const AddToCartPage: React.FC = () => {
                 </div>
 
                 <div className="overflow-auto">
-                    <table className="min-w-full">
+                    <table className="min-w-full ">
                         <thead>
-                            <tr>
+                            <tr className='border-b'>
                                 <th className="p-3 text-left">Image</th>
                                 <th className="p-3 text-left">Title</th>
                                 <th className="p-3 text-left">Price</th>
@@ -147,7 +147,7 @@ const AddToCartPage: React.FC = () => {
                         </thead>
                         <tbody>
                             {cartItems.map(item => (
-                                <tr key={item.id}>
+                                <tr key={item.id} className='border-b'>
                                     <td className="p-3">
                                         <img src={item.img} alt={item.name} className="w-12 h-12 rounded-full object-cover" />
                                     </td>
