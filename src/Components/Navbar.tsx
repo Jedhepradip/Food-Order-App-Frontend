@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
             </li>
             <li>
               <NavLink to={"/AddToCartPage"} className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0" aria-current="page"><FiShoppingCart /></NavLink>
-            </li>
+            </li>            
             <li>
               <div className='h-8 w-8 bg-white rounded-full cursor-pointer'></div>
             </li>
