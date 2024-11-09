@@ -1,10 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaEnvelope, FaMapMarkerAlt, FaCity, FaGlobe } from 'react-icons/fa';
 import { IoMdCall } from "react-icons/io";
 import { RxCross2 } from 'react-icons/rx';
+import { UserInterFaceData } from '../interface/UserInterface';
+import { FetchingUserData } from '../Redux/Features/UserSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../Redux/Store/Store';
 
 const ProfilePage: React.FC = () => {
   const [showupdate, setshowupdate] = useState(false)
+  const [UserInfo, setUserData] = useState<UserInterFaceData[] | null>(null);
+  const Dispatch: AppDispatch = useDispatch()
+  const UserData: UserInterFaceData[] = useSelector((state: RootState) => state.User.User)
+
+  console.log(UserData);
+
+  useEffect(() => {
+    Dispatch(FetchingUserData())
+  }, [Dispatch])
+
+  useEffect(() => {
+    if (UserData) {
+      setUserData(UserData)
+    }
+  }, [UserData])
+
+  console.log(UserInfo);
+
 
   const setshowmodel = () => {
     setshowupdate(true)
