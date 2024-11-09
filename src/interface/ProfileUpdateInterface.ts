@@ -1,4 +1,4 @@
-export interface UserInterFaceData {
+export interface ProfileUpdateFrom {
     profilePictuer: string;
     name: string;
     email: string;
@@ -7,7 +7,4 @@ export interface UserInterFaceData {
     address: string,
     country: string,
     city: string
-    updatedAt: string;
-    __v: string;
-    _id: string;
 }
