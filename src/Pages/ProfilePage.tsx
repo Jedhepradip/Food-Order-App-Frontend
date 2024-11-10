@@ -21,10 +21,6 @@ const ProfilePage: React.FC = () => {
   const UserData = useSelector((state: RootState) => state.User.User)
 
   useEffect(() => {
-    Dispatch(FetchingUserData())
-  }, [Dispatch])
-
-  useEffect(() => {
     if (UserData) {
       setUserData(UserData)
     }
@@ -34,6 +30,11 @@ const ProfilePage: React.FC = () => {
     setshowupdate(true)
   }
 
+  const ShowToastContainer = () => {
+    toast.error(<div className='font-serif text-[15px] text-black'>Email is Not Update...</div>);
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onsubmit: SubmitHandler<ProfileUpdateFrom> = async (data) => {
     const formdata = new FormData();
     formdata.append("profilePicture", file!); // Corrected key
@@ -49,12 +50,19 @@ const ProfilePage: React.FC = () => {
         formdata,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            // "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("Token")}`,
           },
         }
       );
-      console.log("User updated successfully:", response.data);
+      const UserUpdate = response.data;
+      if (response.status === 200) {
+        toast.success(<div className='font-serif text-[15px] text-black'>{UserUpdate.message}</div>);
+        setTimeout(() => {
+          setshowupdate(false)
+        }, 1600);
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response) {
@@ -71,8 +79,13 @@ const ProfilePage: React.FC = () => {
       }
     }
   };
-  // ⚠ 
 
+  useEffect(() => {
+    Dispatch(FetchingUserData())
+  }, [Dispatch, onsubmit])
+
+
+  // ⚠ 
   return (
     <>
       <div className='max-w-7xl mx-auto p-6 bg-black text-white shadow-md h-screen'>
@@ -164,8 +177,9 @@ const ProfilePage: React.FC = () => {
                     <label className="block text-[17px] font-medium text-white md:mb-1">Email</label>
                     <input {...register("email")}
                       type="email"
+                      onClick={() => ShowToastContainer()}
                       className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                      defaultValue={UserInfo?.email}
+                      value={UserInfo?.email}
                     />
                   </div>
 

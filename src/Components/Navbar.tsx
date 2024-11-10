@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FiShoppingCart } from "react-icons/fi";
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
@@ -42,8 +42,9 @@ const Navbar: React.FC = () => {
               <NavLink to={"/ProfilePage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Profile</NavLink>
             </li>
 
-            <li>
-              <button
+            <li className='bg-black'>
+
+              {/* <button
                 id="dropdownNavbarLink"
                 data-dropdown-toggle="dropdownNavbar"
                 className="flex items-center cursor-pointer justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-700 md:p-0"
@@ -65,10 +66,25 @@ const Navbar: React.FC = () => {
                     <a href="#" className="block px-4 py-2 hover:bg-gray-700 cursor-pointer">Earnings</a>
                   </li>
                 </ul>
-                <div className="py-1">
-                  <a href="#" className="block px-4 py-2 text-gray-300 hover:bg-gray-700 cursor-pointer">Sign out</a>
-                </div>
-              </div>
+              </div> */}
+              <select className='bg-black'>
+                <option>Dashboard</option>
+                <option value={"Restaurant"}>
+                  <Link to={"/RestaurantPages"}>
+                    <span>Restaurant</span>
+                  </Link>
+                </option>
+                <option>
+                  <NavLink to={"/MenuPages"}>
+                    Menu
+                  </NavLink>
+                </option>
+                <option>
+                  <NavLink to={"/OrderPageAdmin"}>
+                    Order
+                  </NavLink>
+                </option>
+              </select>
             </li>
 
             <li>
@@ -76,7 +92,7 @@ const Navbar: React.FC = () => {
             </li>
             <li>
               <NavLink to={"/AddToCartPage"} className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0" aria-current="page"><FiShoppingCart /></NavLink>
-            </li>            
+            </li>
             <li>
               <div className='h-8 w-8 bg-white rounded-full cursor-pointer'></div>
             </li>
@@ -95,7 +111,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-    </nav>
+    </nav >
   );
 };
 
