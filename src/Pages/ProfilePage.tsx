@@ -17,7 +17,9 @@ const ProfilePage: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const Dispatch: AppDispatch = useDispatch()
   const { register, handleSubmit } = useForm<ProfileUpdateFrom>();
+
   const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
+  
   const UserData = useSelector((state: RootState) => state.User.User)
 
   useEffect(() => {

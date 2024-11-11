@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { FiShoppingCart } from "react-icons/fi";
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const Navigate = useNavigate()
 
   const handlelogout = () => {
@@ -15,7 +16,7 @@ const Navbar: React.FC = () => {
   const token = localStorage.getItem("Token")
 
   return (
-    <nav className="bg-black text-white sticky top-0 left-0 z-50">
+    <nav className="bg-black text-white sticky top-0 left-0 z-30">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="self-center text-2xl font-semibold whitespace-nowrap cursor-pointer">JedheEats</span>
@@ -67,7 +68,46 @@ const Navbar: React.FC = () => {
                   </li>
                 </ul>
               </div> */}
-              <select className='bg-black'>
+
+
+              <div className="relative inline-block text-left">
+                <button
+                  id="dropdownDelayButton"
+                  onMouseEnter={() => setIsOpen(true)}
+                  onMouseLeave={() => setIsOpen(false)}
+                  className="text-white bg-black hover:bg-gray-800 focus:ring-1 font-medium rounded-lg text-[17px] text-center inline-flex items-center"
+                  type="button"
+                >
+                  Dashboard
+                  <svg className="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                  </svg>
+                </button>
+
+                {/* Dropdown menu */}
+                {isOpen && (
+                  <div
+                    id="dropdownDelay"
+                    className="absolute z-10 bg-black divide-y divide-gray-100 rounded-lg shadow w-28"
+                    onMouseEnter={() => setIsOpen(true)}
+                    onMouseLeave={() => setIsOpen(false)}
+                  >
+                    <ul className="py-2 text-sm z-50 text-white bg-black" aria-labelledby="dropdownDelayButton">
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Restaurant</a>
+                      </li>
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Menu</a>
+                      </li>
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Order</a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              {/* <select className='bg-black'>
                 <option>Dashboard</option>
                 <option value={"Restaurant"}>
                   <Link to={"/RestaurantPages"}>
@@ -84,7 +124,8 @@ const Navbar: React.FC = () => {
                     Order
                   </NavLink>
                 </option>
-              </select>
+              </select> */}
+
             </li>
 
             <li>

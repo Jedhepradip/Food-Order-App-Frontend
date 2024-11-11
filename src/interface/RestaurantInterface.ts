@@ -4,7 +4,8 @@ export interface RestaurantInterface {
     cuisines: string
     deliveryTime: string,
     restaurantName: string,
-    RestaurantBanner: string
+    RestaurantBanner: string,
+    _id: string
 }
 
 // const { restaurantName, city, country, deliveryTime, cuisines } = req.body;
