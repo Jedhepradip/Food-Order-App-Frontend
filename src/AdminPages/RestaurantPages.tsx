@@ -111,12 +111,12 @@ const RestaurantPages: React.FC = () => {
 
     return (
         <>
-            <div className='flex justify-center w-full bg-black z-40 p-10'>
+            <div className='flex justify-center w-full bg-black p-10'>
                 {!Restaurant ?
                     <>
                         <div className='grid justify-center items-center grid-cols-1 mb-10 w-[85%]'>
                             <ToastContainer />
-                            <div className="mt-6 p-6 rounded shadow-lg z-40 ">
+                            <div className="mt-6 p-6 rounded shadow-lg ">
                                 {/* <RxCross2 className='float-right text-white text-[23px] cursor-pointer' onClick={() => setshowupdate(false)} /> */}
                                 <form onSubmit={handleSubmit(onsubmit)}>
                                     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 md:mb-4">
@@ -178,7 +178,8 @@ const RestaurantPages: React.FC = () => {
 
                                         <div>
                                             <label className="block text-[20px] font-medium text-white mb-1">Restaurant Banner</label>
-                                            <input {...register("RestaurantBanner", { required: "Restaurant Banner is required" })}
+                                            <input 
+                                            {...register("RestaurantBanner", { required: "Restaurant Banner is required" })}
                                                 type="file"
                                                 name='RestaurantBanner'
                                                 onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
@@ -198,7 +199,7 @@ const RestaurantPages: React.FC = () => {
                     :
                     <div className='grid justify-center items-center grid-cols-1 mb-10 w-[85%]'>
                         <ToastContainer />
-                        <div className="mt-6 p-6 rounded shadow-lg z-40 bg-black">
+                        <div className="mt-6 p-6 rounded shadow-lg bg-black">
                             {/* <RxCross2 className='float-right text-white text-[23px] cursor-pointer' onClick={() => setshowupdate(false)} /> */}
                             <form onSubmit={handleRestaurantFrom}>
                                 <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 md:mb-4">

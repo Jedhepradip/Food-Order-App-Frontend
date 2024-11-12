@@ -43,33 +43,11 @@ const Navbar: React.FC = () => {
               <NavLink to={"/ProfilePage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Profile</NavLink>
             </li>
 
+            <li>
+              <NavLink to={"/OrderPage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Order</NavLink>
+            </li>
+            
             <li className='bg-black'>
-
-              {/* <button
-                id="dropdownNavbarLink"
-                data-dropdown-toggle="dropdownNavbar"
-                className="flex items-center cursor-pointer justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-700 md:p-0"
-              >
-                Dashboard
-                <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                </svg>
-              </button>
-              <div id="dropdownNavbar" className="z-10 hidden font-normal bg-black divide-y divide-gray-700 rounded-lg shadow w-44">
-                <ul className="py-2 text-sm text-gray-300" aria-labelledby="dropdownLargeButton">
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-700 cursor-pointer">Dashboard</a>
-                  </li>
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-700 cursor-pointer">Settings</a>
-                  </li>
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-700 cursor-pointer">Earnings</a>
-                  </li>
-                </ul>
-              </div> */}
-
-
               <div className="relative inline-block text-left">
                 <button
                   id="dropdownDelayButton"
@@ -88,49 +66,26 @@ const Navbar: React.FC = () => {
                 {isOpen && (
                   <div
                     id="dropdownDelay"
-                    className="absolute z-10 bg-black divide-y divide-gray-100 rounded-lg shadow w-28"
+                    className="absolute z-50 bg-black divide-y divide-gray-100 rounded-lg shadow shadow-gray-300 w-28"
                     onMouseEnter={() => setIsOpen(true)}
                     onMouseLeave={() => setIsOpen(false)}
                   >
                     <ul className="py-2 text-sm z-50 text-white bg-black" aria-labelledby="dropdownDelayButton">
                       <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Restaurant</a>
+                        <NavLink to={"/RestaurantPages"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Restaurant</NavLink>
                       </li>
                       <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Menu</a>
+                        <NavLink to={"/MenuPages"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Menu</NavLink>
                       </li>
                       <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Order</a>
+                        <NavLink to={"/OrderPageAdmin"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Order</NavLink>
                       </li>
                     </ul>
                   </div>
                 )}
               </div>
+            </li>            
 
-              {/* <select className='bg-black'>
-                <option>Dashboard</option>
-                <option value={"Restaurant"}>
-                  <Link to={"/RestaurantPages"}>
-                    <span>Restaurant</span>
-                  </Link>
-                </option>
-                <option>
-                  <NavLink to={"/MenuPages"}>
-                    Menu
-                  </NavLink>
-                </option>
-                <option>
-                  <NavLink to={"/OrderPageAdmin"}>
-                    Order
-                  </NavLink>
-                </option>
-              </select> */}
-
-            </li>
-
-            <li>
-              <NavLink to={"/OrderPage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Order</NavLink>
-            </li>
             <li>
               <NavLink to={"/AddToCartPage"} className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0" aria-current="page"><FiShoppingCart /></NavLink>
             </li>
