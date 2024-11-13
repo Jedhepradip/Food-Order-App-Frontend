@@ -178,8 +178,8 @@ const RestaurantPages: React.FC = () => {
 
                                         <div>
                                             <label className="block text-[20px] font-medium text-white mb-1">Restaurant Banner</label>
-                                            <input 
-                                            {...register("RestaurantBanner", { required: "Restaurant Banner is required" })}
+                                            <input
+                                                {...register("RestaurantBanner", { required: "Restaurant Banner is required" })}
                                                 type="file"
                                                 name='RestaurantBanner'
                                                 onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
