@@ -17,9 +17,7 @@ const ProfilePage: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const Dispatch: AppDispatch = useDispatch()
   const { register, handleSubmit } = useForm<ProfileUpdateFrom>();
-
   const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
-  
   const UserData = useSelector((state: RootState) => state.User.User)
 
   useEffect(() => {
@@ -27,6 +25,9 @@ const ProfilePage: React.FC = () => {
       setUserData(UserData)
     }
   }, [UserData])
+
+  console.log(UserData);
+  
 
   const setshowmodel = () => {
     setshowupdate(true)
@@ -52,8 +53,8 @@ const ProfilePage: React.FC = () => {
         formdata,
         {
           headers: {
-            // "Content-Type": "multipart/form-data",
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
+            // "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("Token")}`,
           },
         }
@@ -64,6 +65,7 @@ const ProfilePage: React.FC = () => {
         setTimeout(() => {
           setshowupdate(false)
         }, 1600);
+        Dispatch(FetchingUserData())
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -84,8 +86,7 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     Dispatch(FetchingUserData())
-  }, [Dispatch, onsubmit])
-
+  }, [Dispatch])
 
   // ⚠ 
   return (
@@ -93,8 +94,8 @@ const ProfilePage: React.FC = () => {
       <div className='max-w-7xl mx-auto p-6 bg-black text-white shadow-md h-screen'>
         <div className='flex items-center mb-6'>
           <img
-            src="https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg"
-            // src={`http://localhost:3000/${UserInfo?.profilePictuer}`}
+            // src="https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg"
+            src={`http://localhost:3000/${UserInfo?.profilePictuer}`}
             alt="Profile"
             className='h-36 w-36 rounded-full object-cover'
           />
@@ -161,6 +162,7 @@ const ProfilePage: React.FC = () => {
                     <label className="block text-[17px] font-medium text-white mb-1">Profile Picture</label>
                     <input {...register("profilePictuer")}
                       type="file"
+                      name='profilePictuer'
                       onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
                       className="w-full px-2 py-1.5 border border-gray-600 rounded bg-gray-900 text-white"
                     />

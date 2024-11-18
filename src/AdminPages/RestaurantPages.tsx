@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useForm, SubmitHandler } from "react-hook-form"
-import { RestaurantInterface } from '../interface/RestaurantInterface';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm, SubmitHandler } from "react-hook-form"
 import { AppDispatch, RootState } from '../Redux/Store/Store';
 import { FetchingRestaurant } from '../Redux/Features/RestaurantSlice';
+import { RestaurantInterface } from '../interface/RestaurantInterface';
 
 const RestaurantPages: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -44,6 +44,7 @@ const RestaurantPages: React.FC = () => {
             const Restaurant = response.data;
             if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{Restaurant.message}</div>);
+                Dispatch(FetchingRestaurant())
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -62,7 +63,7 @@ const RestaurantPages: React.FC = () => {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, react-hooks/exhaustive-deps
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleRestaurantFrom = async (e: any) => {
         e.preventDefault()
         if (!token) {
@@ -72,8 +73,6 @@ const RestaurantPages: React.FC = () => {
         const fromdata = new FormData(e.target)
         fromdata.append("RestaurantBanner", file!)
         const obj = Object.fromEntries(fromdata.entries())
-
-        console.log(obj);
 
         try {
             const response = await axios.put(`http://localhost:3000/api-restaurant/Restaurant/Updated/${Restaurant?._id}`, obj, {
@@ -85,6 +84,7 @@ const RestaurantPages: React.FC = () => {
             const Restaurantdata = response.data;
             if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{Restaurantdata.message}</div>);
+                Dispatch(FetchingRestaurant())
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -105,9 +105,7 @@ const RestaurantPages: React.FC = () => {
 
     useEffect(() => {
         Dispatch(FetchingRestaurant())
-    }, [Dispatch])
-
-    console.log(Restaurant?.cuisines);
+    }, [Dispatch])    
 
     return (
         <>
@@ -239,7 +237,7 @@ const RestaurantPages: React.FC = () => {
                                         <input {...register("cuisines")}
                                             type="text"
                                             name='cuisines'
-                                            defaultValue={Restaurant?.cuisines}
+                                            defaultValue={Restaurant?.cuisines[0]}
                                             className="w-full px-3 py-2 border border-gray-600 rounded bg-black text-white"
                                         />
                                     </div>

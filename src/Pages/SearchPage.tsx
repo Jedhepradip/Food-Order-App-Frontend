@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Filtercuisines from './Filtercuisines';
 import { MdOutlineLocationOn } from "react-icons/md";
 import { FaEarthAmericas } from "react-icons/fa6";
+import { FetchingUserAllRestaurant } from '../Redux/Features/RestaurantAllSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../Redux/Store/Store';
+import { RestaurantInterface } from '../interface/RestaurantInterface';
+import { NavLink } from 'react-router-dom';
 
 const SearchPage: React.FC = () => {
+    const [AllRestaurantData, setAllRestaurantData] = useState<RestaurantInterface>()
+    const dispatch: AppDispatch = useDispatch()
+    const RestureantdataAll = useSelector((state: RootState) => state.AllRestaurant.RestaurantAll)
+
+    console.log(RestureantdataAll);
+
+    useEffect(() => {
+        if (RestureantdataAll) {
+            setAllRestaurantData(RestureantdataAll)
+        }
+    }, [RestureantdataAll])
+
+    console.log("AllRestaurantData", AllRestaurantData);
+
+    useEffect(() => {
+        dispatch(FetchingUserAllRestaurant())
+    }, [dispatch])
+
+
     return (
         <div className="bg-black text-white min-h-screen p-6 flex">
             {/* Sidebar filter section */}
@@ -27,111 +51,34 @@ const SearchPage: React.FC = () => {
                 <h1 className="mt-6 text-lg font-semibold text-gray-300">(3) Search result Found</h1>
 
                 <div className="grid md:grid-cols-3 gap-6 mt-6">
-                    <div className="bg-gray-900 rounded-lg shadow-lg p-4">
-                        <img
-                            src="https://via.placeholder.com/300x200"
-                            alt="Restaurant"
-                            className="w-full h-40 object-cover rounded-t-lg"
-                        />
-                        <div className="p-4">
-                            <h2 className="text-xl font-semibold text-white">Restaurant Name</h2>
-                            <p className="text-gray-400 flex gap-1"><MdOutlineLocationOn className='mt-1 text-[23px]' /> City:Pune</p>
-                            <p className="text-gray-400 flex gap-2"><FaEarthAmericas className='mt-1 text-[18px]' /> Country:india</p>
+                    {RestureantdataAll?.map((val, index: React.Key | null | undefined) => (
+                        <div key={index} className="bg-gray-900 rounded-lg shadow-lg p-4">
+                            <img
+                                src={`http://localhost:3000/${val.RestaurantBanner}`}
+                                alt="Restaurant"
+                                className="w-full h-40 object-cover rounded-t-lg"
+                            />
+                            <div className="p-4">
+                                <h2 className="text-xl font-semibold text-white">Restaurant Name</h2>
+                                <p className="text-gray-400 flex gap-1"><MdOutlineLocationOn className='mt-1 text-[23px]' /> City:{val.city}</p>
+                                <p className="text-gray-400 flex gap-2"><FaEarthAmericas className='mt-1 text-[18px]' /> Country:{val.country}</p>
 
-                            <p className="mt-2 text-black truncate">
-                                <span className='bg-white rounded-full text-[15px]'>menu1</span>
-                            </p>
-                            <button className="bg-orange-500 text-white font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300">
-                                View Menu
-                            </button>
+                                <div className="mt-2 text-black truncate flex justify-around items-center overflow-hidden">
+                                    {val?.cuisines?.map((data, index: React.Key | null | undefined) => (
+                                        <span key={index} className='bg-white rounded-full text-[15px] px-1 font-semibold'>{data}</span>
+                                    ))}
+                                </div>
+                                <NavLink to={`/ViewMenuPage/${val._id}`}>
+                                    <button className="bg-orange-500 text-white font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300">
+                                        View Menu
+                                    </button>
+                                </NavLink>
+                            </div>
                         </div>
-                    </div>
-
-                    <div className="bg-gray-900 rounded-lg shadow-lg p-4">
-                        <img
-                            src="https://via.placeholder.com/300x200"
-                            alt="Restaurant"
-                            className="w-full h-40 object-cover rounded-t-lg"
-                        />
-                        <div className="p-4">
-                            <h2 className="text-xl font-semibold text-white">Restaurant Name</h2>
-                            <p className="text-gray-400 flex gap-1"><MdOutlineLocationOn className='mt-1 text-[23px]' /> City:Pune</p>
-                            <p className="text-gray-400 flex gap-2"><FaEarthAmericas className='mt-1 text-[18px]' /> Country:india</p>
-
-                            <p className="mt-2 text-black truncate">
-                                <span className='bg-white rounded-full text-[15px]'>menu1</span>
-                            </p>
-                            <button className="bg-orange-500 text-white font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300">
-                                View Menu
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="bg-gray-900 rounded-lg shadow-lg p-4">
-                        <img
-                            src="https://via.placeholder.com/300x200"
-                            alt="Restaurant"
-                            className="w-full h-40 object-cover rounded-t-lg"
-                        />
-                        <div className="p-4">
-                            <h2 className="text-xl font-semibold text-white">Restaurant Name</h2>
-                            <p className="text-gray-400 flex gap-1"><MdOutlineLocationOn className='mt-1 text-[23px]' /> City:Pune</p>
-                            <p className="text-gray-400 flex gap-2"><FaEarthAmericas className='mt-1 text-[18px]' /> Country:india</p>
-
-                            <p className="mt-2 text-black truncate">
-                                <span className='bg-white rounded-full text-[15px]'>menu1</span>
-                            </p>
-                            <button className="bg-orange-500 text-white font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300">
-                                View Menu
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="bg-gray-900 rounded-lg shadow-lg p-4">
-                        <img
-                            src="https://via.placeholder.com/300x200"
-                            alt="Restaurant"
-                            className="w-full h-40 object-cover rounded-t-lg"
-                        />
-                        <div className="p-4">
-                            <h2 className="text-xl font-semibold text-white">Restaurant Name</h2>
-                            <p className="text-gray-400 flex gap-1"><MdOutlineLocationOn className='mt-1 text-[23px]' /> City:Pune</p>
-                            <p className="text-gray-400 flex gap-2"><FaEarthAmericas className='mt-1 text-[18px]' /> Country:india</p>
-
-                            <p className="mt-2 text-black truncate">
-                                <span className='bg-white rounded-full text-[15px]'>menu1</span>
-                            </p>
-                            <button className="bg-orange-500 text-white font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300">
-                                View Menu
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="bg-gray-900 rounded-lg shadow-lg p-4">
-                        <img
-                            src="https://via.placeholder.com/300x200"
-                            alt="Restaurant"
-                            className="w-full h-40 object-cover rounded-t-lg"
-                        />
-                        <div className="p-4">
-                            <h2 className="text-xl font-semibold text-white">Restaurant Name</h2>
-                            <p className="text-gray-400 flex gap-1"><MdOutlineLocationOn className='mt-1 text-[23px]' /> City:Pune</p>
-                            <p className="text-gray-400 flex gap-2"><FaEarthAmericas className='mt-1 text-[18px]' /> Country:india</p>
-
-                            <p className="mt-2 text-black truncate">
-                                <span className='bg-white rounded-full text-[15px]'>menu1</span>
-                            </p>
-                            <button className="bg-orange-500 text-white font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300">
-                                View Menu
-                            </button>
-                        </div>
-                    </div>
+                    ))}
 
                     {/* Repeat this card structure for other search results */}
                 </div>
-
-            
-                
             </div>
         </div>
     );

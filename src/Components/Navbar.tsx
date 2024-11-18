@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiShoppingCart } from "react-icons/fi";
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../Redux/Store/Store';
+import { FetchingUserData } from '../Redux/Features/UserSlice';
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  const dispatch: AppDispatch = useDispatch()
+  const User = useSelector((state: RootState) => state.User.User)
+
   const Navigate = useNavigate()
+  useEffect(() => {
+    dispatch(FetchingUserData())
+  }, [dispatch])
 
   const handlelogout = () => {
     localStorage.removeItem("Token")
@@ -46,7 +56,7 @@ const Navbar: React.FC = () => {
             <li>
               <NavLink to={"/OrderPage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Order</NavLink>
             </li>
-            
+
             <li className='bg-black'>
               <div className="relative inline-block text-left">
                 <button
@@ -66,7 +76,7 @@ const Navbar: React.FC = () => {
                 {isOpen && (
                   <div
                     id="dropdownDelay"
-                    className="absolute z-50 bg-black divide-y divide-gray-100 rounded-lg shadow shadow-gray-300 w-28"
+                    className="absolute z-50 bg-black divide-y overflow-hidden divide-gray-100 rounded-lg shadow shadow-gray-300 w-28"
                     onMouseEnter={() => setIsOpen(true)}
                     onMouseLeave={() => setIsOpen(false)}
                   >
@@ -84,13 +94,15 @@ const Navbar: React.FC = () => {
                   </div>
                 )}
               </div>
-            </li>            
+            </li>
 
             <li>
               <NavLink to={"/AddToCartPage"} className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0" aria-current="page"><FiShoppingCart /></NavLink>
             </li>
             <li>
-              <div className='h-8 w-8 bg-white rounded-full cursor-pointer'></div>
+              <div className='rounded-full cursor-pointer overflow-hidden'>
+                <img src={`http://localhost:3000/${User?.profilePictuer}`} alt="" className='h-8 w-8 rounded-full object-cover' />
+              </div>
             </li>
           </ul>
           <div className="flex space-x-4 mt-4 md:mt-0 px-10">
