@@ -60,7 +60,7 @@ const MenuPages: React.FC = () => {
 
     return (
         <>
-            <div className='w-full bg-black text-white py-10 h-full'>
+            <div className='w-full bg-black text-white py-10 h-full h-screen'>
                 <ToastContainer />
                 <div className='flex justify-around items-center w-full mb-4'>
                     <h1 className='font-bold text-white text-2xl'>Available Menus</h1>
@@ -154,7 +154,7 @@ const AddMenuModel = ({ closeMenuModal }: any) => {
 
     return (
         <>
-            <div className='flex justify-center w-full'>
+            <div className='flex justify-center w-full h-screen'>
                 {/* grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/60 */}
                 <div className='fixed inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
                     <div className="mt-6 p-6 bg-gray-900 rounded shadow-lg absolute z-50 w-[500px] ">
@@ -269,7 +269,7 @@ const MenuUpdateModel = ({ selectedProduct, closeMenuModal }: any) => {
 
     return (
         <>
-            <div className='flex justify-center w-full '>
+            <div className='flex justify-center w-full h-screen'>
                 {/* grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/60 */}
                 <div className='fixed inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
                     <div className="mt-6 p-6 bg-gray-900 rounded shadow-lg absolute z-50 w-[500px] ">

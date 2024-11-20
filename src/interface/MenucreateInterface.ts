@@ -7,5 +7,5 @@ export interface menucreateInterface {
     createdAt: string,
     restaurantId: string,
     __v: string,
-    updatedAt:string,
+    updatedAt: string,
 }

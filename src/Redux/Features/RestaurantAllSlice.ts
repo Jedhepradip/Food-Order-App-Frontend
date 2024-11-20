@@ -1,11 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RestaurantInterface } from "../../interface/RestaurantInterface";
+// import { RestaurantInterface } from "../../interface/RestaurantInterface";
 import { AppDispatch } from "../Store/Store";
 import axios from "axios";
 
 
+interface Restaura {
+    _id: string;
+    restaurantName: string;
+    city: string;
+    country: string;
+    deliveryTime: string;
+    cuisines: string[];
+    RestaurantBanner: string;
+    user: string[];
+    menus: string[];
+}
+
 interface RestaurantState {
-    RestaurantAll: RestaurantInterface | null; // Allow User to be either UserInterFaceData or null
+    RestaurantAll: Restaura[] | null; // Allow User to be either UserInterFaceData or null
 }
 
 const initialState: RestaurantState = {
@@ -29,7 +41,7 @@ const RestaurantSlice = createSlice({
     name: "RestaurantAll",
     initialState,
     reducers: {
-        SetAllRestaurantData: (state, action: PayloadAction<RestaurantInterface | null>) => {
+        SetAllRestaurantData: (state, action: PayloadAction<Restaura[] | null>) => {
             state.RestaurantAll = action.payload; // Allow User to be null or UserInterFaceData
         }
     }
