@@ -1,8 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { RxCross2 } from "react-icons/rx";
+import axios from 'axios';
+import { UserInterFaceData } from '../interface/UserInterface';
+import { FetchingUserData } from '../Redux/Features/UserSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../Redux/Store/Store';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import { useNavigate } from 'react-router-dom';
 
 const AddToCartPage: React.FC = () => {
+    const Dispatch: AppDispatch = useDispatch()
+    // const Navigate = useNavigate()
+    const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
+    const UserData = useSelector((state: RootState) => state.User.User)
+
+    useEffect(() => {
+        Dispatch(FetchingUserData())
+    }, [Dispatch])
+
+    useEffect(() => {
+        if (UserData) {
+            setUserData(UserData)
+        }
+    }, [UserData])
+
+    console.log("UserInfo :", UserInfo);
+
     const [cartItems, setCartItems] = useState([
         { id: 1, name: 'Product 1', price: 25, quantity: 2, img: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg' },
         { id: 2, name: 'Product 2', price: 15, quantity: 1, img: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg' },
@@ -10,10 +35,7 @@ const AddToCartPage: React.FC = () => {
     ]);
 
     const [showCheckoutForm, setShowCheckoutForm] = useState(false);
-
-    const calculateItemTotal = (price: number, quantity: number) => price * quantity;
-
-    const updateQuantity = (id: number, action: string) => {
+    const updateQuantity = (id: number | string, action: string) => {
         setCartItems(prevItems =>
             prevItems.map(item =>
                 item.id === id
@@ -26,25 +48,60 @@ const AddToCartPage: React.FC = () => {
         );
     };
 
-    const removeItem = (id: number) => {
+    const removeItem = (id: number | string) => {
         setCartItems(prevItems => prevItems.filter(item => item.id !== id));
     };
 
     const clearCart = () => {
         setCartItems([]);
     };
+    const calculateItemTotal = (price: number, quantity: number) => price * quantity;
 
     const calculateTotal = () => {
-        return cartItems.reduce((total, item) => total + calculateItemTotal(item.price, item.quantity), 0);
+        return cartItems.reduce((total, item) =>
+            total + calculateItemTotal(item.price, item.quantity), 0);
     };
 
     const handleProceedToCheckout = () => {
         setShowCheckoutForm(true);
     };
 
+    const AddToCartIncreaseQuantity = async (id: number | string,) => {
+        const fromdata = new FormData()
+        fromdata.append("productId", id.toString())
+        try {
+            const response = await axios.post(`http://localhost:3000/api-restaurant/AddToCart/Increase/Quantity`, fromdata, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+                }
+            })
+
+            if (response.status === 200) {
+                Dispatch(FetchingUserData())
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    console.log("Error:", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
+
+
     return (
 
         <>
+            <ToastContainer />
             <div className='flex justify-center w-full '>
                 {/* grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/60 */}
                 {showCheckoutForm && (
@@ -116,7 +173,7 @@ const AddToCartPage: React.FC = () => {
                             </form>
 
                         </div>
-                    </div>                    
+                    </div>
                 )}
             </div>
 
@@ -146,32 +203,35 @@ const AddToCartPage: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cartItems.map(item => (
-                                <tr key={item.id} className='border-b'>
+                            {UserInfo?.items.map(item => (
+                                <tr key={item?.Menu?._id} className='border-b'>
                                     <td className="p-3">
-                                        <img src={item.img} alt={item.name} className="w-12 h-12 rounded-full object-cover" />
+                                        <img
+                                            src={`http://localhost:3000/${item?.Menu?.menuPicture}`}
+                                            alt={item?.Menu?.name} className="w-12 h-12 rounded-full object-cover" />
                                     </td>
-                                    <td className="p-3">{item.name}</td>
-                                    <td className="p-3">${item.price.toFixed(2)}</td>
+                                    <td className="p-3">{item?.Menu?.name}</td>
+                                    <td className="p-3">${item?.Menu?.price.toFixed(2)}</td>
                                     <td className="p-3 flex items-center space-x-2">
                                         <button
-                                            onClick={() => updateQuantity(item.id, 'decrease')}
+                                            onClick={() => updateQuantity(item?.Menu?._id, 'decrease')}
                                             className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
                                         >
                                             <FaMinus />
                                         </button>
-                                        <span>{item.quantity}</span>
+                                        <span>{item?.quantity}</span>
                                         <button
-                                            onClick={() => updateQuantity(item.id, 'increase')}
+                                            // onClick={() => updateQuantity(item?.Menu?._id, 'increase')}
+                                            onClick={() => AddToCartIncreaseQuantity(item?.Menu?._id)}
                                             className="px-1 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded-full"
                                         >
                                             <FaPlus />
                                         </button>
                                     </td>
-                                    <td className="p-3">${calculateItemTotal(item.price, item.quantity).toFixed(2)}</td>
+                                    <td className="p-3">${calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}</td>
                                     <td className="p-3">
                                         <button
-                                            onClick={() => removeItem(item.id)}
+                                            onClick={() => removeItem(item?.Menu?._id)}
                                             className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded"
                                         >
                                             Remove

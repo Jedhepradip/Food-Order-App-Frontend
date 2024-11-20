@@ -26,9 +26,6 @@ const ProfilePage: React.FC = () => {
     }
   }, [UserData])
 
-  console.log(UserData);
-  
-
   const setshowmodel = () => {
     setshowupdate(true)
   }

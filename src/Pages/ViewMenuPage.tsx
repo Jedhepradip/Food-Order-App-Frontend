@@ -8,6 +8,7 @@ import { FetchingMenuData } from '../Redux/Features/MenuSlice';
 import { menucreateInterface } from '../interface/MenucreateInterface';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 interface Restaura {
@@ -28,6 +29,7 @@ const ViewMenuPage: React.FC = () => {
     const [menus, setMenus] = useState<menucreateInterface[] | null>(null);
     const RestaurantData = useSelector((state: RootState) => state.AllRestaurant.RestaurantAll);
     const MenuAllData = useSelector((state: RootState) => state.Menu.Menu)
+    const Navigate = useNavigate()
     const Dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
@@ -53,18 +55,21 @@ const ViewMenuPage: React.FC = () => {
 
 
     const AddToCartIncreaseQuantity = async (id: string) => {
+        const fromdata = new FormData()
+        fromdata.append("productId", id)
         try {
-            const response = await axios.post("http://localhost:3000/api-restaurant/AddToCart/Increase/Quantity", { id }, {
+            const response = await axios.post(`http://localhost:3000/api-restaurant/AddToCart/Increase/Quantity`, fromdata, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
             })
-            const UserUpdate = response.data;
+            const AddToCartData = response.data;
+
             if (response.status === 200) {
-                toast.success(<div className='font-serif text-[15px] text-black'>{UserUpdate.message}</div>);
+                toast.success(<div className='font-serif text-[15px] text-black'>{AddToCartData.message}</div>);
                 setTimeout(() => {
-                    // Dispatch(FetchingUserData())
+                    Navigate("/AddToCartPage")
                 }, 1600);
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
