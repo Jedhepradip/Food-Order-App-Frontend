@@ -103,12 +103,14 @@ const Navbar: React.FC = () => {
                 aria-current="page"
               >
                 <FiShoppingCart />
+
               </NavLink>
               {User?.items?.length && (
                 <div className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
                   {User?.items.length}
                 </div>
               )}
+
             </li>
             <li>
               <div className='rounded-full cursor-pointer overflow-hidden'>

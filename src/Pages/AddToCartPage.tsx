@@ -131,13 +131,17 @@ const AddToCartPage: React.FC = () => {
         // const fromdata = new FormData()
         // fromdata.append("productId", id.toString())
         try {
+            // const response = await axios.put(`http://localhost:3000/api-restaurant/AddToCart/Remove/MenuItems/${id}`,)
+            // const Resmove = response.data()
+            // console.log(Resmove);
+
             const response = await axios.put(`http://localhost:3000/api-restaurant/AddToCart/Remove/MenuItems/${id}`, {
                 headers: {
+                    // "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
             })
-            const Resmove = response.data()
-            console.log(Resmove);
+
             if (response.status === 200) {
                 Dispatch(FetchingUserData())
             }
