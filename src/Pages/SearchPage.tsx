@@ -72,7 +72,7 @@ const SearchPage: React.FC = () => {
                                 className="w-full h-40 object-cover rounded-t-lg"
                             />
                             <div className="p-4">
-                                <h2 className="text-xl text-white">{val.restaurantName}</h2>
+                                <h2 className="text-xl text-white font-semibold">{val.restaurantName}</h2>
                                 <p className="text-gray-400 flex gap-1"><MdOutlineLocationOn className='mt-1 text-[23px]' /> City:{val.city}</p>
                                 <p className="text-gray-400 flex gap-2"><FaEarthAmericas className='mt-1 text-[18px]' /> Country:{val.country}</p>
 
@@ -82,7 +82,7 @@ const SearchPage: React.FC = () => {
                                     ))}
                                 </div>
                                 <NavLink to={`/ViewMenuPage/${val._id}`}>
-                                    <button className="bg-orange-500 text-black py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300">
+                                    <button className="bg-orange-500 text-black py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300 font-semibold">
                                         View Menu
                                     </button>
                                 </NavLink>

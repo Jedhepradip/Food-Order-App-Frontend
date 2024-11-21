@@ -7,7 +7,6 @@
 //     RestaurantBanner: string,
 //     _id: string
 // }
-
 export interface RestaurantInterface {
     _id: string;
     restaurantName: string;

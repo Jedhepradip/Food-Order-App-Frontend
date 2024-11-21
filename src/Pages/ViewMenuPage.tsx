@@ -5,12 +5,23 @@ import { RootState, AppDispatch } from '../Redux/Store/Store';
 import { useSelector, useDispatch } from 'react-redux';
 import { FetchingUserAllRestaurant } from '../Redux/Features/RestaurantAllSlice';
 import { FetchingMenuData } from '../Redux/Features/MenuSlice';
-import { menucreateInterface } from '../interface/MenucreateInterface';
+// import { menucreateInterface } from '../interface/MenucreateInterface';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+interface menucreateInterface {
+    name: string,
+    description: string,
+    price: string,
+    menuPictuer: string
+    _id: string
+    createdAt: string,
+    restaurantId: string,
+    __v: string,
+    updatedAt: string,
+}
 interface Restaura {
     _id: string;
     restaurantName: string;
@@ -20,7 +31,7 @@ interface Restaura {
     cuisines: string[];
     RestaurantBanner: string;
     user: string[];
-    menus: string[];
+    menus: menucreateInterface[];
 }
 
 const ViewMenuPage: React.FC = () => {
@@ -37,21 +48,22 @@ const ViewMenuPage: React.FC = () => {
         Dispatch(FetchingMenuData())
     }, [Dispatch]);
 
+    console.log("RestaurantData :", Restaurant);
+
     useEffect(() => {
         if (RestaurantData && id) {
             const filteredRestaurant = RestaurantData.find(
                 (e) => e._id === id
             ) || null; // Ensure the result is `Restaura | null`
-            setRestaurant(filteredRestaurant); // Safe to set the state
+            setRestaurant(filteredRestaurant as Restaura | null);
+
         }
 
-        if (MenuAllData?.length) {
-            const Filtermenu = MenuAllData.filter(e => e.restaurantId == id)
-            setMenus(Filtermenu)
+        if (Restaurant?.menus?.length) {
+            setMenus(Restaurant?.menus)
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [MenuAllData, RestaurantData,]);
+    }, [MenuAllData, Restaurant?.menus, RestaurantData, id]);
 
 
     const AddToCartIncreaseQuantity = async (id: string) => {

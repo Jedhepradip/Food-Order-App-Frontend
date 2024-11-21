@@ -126,18 +126,18 @@ const AddToCartPage: React.FC = () => {
         }
     }
 
-    const removeItem = async (id: number | string) => {
+    const RemoveToaddToCart = async (id: number | string) => {
         setCartItems(prevItems => prevItems.filter(item => item.id !== id));
-        const fromdata = new FormData()
-        fromdata.append("productId", id.toString())
+        // const fromdata = new FormData()
+        // fromdata.append("productId", id.toString())
         try {
-            const response = await axios.post(`http://localhost:3000/api-restaurant/AddToCart/Increase/Quantity`, fromdata, {
+            const response = await axios.put(`http://localhost:3000/api-restaurant/AddToCart/Remove/MenuItems/${id}`, {
                 headers: {
-                    "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
             })
-
+            const Resmove = response.data()
+            console.log(Resmove);
             if (response.status === 200) {
                 Dispatch(FetchingUserData())
             }
@@ -307,7 +307,7 @@ const AddToCartPage: React.FC = () => {
                                     <td className="p-3">${calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}</td>
                                     <td className="p-3">
                                         <button
-                                            onClick={() => removeItem(item?.Menu?._id)}
+                                            onClick={() => RemoveToaddToCart(item?.Menu?._id)}
                                             className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded"
                                         >
                                             Remove
