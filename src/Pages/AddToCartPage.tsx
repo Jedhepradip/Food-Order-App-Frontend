@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { RxCross2 } from "react-icons/rx";
@@ -49,10 +50,6 @@ const AddToCartPage: React.FC = () => {
     //     );
     // };
 
-    const removeItem = (id: number | string) => {
-        setCartItems(prevItems => prevItems.filter(item => item.id !== id));
-    };
-
     const clearCart = () => {
         setCartItems([]);
     };
@@ -81,7 +78,7 @@ const AddToCartPage: React.FC = () => {
             if (response.status === 200) {
                 Dispatch(FetchingUserData())
             }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         } catch (error: any) {
             if (error.response) {
                 const errorMessage = error.response.data.message;
@@ -129,6 +126,36 @@ const AddToCartPage: React.FC = () => {
         }
     }
 
+    const removeItem = async (id: number | string) => {
+        setCartItems(prevItems => prevItems.filter(item => item.id !== id));
+        const fromdata = new FormData()
+        fromdata.append("productId", id.toString())
+        try {
+            const response = await axios.post(`http://localhost:3000/api-restaurant/AddToCart/Increase/Quantity`, fromdata, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+                }
+            })
+
+            if (response.status === 200) {
+                Dispatch(FetchingUserData())
+            }
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    console.log("Error:", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    };
 
     return (
 
