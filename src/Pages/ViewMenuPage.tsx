@@ -139,7 +139,7 @@ const ViewMenuPage: React.FC = () => {
                                 className="w-full h-40 object-cover rounded-t-lg"
                             />
                             <div className="p-4">
-                                <h2 className="text-xl font-semibold text-white">
+                                <h2 className="text-xl text-white">
                                     {val.name}
                                 </h2>
                                 <p className="text-gray-500 mt-2">

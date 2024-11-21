@@ -61,7 +61,7 @@ const SearchPage: React.FC = () => {
                     </button>
                 </div>
 
-                <h1 className="mt-6 text-lg font-semibold text-gray-300">(3) Search result Found</h1>
+                <h1 className="mt-6 text-lg text-gray-300">(3) Search result Found</h1>
 
                 <div className="grid md:grid-cols-3 gap-6 mt-6">
                     {RestureantdataAll?.map((val, index: React.Key | null | undefined) => (
@@ -72,17 +72,17 @@ const SearchPage: React.FC = () => {
                                 className="w-full h-40 object-cover rounded-t-lg"
                             />
                             <div className="p-4">
-                                <h2 className="text-xl font-semibold text-white">{val.restaurantName}</h2>
+                                <h2 className="text-xl text-white">{val.restaurantName}</h2>
                                 <p className="text-gray-400 flex gap-1"><MdOutlineLocationOn className='mt-1 text-[23px]' /> City:{val.city}</p>
                                 <p className="text-gray-400 flex gap-2"><FaEarthAmericas className='mt-1 text-[18px]' /> Country:{val.country}</p>
 
                                 <div className="mt-2 text-black truncate flex justify-around items-center overflow-hidden">
                                     {val?.cuisines?.map((data, index: React.Key | null | undefined) => (
-                                        <span key={index} className='bg-white rounded-full text-[15px] px-1 font-semibold'>{data}</span>
+                                        <span key={index} className='bg-white rounded-full text-[15px] px-1'>{data}</span>
                                     ))}
                                 </div>
                                 <NavLink to={`/ViewMenuPage/${val._id}`}>
-                                    <button className="bg-orange-500 text-black font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300">
+                                    <button className="bg-orange-500 text-black py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300">
                                         View Menu
                                     </button>
                                 </NavLink>

@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
     <nav className="bg-black text-white sticky top-0 left-0 z-30">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <span className="self-center text-2xl font-semibold whitespace-nowrap cursor-pointer">JedheEats</span>
+          <span className="self-center text-2xl font-semibold whitespace-nowrap cursor-pointer">CraveCourier</span>
         </a>
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

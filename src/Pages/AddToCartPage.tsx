@@ -35,18 +35,19 @@ const AddToCartPage: React.FC = () => {
     ]);
 
     const [showCheckoutForm, setShowCheckoutForm] = useState(false);
-    const updateQuantity = (id: number | string, action: string) => {
-        setCartItems(prevItems =>
-            prevItems.map(item =>
-                item.id === id
-                    ? {
-                        ...item,
-                        quantity: action === 'increase' ? item.quantity + 1 : Math.max(item.quantity - 1, 1),
-                    }
-                    : item
-            )
-        );
-    };
+
+    // const updateQuantity = (id: number | string, action: string) => {
+    //     setCartItems(prevItems =>
+    //         prevItems.map(item =>
+    //             item.id === id
+    //                 ? {
+    //                     ...item,
+    //                     quantity: action === 'increase' ? item.quantity + 1 : Math.max(item.quantity - 1, 1),
+    //                 }
+    //                 : item
+    //         )
+    //     );
+    // };
 
     const removeItem = (id: number | string) => {
         setCartItems(prevItems => prevItems.filter(item => item.id !== id));
@@ -71,6 +72,37 @@ const AddToCartPage: React.FC = () => {
         fromdata.append("productId", id.toString())
         try {
             const response = await axios.post(`http://localhost:3000/api-restaurant/AddToCart/Increase/Quantity`, fromdata, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+                }
+            })
+
+            if (response.status === 200) {
+                Dispatch(FetchingUserData())
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    console.log("Error:", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
+
+    const AddToCartdecreaseQuantity = async (id: number | string,) => {
+        const fromdata = new FormData()
+        fromdata.append("productId", id.toString())
+        try {
+            const response = await axios.post(`http://localhost:3000/api-restaurant/AddToCart/Decrease/Quantity`, fromdata, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
@@ -213,12 +245,29 @@ const AddToCartPage: React.FC = () => {
                                     <td className="p-3">{item?.Menu?.name}</td>
                                     <td className="p-3">${item?.Menu?.price.toFixed(2)}</td>
                                     <td className="p-3 flex items-center space-x-2">
-                                        <button
-                                            onClick={() => updateQuantity(item?.Menu?._id, 'decrease')}
-                                            className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
-                                        >
-                                            <FaMinus />
-                                        </button>
+
+                                        {item.quantity > 1 ?
+                                            <>
+                                                <button
+                                                    // onClick={() => updateQuantity(item?.Menu?._id, 'decrease')}
+                                                    onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
+                                                    className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
+                                                >
+                                                    <FaMinus />
+                                                </button>
+                                            </>
+                                            :
+                                            <>
+                                                <button
+                                                    // onClick={() => updateQuantity(item?.Menu?._id, 'decrease')}
+                                                    // onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
+                                                    className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
+                                                >
+                                                    <FaMinus />
+                                                </button>
+                                            </>
+                                        }
+
                                         <span>{item?.quantity}</span>
                                         <button
                                             // onClick={() => updateQuantity(item?.Menu?._id, 'increase')}
