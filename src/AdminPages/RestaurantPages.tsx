@@ -20,7 +20,7 @@ const RestaurantPages: React.FC = () => {
         if (RestaurantData) {
             setRestaurant(RestaurantData)
         }
-    }, [RestaurantData])
+    }, [Restaurant, RestaurantData])
 
     const onsubmit: SubmitHandler<RestaurantInterface> = async (data) => {
         if (!token) {
@@ -105,7 +105,7 @@ const RestaurantPages: React.FC = () => {
 
     useEffect(() => {
         Dispatch(FetchingRestaurant())
-    }, [Dispatch])    
+    }, [Dispatch])
 
     return (
         <>
@@ -237,7 +237,7 @@ const RestaurantPages: React.FC = () => {
                                         <input {...register("cuisines")}
                                             type="text"
                                             name='cuisines'
-                                            defaultValue={Restaurant?.cuisines[0]}
+                                            defaultValue={Restaurant.cuisines}
                                             className="w-full px-3 py-2 border border-gray-600 rounded bg-black text-white"
                                         />
                                     </div>

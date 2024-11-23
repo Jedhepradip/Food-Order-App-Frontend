@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const AddToCartPage: React.FC = () => {
     const Dispatch: AppDispatch = useDispatch()
+    const [showCheckoutForm, setShowCheckoutForm] = useState(false);
     // const Navigate = useNavigate()
     const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
     const UserData = useSelector((state: RootState) => state.User.User)
@@ -27,15 +28,15 @@ const AddToCartPage: React.FC = () => {
         }
     }, [UserData])
 
-    console.log("UserInfo :", UserInfo);
+    // const [cartItems, setCartItems] = useState([
+    //     { id: 1, name: 'Product 1', price: 25, quantity: 2, img: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg' },
+    //     { id: 2, name: 'Product 2', price: 15, quantity: 1, img: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg' },
+    //     { id: 3, name: 'Product 3', price: 30, quantity: 3, img: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg' },
+    // ]);
 
-    const [cartItems, setCartItems] = useState([
-        { id: 1, name: 'Product 1', price: 25, quantity: 2, img: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg' },
-        { id: 2, name: 'Product 2', price: 15, quantity: 1, img: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg' },
-        { id: 3, name: 'Product 3', price: 30, quantity: 3, img: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg' },
-    ]);
-
-    const [showCheckoutForm, setShowCheckoutForm] = useState(false);
+    // useEffect(() => {
+    //     setCartItems([])
+    // }, [])
 
     // const updateQuantity = (id: number | string, action: string) => {
     //     setCartItems(prevItems =>
@@ -48,16 +49,13 @@ const AddToCartPage: React.FC = () => {
     //                 : item
     //         )
     //     );
-    // };
+    // };  
 
-    const clearCart = () => {
-        setCartItems([]);
-    };
     const calculateItemTotal = (price: number, quantity: number) => price * quantity;
 
     const calculateTotal = () => {
-        return cartItems.reduce((total, item) =>
-            total + calculateItemTotal(item.price, item.quantity), 0);
+        return UserInfo?.items.reduce((total, item) =>
+            total + calculateItemTotal(item.Menu.price, item.quantity), 0);
     };
 
     const handleProceedToCheckout = () => {
@@ -127,17 +125,36 @@ const AddToCartPage: React.FC = () => {
     }
 
     const RemoveToaddToCart = async (id: number | string) => {
-        setCartItems(prevItems => prevItems.filter(item => item.id !== id));
-        // const fromdata = new FormData()
-        // fromdata.append("productId", id.toString())
         try {
-            // const response = await axios.put(`http://localhost:3000/api-restaurant/AddToCart/Remove/MenuItems/${id}`,)
-            // const Resmove = response.data()
-            // console.log(Resmove);
-
-            const response = await axios.put(`http://localhost:3000/api-restaurant/AddToCart/Remove/MenuItems/${id}`, {
+            const response = await axios.put(`http://localhost:3000/api-restaurant/AddToCart/Remove/MenuItems/${id}`, {}, {
                 headers: {
-                    // "Content-Type": "application/json",
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+                }
+            })
+
+            if (response.status === 200) {
+                Dispatch(FetchingUserData())
+            }
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    console.log("Error:", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    };
+
+    const ClearAllAddToCart = async () => {
+        try {
+            const response = await axios.delete(`http://localhost:3000/api-restaurant/ClearAll/AddToCart`, {
+                headers: {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
             })
@@ -180,7 +197,7 @@ const AddToCartPage: React.FC = () => {
                                         <input
                                             type="text"
                                             className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                            placeholder="Your Name"
+                                            defaultValue={UserInfo?.name}
                                         />
                                     </div>
 
@@ -189,7 +206,7 @@ const AddToCartPage: React.FC = () => {
                                         <input
                                             type="email"
                                             className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                            placeholder="Your Email"
+                                            value={UserInfo?.email}
                                         />
                                     </div>
 
@@ -198,7 +215,7 @@ const AddToCartPage: React.FC = () => {
                                         <input
                                             type="tel"
                                             className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                            placeholder="Your Contact Number"
+                                            defaultValue={UserInfo?.contact}
                                         />
                                     </div>
 
@@ -207,7 +224,7 @@ const AddToCartPage: React.FC = () => {
                                         <input
                                             type="text"
                                             className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                            placeholder="Your Address"
+                                            defaultValue={UserInfo?.address}
                                         />
                                     </div>
 
@@ -216,7 +233,7 @@ const AddToCartPage: React.FC = () => {
                                         <input
                                             type="text"
                                             className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                            placeholder="Your City"
+                                            defaultValue={UserInfo?.city}
                                         />
                                     </div>
 
@@ -225,7 +242,7 @@ const AddToCartPage: React.FC = () => {
                                         <input
                                             type="text"
                                             className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                            placeholder="Your Country"
+                                            defaultValue={UserInfo?.country}
                                         />
                                     </div>
                                 </div>
@@ -246,7 +263,7 @@ const AddToCartPage: React.FC = () => {
 
                 <div className="flex justify-end mb-4 px-[150px]">
                     <button
-                        onClick={clearCart}
+                        onClick={() => ClearAllAddToCart()}
                         className="px-4 py-2 font-bold"
                     >
                         Clear All
@@ -325,7 +342,7 @@ const AddToCartPage: React.FC = () => {
 
                 <div className="mt-3 flex justify-between items-center md:pr-[100px] bg-gray-800 text-black">
                     <span className="text-lg font-bold text-white px-2 text-[21px]">Total</span>
-                    <span className="px-4 py-2 font-bold text-[20px] text-white md:mr-12">${calculateTotal().toFixed(2)}</span>
+                    <span className="px-4 py-2 font-bold text-[20px] text-white md:mr-12">${calculateTotal()}</span>
                 </div>
 
                 {/* Proceed to Checkout button */}

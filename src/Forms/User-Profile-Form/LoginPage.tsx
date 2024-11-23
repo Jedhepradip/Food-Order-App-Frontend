@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface InputFormLogin {
   email: string,
@@ -13,10 +15,44 @@ interface InputFormLogin {
 const Login: React.FC = () => {
   const [loadingOTP, setLoadingOTP] = useState(false);
   const { register, handleSubmit } = useForm<InputFormLogin>();
-
+  const Navigate = useNavigate()
   const onsubmit: SubmitHandler<InputFormLogin> = async (data) => {
-    console.log(data);
     setLoadingOTP(true);
+    const fromdata = new FormData()
+    fromdata.append("email", data.email)
+    fromdata.append("password", data.password)
+    try {
+      const response = await axios.post("http://localhost:3000/api-user/Registration/User", fromdata, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      const UserResponse = response.data;
+      if (response.status === 200) {
+        toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
+        setTimeout(() => {
+          Navigate("/");
+          setLoadingOTP(false);
+          const Token = UserResponse.token;
+          localStorage.setItem("Token", Token);
+        }, 1600);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response) {
+        const errorMessage = error.response.data.message;
+        if (error.response.status === 409 || errorMessage === "User already exists") {
+          console.log("Error: User already exists.");
+          toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+        } else {
+          toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+          console.log("Error: ", errorMessage || "Unexpected error occurred.");
+        }
+      } else {
+        console.log("Error: Network issue or server not responding", error);
+      }
+      setLoadingOTP(false);
+    }
   }
 
   return (
@@ -83,7 +119,7 @@ const Login: React.FC = () => {
 
             <div className='flex text-white'>
               <NavLink to={"/SigninPage"}>
-                <h1 className='mt-2 text-[13px] px-1 font-medium'>Create New Account? <span className='text-blue-500 hover:underline'>
+                <h1 className='mt-2 text-[10px] px-1 font-medium'>Create New Account? <span className='text-blue-500 hover:underline'>
                   SignIn</span></h1>
               </NavLink>
               <NavLink to={"/ForgetPassword"}>

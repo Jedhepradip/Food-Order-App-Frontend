@@ -34,7 +34,6 @@ const ProfilePage: React.FC = () => {
     toast.error(<div className='font-serif text-[15px] text-black'>Email is Not Update...</div>);
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onsubmit: SubmitHandler<ProfileUpdateFrom> = async (data) => {
     const formdata = new FormData();
     formdata.append("profilePicture", file!); // Corrected key
@@ -104,7 +103,9 @@ const ProfilePage: React.FC = () => {
               <FaEnvelope className="text-2xl text-gray-500 mr-2" />
               <span className="font-semibold text-lg tracking-wide text-gray-400">Email</span>
             </div>
-            <p className="text-sm font-medium opacity-80 px-8 text-white">{UserInfo?.email}</p>
+            <p className="text-sm font-medium opacity-80 px-8 text-white truncate">
+              {UserInfo?.email}
+            </p>
           </div>
 
           <div className="flex flex-col py-1 px-6 bg-gray-700 relative text-white rounded-lg shadow-lg hover:bg-gray-600 transition duration-300 ease-in-out">
@@ -112,7 +113,9 @@ const ProfilePage: React.FC = () => {
               <IoMdCall className="text-2xl text-gray-500 mr-2" />
               <span className="font-semibold text-lg tracking-wide text-gray-400">Contact</span>
             </div>
-            <p className="text-sm font-medium opacity-80 px-8 text-white">{UserInfo?.contact}</p>
+            <p className="text-sm font-medium opacity-80 px-8 text-white truncate">
+              {UserInfo?.contact}
+            </p>
           </div>
 
           <div className="flex flex-col py-1 px-6 bg-gray-700 relative text-white rounded-lg shadow-lg hover:bg-gray-600 transition duration-300 ease-in-out">
@@ -120,7 +123,9 @@ const ProfilePage: React.FC = () => {
               <FaMapMarkerAlt className="text-2xl text-gray-500 mr-2" />
               <span className="font-semibold text-lg tracking-wide text-gray-400">Address</span>
             </div>
-            <p className="text-sm font-medium opacity-80 px-8 text-white">{UserInfo?.address}</p>
+            <p className="text-sm font-medium opacity-80 px-8 text-white truncate">
+              {UserInfo?.address}
+            </p>
           </div>
 
           <div className="flex flex-col py-1 px-6 bg-gray-700 relative text-white rounded-lg shadow-lg hover:bg-gray-600 transition duration-300 ease-in-out">
@@ -128,7 +133,9 @@ const ProfilePage: React.FC = () => {
               <FaCity className="text-2xl text-gray-500 mr-2" />
               <span className="font-semibold text-lg tracking-wide text-gray-400">City</span>
             </div>
-            <p className="text-sm font-medium opacity-80 px-8">{UserInfo?.city}</p>
+            <p className="text-sm font-medium opacity-80 px-8 text-white truncate">
+              {UserInfo?.city}
+            </p>
           </div>
 
           <div className="flex flex-col py-1 px-6 bg-gray-700 relative text-white rounded-lg shadow-lg hover:bg-gray-600 transition duration-300 ease-in-out">
@@ -136,8 +143,11 @@ const ProfilePage: React.FC = () => {
               <FaGlobe className="text-2xl text-gray-500 mr-2" />
               <span className="font-semibold text-lg tracking-wide text-gray-400">Country</span>
             </div>
-            <p className="text-sm font-medium opacity-80 px-8 text-white">{UserInfo?.country}</p>
+            <p className="text-sm font-medium opacity-80 px-8 text-white truncate">
+              {UserInfo?.country}
+            </p>
           </div>
+
         </div>
         <div className='w-full flex justify-center items-center' onClick={() => setshowmodel()}>
           <button className='md:w-[12%] w-[20%] py-1 mt-4 bg-orange-400 text-black font-semibold rounded-md hover:bg-orange-700 transition duration-300 text-[20px]'>
