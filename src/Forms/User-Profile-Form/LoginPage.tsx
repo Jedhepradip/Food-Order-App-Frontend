@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 interface InputFormLogin {
   email: string,
   password: string,
-  role: string,
 }
 
 const Login: React.FC = () => {
@@ -22,7 +21,7 @@ const Login: React.FC = () => {
     fromdata.append("email", data.email)
     fromdata.append("password", data.password)
     try {
-      const response = await axios.post("http://localhost:3000/api-user/Registration/User", fromdata, {
+      const response = await axios.post("http://localhost:3000/api-user/Login/User", fromdata, {
         headers: {
           "Content-Type": "application/json"
         }
@@ -40,6 +39,9 @@ const Login: React.FC = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response) {
+        setTimeout(() => {
+          setLoadingOTP(false);
+        }, 1600);
         const errorMessage = error.response.data.message;
         if (error.response.status === 409 || errorMessage === "User already exists") {
           console.log("Error: User already exists.");
@@ -51,7 +53,6 @@ const Login: React.FC = () => {
       } else {
         console.log("Error: Network issue or server not responding", error);
       }
-      setLoadingOTP(false);
     }
   }
 
@@ -122,7 +123,7 @@ const Login: React.FC = () => {
                 <h1 className='mt-2 text-[10px] px-1 font-medium'>Create New Account? <span className='text-blue-500 hover:underline'>
                   SignIn</span></h1>
               </NavLink>
-              <NavLink to={"/ForgetPassword"}>
+              <NavLink to={"/SendLinkEmailPage"}>
                 <h1 className='cursor-pointer text-[11px] mt-3 ml-5 hover:underline text-blue-500 font-medium'>Forget Password</h1>
               </NavLink>
             </div>

@@ -16,11 +16,14 @@ import OrderPageAdmin from './AdminPages/OrderPage'
 import RestaurantPages from './AdminPages/RestaurantPages'
 import LoginPage from './Forms/User-Profile-Form/LoginPage'
 import SigninPage from './Forms/User-Profile-Form/SigninPage'
+import SetNewPassword from './Forms/User-Profile-Form/SetNewPassword'
+import SendLinkEmailPage from './Forms/User-Profile-Form/SendLinkEmailPage'
+
 
 const AppContent: React.FC = () => {
     const location = useLocation();
     // Define routes where Navbar and Footer should be hidden
-    const hideNavbarFooter = location.pathname === '/LoginPage' || location.pathname === '/SigninPage';
+    const hideNavbarFooter = location.pathname === '/LoginPage' || location.pathname === '/SigninPage' || location.pathname === '/SendLinkEmailPage' || location.pathname === '/SetNewPassword';
 
     return (
         <>
@@ -34,10 +37,12 @@ const AppContent: React.FC = () => {
                 <Route path='/SearchPage' element={<SearchPage />} />
                 <Route path='/ProfilePage' element={<ProfilePage />} />
                 <Route path='/AddToCartPage' element={<AddToCartPage />} />
-                <Route path='/OrderPageAdmin' element={<OrderPageAdmin />} />
-                <Route path='/RestaurantPages' element={<RestaurantPages />} />
+                <Route path='/SetNewPassword' element={<SetNewPassword />} />
                 <Route path='/Filtercuisines' element={<Filtercuisines />} />
                 <Route path='/ViewMenuPage/:id' element={<ViewMenuPage />} />
+                <Route path='/OrderPageAdmin' element={<OrderPageAdmin />} />
+                <Route path='/RestaurantPages' element={<RestaurantPages />} />
+                <Route path='/SendLinkEmailPage' element={<SendLinkEmailPage />} />
             </Routes>
             {!hideNavbarFooter && <Footer />}
         </>
