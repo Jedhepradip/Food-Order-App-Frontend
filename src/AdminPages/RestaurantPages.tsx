@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, SubmitHandler } from "react-hook-form"
 import { AppDispatch, RootState } from '../Redux/Store/Store';
+import { useNavigate } from 'react-router-dom';
 import { FetchingRestaurant } from '../Redux/Features/RestaurantSlice';
 import { RestaurantInterface } from '../interface/RestaurantInterface';
 
@@ -13,6 +14,7 @@ const RestaurantPages: React.FC = () => {
     const [Restaurant, setRestaurant] = useState<RestaurantInterface | null>(null);
     const RestaurantData = useSelector((state: RootState) => state.Restaurant.Restaurant)
     const { register, handleSubmit, formState: { errors } } = useForm<RestaurantInterface>();
+    const Navigate = useNavigate()
     const Dispatch: AppDispatch = useDispatch()
     const token = localStorage.getItem("Token")
 
@@ -24,7 +26,7 @@ const RestaurantPages: React.FC = () => {
 
     const onsubmit: SubmitHandler<RestaurantInterface> = async (data) => {
         if (!token) {
-            toast.error(<div className='font-serif text-[15px] text-black'>User Not Found...</div>);
+            Navigate("/LoginPage")
             return
         }
         const formdata = new FormData()

@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 
 interface InputFormLogin {
     email: string,
@@ -13,12 +14,16 @@ interface InputFormLogin {
 }
 
 const SetNewPassword: React.FC = () => {
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get("token");
     const [loadingOTP, setLoadingOTP] = useState(false);
     const { register, handleSubmit } = useForm<InputFormLogin>();
     const Navigate = useNavigate()
+
     const onsubmit: SubmitHandler<InputFormLogin> = async (data) => {
         setLoadingOTP(true);
         const fromdata = new FormData()
+        fromdata.append("resetToken", token!)
         fromdata.append("email", data.email)
         fromdata.append("password", data.password)
         fromdata.append("Cpassword", data.Cpassword)

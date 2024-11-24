@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Pizza from "../assets/hero_pizza.png"
+import { UseDispatch } from 'react-redux'
+import { SetSearchByCountry } from '../Redux/Features/SearchByCountrtSlice'
+import { AppDispatch } from '../Redux/Store/Store'
 
 const HomePage: React.FC = () => {
+  const [search, SetSearch] = useState(String)
+  const dispatch: AppDispatch = UseDispatch();
+
+  const SearchToCountry = () => {
+    dispatch(SetSearchByCountry({ Country: "India" }));
+  }
+
   return (
     <>
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -12,10 +22,11 @@ const HomePage: React.FC = () => {
             <div className="flex w-full max-w-md bg-white rounded-lg overflow-hidden shadow-md mt-5">
               <input
                 type="text"
+                onChange={(e) => SetSearch(e.target.value)}
                 placeholder="Search Restaurant by name, city & country"
                 className="w-full p-2 text-gray-700 placeholder-gray-400 focus:outline-none"
               />
-              <button className="px-4 py-2 font-medium text-white bg-orange-500 hover:bg-orange-600 transition-all duration-200 ease-in-out">
+              <button className="px-4 py-2 font-medium text-white bg-orange-500 hover:bg-orange-600 transition-all duration-200 ease-in-out" onClick={() => SearchToCountry()}>
                 Search
               </button>
             </div>

@@ -96,27 +96,35 @@ const Navbar: React.FC = () => {
               </div>
             </li>
 
-            <li className="relative">
-              <NavLink
-                to={"/AddToCartPage"}
-                className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0"
-                aria-current="page"
-              >
-                <FiShoppingCart />
 
-              </NavLink>
-              {User?.items?.length && (
-                <div className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-                  {User?.items.length}
+            {token ? <>
+
+              <li className="relative">
+                <NavLink
+                  to={"/AddToCartPage"}
+                  className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0"
+                  aria-current="page"
+                > 
+                  <FiShoppingCart />
+
+                </NavLink>
+                {User?.items?.length && (
+                  <div className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                    {User?.items.length}
+                  </div>
+                )}
+
+              </li>
+
+              <li>
+                <div className='rounded-full cursor-pointer overflow-hidden'>
+                  <img src={`http://localhost:3000/${User?.profilePictuer}`} alt="" className='h-8 w-8 rounded-full object-cover' />
                 </div>
-              )}
-
-            </li>
-            <li>
-              <div className='rounded-full cursor-pointer overflow-hidden'>
-                <img src={`http://localhost:3000/${User?.profilePictuer}`} alt="" className='h-8 w-8 rounded-full object-cover' />
-              </div>
-            </li>
+              </li>
+            </>
+              :
+              null
+            }
           </ul>
           <div className="flex space-x-4 mt-4 md:mt-0 px-10">
             {token ?
