@@ -12,7 +12,6 @@ const initialState: RestaurantState = {
     SearchCountry: null,
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 const SearchByCountrySlice = createSlice({
     name: "SearchByCountry",
     initialState,

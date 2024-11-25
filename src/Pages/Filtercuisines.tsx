@@ -29,9 +29,13 @@ const Filtercuisines: React.FC = () => {
                         .map(cuisine => cuisine.toLowerCase())
                 )
             );
-            setAllCuisines(filterTheCuisines); 
+            setAllCuisines(filterTheCuisines);
         }
     }, [AllRestaurantData]);
+
+    const ClickThecuisines = (Cuisines: string) => {
+        console.log(Cuisines);
+    }
 
     return (
         <div className="bg-black text-white p-6 w-72 h-auto fixed top-20 left-5 rounded-lg shadow-lg">
@@ -45,7 +49,7 @@ const Filtercuisines: React.FC = () => {
                 {allCuisines.map((val, index) => (
                     <div
                         key={index}
-                        className="flex items-center p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-all duration-150"
+                        className="flex items-center p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-all duration-150" onClick={() => ClickThecuisines(val)}
                     >
                         <input
                             type="checkbox"
