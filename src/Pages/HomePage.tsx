@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
                 type="text"
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search Restaurant by name, city & country"
-                className="w-full p-2 text-gray-700 placeholder-gray-400 focus:outline-none"
+                className="w-full p-2 text-gray-700 placeholder-gray-400 focus:outline-none hover:border bg-border"
               />
               <button className="px-4 py-2 font-medium text-white bg-orange-500 hover:bg-orange-600 transition-all duration-200 ease-in-out" onClick={() => SearchToCountry()}>
                 Search

@@ -4,7 +4,7 @@ import MenuReducers from "../Features/MenuSlice"
 import Allrestaurant from "../Features/RestaurantAllSlice"
 import Filtercuisines from "../Features/CuisinesFilterSlice"
 import RestaurantReducers from "../Features/RestaurantSlice"
-import SetSearchByCountry from "../Features/SearchByCountrtSlice";
+import SetSearchByCountry from "../Features/SearchByCountrtSlice"
 
 export const store = configureStore({
     reducer: {

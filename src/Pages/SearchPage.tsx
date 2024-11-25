@@ -24,13 +24,19 @@ interface SearchByCountry {
     Country: string;
 }
 
+interface FilterCuisinesinterface {
+    Cuisines: string
+}
+
 const SearchPage: React.FC = () => {
     const [AllRestaurantData, setAllRestaurantData] = useState<RestaurantInterface[]>()
     const [AllRestaurantDataShowUI, setAllRestaurantDataShowUI] = useState<RestaurantInterface[] | undefined | null>(null)
     const [SearchByResCui, SetSearchByResCui] = useState<string | undefined | null>(null);
     const [SearchCountry, SetSearchByCountry] = useState<SearchByCountry[] | null>(null)
+    const [Cuisine, SetCuisines] = useState<FilterCuisinesinterface[] | null>(null)
     const dispatch: AppDispatch = useDispatch()
     const RestureantdataAll = useSelector((state: RootState) => state.AllRestaurant.RestaurantAll)
+    const FilterCuisines = useSelector((state: RootState) => state.Cuisines.FilterCuisines)
     const SearchTheCountry = useSelector((state: RootState) => state.Search.SearchCountry)
 
     useEffect(() => {
@@ -40,12 +46,28 @@ const SearchPage: React.FC = () => {
     }, [RestureantdataAll])
 
     useEffect(() => {
+        if (FilterCuisines) {
+            SetCuisines(FilterCuisines)
+        }
+    }, [FilterCuisines])
+
+    useEffect(() => {
+        if (Cuisine) {
+            const filterByCountry = AllRestaurantData?.filter(e =>
+                e.cuisines.toString().toLowerCase().includes(Cuisine[0].Cuisines.toLowerCase())
+            );
+            setAllRestaurantDataShowUI(filterByCountry);
+        }
+    }, [AllRestaurantData, Cuisine])
+
+
+    useEffect(() => {
         if (SearchTheCountry) {
             SetSearchByCountry(SearchTheCountry)
         } else {
             setAllRestaurantDataShowUI(RestureantdataAll)
         }
-    }, [RestureantdataAll, SearchTheCountry])
+    }, [RestureantdataAll, SearchTheCountry, SearchTheCountry?.length])
 
     useEffect(() => {
         if (SearchByResCui?.length == 0 || undefined) {
@@ -68,12 +90,10 @@ const SearchPage: React.FC = () => {
 
     useEffect(() => {
         if (SearchCountry?.length) {
-            // if (SearchCountry[0]?.Country) {
             const filterByCountry = AllRestaurantData?.filter(e =>
-                e.country.toLowerCase().includes(SearchCountry[0]?.Country.toLowerCase()) // Normalize case
+                e.country.toLowerCase().includes(SearchCountry[0]?.Country.toLowerCase())
             );
-            console.log("filterByCountry :", filterByCountry);
-            setAllRestaurantDataShowUI(filterByCountry); // Fallback to an empty array if undefined
+            setAllRestaurantDataShowUI(filterByCountry);
             // }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,11 +146,11 @@ const SearchPage: React.FC = () => {
                             <div className="p-4">
                                 <h2 className="text-xl text-white font-semibold">{val.restaurantName}</h2>
                                 <p className="text-gray-400 flex gap-1"><MdOutlineLocationOn className='mt-1 text-[23px]' /> City:{val.city}</p>
-                                <p className="text-gray-400 flex gap-2"><FaEarthAmericas className='mt-1 text-[18px]' /> Country:{val.country}</p>
+                                <p className="text-gray-400 flex gap-1 ml-1"><FaEarthAmericas className='mt-1 text-[18px]' /> Country:{val.country}</p>
 
                                 <div className="mt-2 text-black truncate grid grid-cols-3 gap-1 text-center justify-around items-center overflow-hidden">
                                     {val?.cuisines?.map((data, index: React.Key | null | undefined) => (
-                                        <span key={index} className='bg-white rounded-full text-[15px] px-1'>{data}</span>
+                                        <span key={index} className='bg-white font-semibold rounded-full text-[15px] px-1'>{data.charAt(0).toUpperCase() + data.slice(1).toLowerCase()}</span>
                                     ))}
                                 </div>
                                 <NavLink to={`/ViewMenuPage/${val._id}`}>
