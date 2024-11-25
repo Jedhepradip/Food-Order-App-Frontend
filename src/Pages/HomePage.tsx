@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import Pizza from "../assets/hero_pizza.png"
-import { UseDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { SetSearchByCountry } from '../Redux/Features/SearchByCountrtSlice'
 import { AppDispatch } from '../Redux/Store/Store'
 
 const HomePage: React.FC = () => {
-  const [search, SetSearch] = useState(String)
-  const dispatch: AppDispatch = UseDispatch();
+  const [search, setSearch] = useState<string>(''); // Fix state initialization
+  const Navigate = useNavigate()
+  const Dispatch: AppDispatch = useDispatch()
 
   const SearchToCountry = () => {
-    dispatch(SetSearchByCountry({ Country: "India" }));
+    Dispatch(SetSearchByCountry([{ Country: search }]));
+    Navigate("/SearchPage")
   }
 
   return (
@@ -22,7 +25,7 @@ const HomePage: React.FC = () => {
             <div className="flex w-full max-w-md bg-white rounded-lg overflow-hidden shadow-md mt-5">
               <input
                 type="text"
-                onChange={(e) => SetSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search Restaurant by name, city & country"
                 className="w-full p-2 text-gray-700 placeholder-gray-400 focus:outline-none"
               />

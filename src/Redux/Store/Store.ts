@@ -3,7 +3,7 @@ import UserReducers from "../Features/UserSlice"
 import RestaurantReducers from "../Features/RestaurantSlice"
 import MenuReducers from "../Features/MenuSlice"
 import Allrestaurant from "../Features/RestaurantAllSlice"
-import { SetSearchByCountry } from "../Features/SearchByCountrtSlice";
+import SetSearchByCountry from "../Features/SearchByCountrtSlice";
 
 export const store = configureStore({
     reducer: {

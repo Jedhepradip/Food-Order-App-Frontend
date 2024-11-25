@@ -20,13 +20,18 @@ import { NavLink } from 'react-router-dom';
 //     menus: string[];
 // }
 
+interface SearchByCountry {
+    Country: string;
+}
+
 const SearchPage: React.FC = () => {
     const [AllRestaurantData, setAllRestaurantData] = useState<RestaurantInterface[]>()
+    const [AllRestaurantDataShowUI, setAllRestaurantDataShowUI] = useState<RestaurantInterface[] | undefined | null>(null)
     const [SearchByResCui, SetSearchByResCui] = useState<string | undefined | null>(null);
+    const [SearchCountry, SetSearchByCountry] = useState<SearchByCountry[] | null>(null)
     const dispatch: AppDispatch = useDispatch()
     const RestureantdataAll = useSelector((state: RootState) => state.AllRestaurant.RestaurantAll)
-
-    console.log(RestureantdataAll);
+    const SearchTheCountry = useSelector((state: RootState) => state.Search.SearchCountry)
 
     useEffect(() => {
         if (RestureantdataAll) {
@@ -34,6 +39,13 @@ const SearchPage: React.FC = () => {
         }
     }, [RestureantdataAll])
 
+    useEffect(() => {
+        if (SearchTheCountry) {
+            SetSearchByCountry(SearchTheCountry)
+        } else {
+            setAllRestaurantDataShowUI(RestureantdataAll)
+        }
+    }, [RestureantdataAll, SearchTheCountry])
 
     useEffect(() => {
         if (SearchByResCui?.length == 0 || undefined) {
@@ -47,12 +59,25 @@ const SearchPage: React.FC = () => {
             e.restaurantName.toLowerCase().includes(SearchByResCui?.toLowerCase() || "") ||
             e.cuisines.some(cuisine => cuisine.toLowerCase().includes(SearchByResCui?.toLowerCase() || ""))
         );
-        setAllRestaurantData(SearchResult);
+        setAllRestaurantDataShowUI(SearchResult);
     };
 
     useEffect(() => {
         dispatch(FetchingUserAllRestaurant())
     }, [dispatch])
+
+    useEffect(() => {
+        if (SearchCountry?.length) {
+            // if (SearchCountry[0]?.Country) {
+            const filterByCountry = AllRestaurantData?.filter(e =>
+                e.country.toLowerCase().includes(SearchCountry[0]?.Country.toLowerCase()) // Normalize case
+            );
+            console.log("filterByCountry :", filterByCountry);
+            setAllRestaurantDataShowUI(filterByCountry); // Fallback to an empty array if undefined
+            // }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [SearchTheCountry, SearchCountry?.length])
 
     return (
         <div className="bg-black text-white min-h-screen p-6 flex">
@@ -79,10 +104,19 @@ const SearchPage: React.FC = () => {
                     </button>
                 </div>
 
-                <h1 className="mt-6 text-lg text-gray-300">({AllRestaurantData?.length}) Search result Found</h1>
+                {SearchCountry?.length
+                    ?
+                    <>
+                        <h1 className="mt-6 text-lg text-gray-300">({SearchCountry?.length}) Search result Found</h1>
+                    </>
+                    :
+                    <>
+                        <h1 className="mt-6 text-lg text-gray-300">({AllRestaurantData?.length}) Search result Found</h1>
+                    </>
+                }
 
                 <div className="grid md:grid-cols-3 gap-6 mt-6">
-                    {AllRestaurantData?.map((val, index: React.Key | null | undefined) => (
+                    {AllRestaurantDataShowUI?.map((val, index: React.Key | null | undefined) => (
                         <div key={index} className="bg-gray-900 rounded-lg shadow-lg p-4">
                             <img
                                 src={`http://localhost:3000/${val.RestaurantBanner}`}
