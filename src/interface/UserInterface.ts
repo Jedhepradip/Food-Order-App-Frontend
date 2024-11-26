@@ -44,7 +44,7 @@ interface Menuinterfase {
     updatedAt: string;
 }
 
-interface CartItem {
+export interface CartItem {
     Menu: Menuinterfase; // Single Menu object
     quantity: number; // Quantity for the specific menu item
 }
