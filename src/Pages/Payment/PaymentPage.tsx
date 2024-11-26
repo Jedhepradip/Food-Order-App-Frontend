@@ -179,10 +179,11 @@
 import React, { useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
 import { CartItem } from '../../interface/UserInterface';
 import axios from 'axios';
+
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 // Define props interface
 interface PaymentPageProps {
@@ -241,7 +242,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
             if (result.error) {
                 toast.error(result.error.message);
             } else if (result.paymentIntent?.status === 'succeeded') {
-                closePaymentModal();
+                // closePaymentModal();
                 toast.success('Payment succeeded!');
             } else {
                 toast.error('Payment status is not successful.');
@@ -258,15 +259,18 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
         } finally {
             setLoading(false);
             setTimeout(() => {
-                closePaymentModal();
+                // closePaymentModal();
             }, 2500);
         }
     };
 
+    console.log("SelectMenu :", SelectMenu);
+
+
     return (
         <>
             <ToastContainer />
-            <div className="inset-0 bg-gray-800 bg-opacity-75 md:flex md:items-center md:justify-center flex justify-center items-center z-50 absolute md:p-40">
+            <div className="inset-0 bg-gray-800 bg-opacity-75 md:flex md:items-center md:justify-center flex justify-center items-center z-50 absolute md:p-40 w-full h-screen">
                 <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg md:p-6 md:w-[55%] w-[80%] p-7 max-w-2xl md:mt-44 relative">
 
                     <form onSubmit={handlePayment} className="space-y-2">
@@ -331,7 +335,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
                     </form>
 
                     <button
-                        onClick={closePaymentModal}
+                        onClick={() => closePaymentModal()}
                         className="absolute md:top-4 md:right-4 top-2 right-1 bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white rounded-full md:px-3 md:py-1 px-2 text-xl transition duration-300"
                     >
                         &times;

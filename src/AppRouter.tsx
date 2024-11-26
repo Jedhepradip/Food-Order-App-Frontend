@@ -19,7 +19,6 @@ import SigninPage from './Forms/User-Profile-Form/SigninPage'
 import SetNewPassword from './Forms/User-Profile-Form/SetNewPassword'
 import SendLinkEmailPage from './Forms/User-Profile-Form/SendLinkEmailPage'
 
-
 const AppContent: React.FC = () => {
     const location = useLocation();
     // Define routes where Navbar and Footer should be hidden
