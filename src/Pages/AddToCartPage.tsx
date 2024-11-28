@@ -197,9 +197,10 @@ const AddToCartPage: React.FC = () => {
     return (
 
         <>
-            <Elements stripe={stripePromise}>
-                <ToastContainer />
-                <div className='realtive'>
+            <div className='realtive w-full h-full'>
+                <Elements stripe={stripePromise}>
+                    <ToastContainer />
+
                     <div className='flex justify-center w-full'>
                         {showCheckoutForm && (
                             <div className='fixed inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
@@ -378,8 +379,8 @@ const AddToCartPage: React.FC = () => {
                             closePaymentModal={closePaymentModal}
                         />
                     )}
-                </div>
-            </Elements>
+                </Elements>
+            </div>
         </>
     );
 };
@@ -464,165 +465,168 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
         }
     };
 
-    console.log("SelectMenu :", SelectMenu);
-
+    useEffect(() => {
+        console.log("SelectMenu :", SelectMenu);
+        setUserName("pradip")
+    }, [SelectMenu, userName])
 
     return (
         <>
-            <ToastContainer />
-            <div className="flex flex-col md:flex-row h-screen bg-gray-50 dark:bg-gray-800 relative">
-                {/* Product Info Section */}
-                <div className="md:w-1/2 w-full p-5 bg-white dark:bg-gray-900 flex flex-col justify-center items-center shadow-lg">
-                    <img
-                        src="https://via.placeholder.com/300"
-                        alt="Product Image"
-                        className="w-48 h-48 object-cover rounded-lg mb-4"
-                    />
-                    <h2 className="text-2xl font-bold text-gray-700 dark:text-white mb-2">
-                        Product Name
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-300 mb-2">
-                        Quantity: <span className="font-medium">2</span>
-                    </p>
-                    <p className="text-xl font-semibold text-gray-800 dark:text-white">
-                        Price: ₹1,000
-                    </p>
-                </div>
+            <div className='absolute w-full h-screen mt-96 bg-red-600'>
+                <ToastContainer />
+                <div className="flex flex-col md:flex-row h-screen dark:bg-gray-800 w-full">
+                    {/* Product Info Section */}
+                    <div className="md:w-1/2 w-full p-5 dark:bg-gray-900 flex flex-col justify-center items-center shadow-lg">
+                        <img
+                            src="https://via.placeholder.com/300"
+                            alt="Product Image"
+                            className="w-48 h-48 object-cover rounded-lg mb-4"
+                        />
+                        <h2 className="text-2xl font-bold text-gray-700 dark:text-white mb-2">
+                            Product Name
+                        </h2>
+                        <p className="text-gray-600 dark:text-gray-300 mb-2">
+                            Quantity: <span className="font-medium">2</span>
+                        </p>
+                        <p className="text-xl font-semibold text-gray-800 dark:text-white">
+                            Price: ₹1,000
+                        </p>
+                    </div>
 
-                {/* Payment Details Section */}
-                <div className="md:w-1/2 w-full flex justify-center items-center p-5 bg-gray-100 dark:bg-gray-700">
-                    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg md:w-[80%] w-full p-7 max-w-xl">
-                        <p className='font-serif font-extralight text-[30px]'>Pay with Cart</p>
-                        <form onSubmit={handlePayment} className="space-y-4">
-                            <span className='font-serif font-extralight'>Shipping information</span>
-                            {/* Email Field */}
-                            <div className="p-">
-                                <label
-                                    htmlFor="email"
-                                    className="block text-gray-700 dark:text-gray-300 mb-2 font-serif"
-                                >
-                                    Email:
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    value={userEmail}
-                                    onChange={(e) => setUserEmail(e.target.value)}
-                                    className="w-full py-2 px-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif"
-                                    placeholder="Enter your email"
-                                    required
-                                />
-                            </div>
+                    {/* Payment Details Section */}
+                    <div className="md:w-1/2 w-full flex justify-center items-center p-5 dark:bg-gray-700">
+                        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg md:w-[80%] w-full p-7 max-w-xl">
+                            <p className='font-serif font-extralight text-[30px]'>Pay with Cart</p>
+                            <form onSubmit={handlePayment} className="space-y-4">
+                                <span className='font-serif font-extralight'>Shipping information</span>
+                                {/* Email Field */}
+                                <div className="p-">
+                                    <label
+                                        htmlFor="email"
+                                        className="block text-gray-700 dark:text-gray-300 mb-2 font-serif"
+                                    >
+                                        Email:
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        value={userEmail}
+                                        onChange={(e) => setUserEmail(e.target.value)}
+                                        className="w-full py-2 px-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif"
+                                        placeholder="Enter your email"
+                                        required
+                                    />
+                                </div>
 
-                            {/* Address Field */}
-                            <div>
-                                <label
-                                    htmlFor="address"
-                                    className="block text-gray-700 dark:text-gray-300 mb-2 font-serif"
-                                >
-                                    Shipping Address:
-                                </label>
-                                <input
-                                    type="text"
-                                    id="address"
-                                    className="w-full p-2 px-3 rounded-tr-lg rounded-tl-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif"
-                                    placeholder="Full Name"
-                                    required
-                                />
+                                {/* Address Field */}
+                                <div>
+                                    <label
+                                        htmlFor="address"
+                                        className="block text-gray-700 dark:text-gray-300 mb-2 font-serif"
+                                    >
+                                        Shipping Address:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="address"
+                                        className="w-full p-2 px-3 rounded-tr-lg rounded-tl-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif"
+                                        placeholder="Full Name"
+                                        required
+                                    />
 
-                                <select id="uk-cities" name="uk-cities"
-                                    className="w-full p-3 px-3  bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif">
-                                    <option value="london">United Kingdom</option>
-                                    <option value="manchester">Manchester</option>
-                                    <option value="birmingham">Birmingham</option>
-                                    <option value="glasgow">Glasgow</option>
-                                    <option value="edinburgh">Edinburgh</option>
-                                    <option value="cardiff">Cardiff</option>
-                                    <option value="belfast">Belfast</option>
-                                    <option value="leeds">Leeds</option>
-                                    <option value="liverpool">Liverpool</option>
-                                </select>
+                                    <select id="uk-cities" name="uk-cities"
+                                        className="w-full p-3 px-3  bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif">
+                                        <option value="london">United Kingdom</option>
+                                        <option value="manchester">Manchester</option>
+                                        <option value="birmingham">Birmingham</option>
+                                        <option value="glasgow">Glasgow</option>
+                                        <option value="edinburgh">Edinburgh</option>
+                                        <option value="cardiff">Cardiff</option>
+                                        <option value="belfast">Belfast</option>
+                                        <option value="leeds">Leeds</option>
+                                        <option value="liverpool">Liverpool</option>
+                                    </select>
 
-                                <input
-                                    type="text"
-                                    id="address"
-                                    className="w-full p-2 px-3 rounded-bl-lg rounded-br-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif"
-                                    placeholder="Full Name"
-                                    required
-                                />
+                                    <input
+                                        type="text"
+                                        id="address"
+                                        className="w-full p-2 px-3 rounded-bl-lg rounded-br-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif"
+                                        placeholder="Full Name"
+                                        required
+                                    />
 
-                            </div>
+                                </div>
 
-                            {/* Payment Details */}
-                            <p className='font-serif font-extralight text-[20px]'>Payment Details</p>
-                            <span className='font-serif font-extralight m-0 p-0 mt-2 text-gray-500'>Cart information</span>
+                                {/* Payment Details */}
+                                <p className='font-serif font-extralight text-[20px]'>Payment Details</p>
+                                <span className='font-serif font-extralight m-0 p-0 mt-2 text-gray-500'>Cart information</span>
 
-                            <div className="py-2.5 px-2.5 bg-gray-100 rounded-lg border border-gray-300 dark:border-gray-600">
-                                <CardElement
-                                    className="p-0"
-                                    options={{
-                                        style: {
-                                            base: {
-                                                fontSize: "16px",
-                                                color: "#424770",
-                                                "::placeholder": {
-                                                    color: "#aab7c4",
+                                <div className="py-2.5 px-2.5 bg-gray-100 rounded-lg border border-gray-300 dark:border-gray-600">
+                                    <CardElement
+                                        className="p-0"
+                                        options={{
+                                            style: {
+                                                base: {
+                                                    fontSize: "16px",
+                                                    color: "#424770",
+                                                    "::placeholder": {
+                                                        color: "#aab7c4",
+                                                    },
+                                                },
+                                                invalid: {
+                                                    color: "#9e2146",
                                                 },
                                             },
-                                            invalid: {
-                                                color: "#9e2146",
-                                            },
-                                        },
-                                    }}
-                                />
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <div className="w-1/2 pr-0">
-                                    <input
-                                        type="text"
-                                        placeholder="MM/YY"
-                                        className="w-full p-2 px-3 rounded-tl-lg rounded-bl-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif"
-                                        required
+                                        }}
                                     />
                                 </div>
-                                <div className="w-1/2 pl-0">
-                                    <input
-                                        type="text"
-                                        placeholder="CVC"
-                                        className="w-full p-2 px-3 rounded-tr-lg rounded-br-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif"
-                                        required
-                                    />
+                                <div className="flex justify-between items-center">
+                                    <div className="w-1/2 pr-0">
+                                        <input
+                                            type="text"
+                                            placeholder="MM/YY"
+                                            className="w-full p-2 px-3 rounded-tl-lg rounded-bl-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="w-1/2 pl-0">
+                                        <input
+                                            type="text"
+                                            placeholder="CVC"
+                                            className="w-full p-2 px-3 rounded-tr-lg rounded-br-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white font-serif"
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            {/* </div> */}
+                                {/* </div> */}
 
-                            <div className="flex items-center mb-4 ml-1">
-                                <input
-                                    type="checkbox"
-                                    id="show-payment-info"
-                                    className="mr-1"
-                                // onChange={handleCheckboxChange}
-                                />
-                                <label htmlFor="show-payment-info" className="font-serif text-gray-500 dark:text-gray-300">
-                                    Billing info is same as Shipping
-                                </label>
-                            </div>
+                                <div className="flex items-center mb-4 ml-1">
+                                    <input
+                                        type="checkbox"
+                                        id="show-payment-info"
+                                        className="mr-1"
+                                    // onChange={handleCheckboxChange}
+                                    />
+                                    <label htmlFor="show-payment-info" className="font-serif text-gray-500 dark:text-gray-300">
+                                        Billing info is same as Shipping
+                                    </label>
+                                </div>
 
-                            {/* Submit Button */}
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className={`w-full py-3 px-4 rounded-lg text-white ${loading
-                                    ? "bg-blue-500 loading"
-                                    : "bg-blue-500 hover:bg-blue-700"
-                                    } transition duration-300`}
-                            >
-                                {loading ? "Processing..." : `Pay`}
-                            </button>
-                        </form>
+                                {/* Submit Button */}
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className={`w-full py-3 px-4 rounded-lg text-white ${loading
+                                        ? "bg-blue-500 loading"
+                                        : "bg-blue-500 hover:bg-blue-700"
+                                        } transition duration-300`}
+                                >
+                                    {loading ? "Processing..." : `Pay`}
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </>
     );

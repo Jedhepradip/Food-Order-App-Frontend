@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl p-5">
           <div className="flex flex-col items-center p-6 bg-black shadow-lg py-24">
-            <p className="text-white text-[40px] text-start font-bold">Order Food Anytime & anywhere</p>
+            <p className="text-white text-[40px] md:text-start font-bold text-center">Order Food Anytime & anywhere</p>
             <span className="text-gray-300 text-sm text-start">Hey! Our delicious food is waiting for you, we are always near to you.</span>
             <div className="flex w-full max-w-md bg-white rounded-lg overflow-hidden shadow-md mt-5">
               <input

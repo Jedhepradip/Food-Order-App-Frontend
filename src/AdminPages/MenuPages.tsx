@@ -60,7 +60,7 @@ const MenuPages: React.FC = () => {
 
     return (
         <>
-            <div className='w-full bg-black text-white py-10 h-full h-screen'>
+            {/* <div className='w-full bg-black text-white py-10 h-screen'>
                 <ToastContainer />
                 <div className='flex justify-around items-center w-full mb-4'>
                     <h1 className='font-bold text-white text-2xl'>Available Menus</h1>
@@ -68,7 +68,7 @@ const MenuPages: React.FC = () => {
                 </div>
 
                 {Menu?.map((val, index: React.Key | null | undefined) => (
-                    <div key={index} className='flex px-60 text-black w-full overflow-hidden py-3'>
+                    <div key={index} className='flex px-60 text-black w-full overflow-hidden py-3 '>
                         <div className='flex bg-gray-800 w-full rounded-lg p-2 justify-center items-center'>
                             <img src={`http://localhost:3000/${val?.menuPictuer}`} alt="" className='rounded-lg h-24 w-24 object-cover' />
 
@@ -83,7 +83,50 @@ const MenuPages: React.FC = () => {
                         </div>
                     </div>
                 ))}
+            </div> */}
+
+            <div className="w-full bg-black text-white py-10 h-screen">
+                <ToastContainer />
+                <div className="flex flex-wrap md:flex-nowrap justify-around items-center w-full mb-4 px-4 md:px-0">
+                    <h1 className="font-bold text-white text-2xl text-center md:text-left">Available Menus</h1>
+                    <button
+                        onClick={() => setshowmodel()}
+                        className="btn bg-orange-400 text-black font-bold rounded-lg px-5 py-1.5 mt-2 md:mt-0"
+                    >
+                        Add Menu
+                    </button>
+                </div>
+
+                {Menu?.map((val, index: React.Key | null | undefined) => (
+                    <div
+                        key={index}
+                        className="flex flex-col md:flex-row px-4 md:px-60 text-black w-full overflow-hidden py-3"
+                    >
+                        <div className="flex flex-col md:flex-row bg-gray-800 w-full rounded-lg p-2 justify-center md:justify-start items-center">
+                            <img
+                                src={`http://localhost:3000/${val?.menuPictuer}`}
+                                alt=""
+                                className="rounded-lg h-24 w-24 object-cover mb-3 md:mb-0"
+                            />
+
+                            <div className="py-1 font-semibold px-3 w-full overflow-hidden text-center md:text-left">
+                                <h1 className="text-gray-950">{val.name}</h1>
+                                <button
+                                    onClick={() => UpdateMenuModelShow(val._id)}
+                                    className="btn bg-orange-400 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right"
+                                >
+                                    Edit
+                                </button>
+                                <p className="text-gray-600 mt-2">{val.description}</p>
+                                <h1 className="text-white mt-2">
+                                    Price: <span className="text-orange-400">₹{val.price}</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
+
 
             {showupdate && (
                 <AddMenuModel closeMenuModal={closeMenuModal} />

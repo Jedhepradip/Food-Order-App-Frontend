@@ -47,14 +47,14 @@ const Navbar: React.FC = () => {
         <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} w-full md:flex md:items-center md:justify-between md:w-auto`} id="navbar-dropdown">
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-black md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
             <li>
-              <NavLink to={"/"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Home</NavLink>
+              <NavLink to={"/"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Home</NavLink>
             </li>
             <li>
-              <NavLink to={"/ProfilePage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Profile</NavLink>
+              <NavLink to={"/ProfilePage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Profile</NavLink>
             </li>
 
             <li>
-              <NavLink to={"/OrderPage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page">Order</NavLink>
+              <NavLink to={"/OrderPage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Order</NavLink>
             </li>
 
             <li className='bg-black'>
@@ -82,13 +82,13 @@ const Navbar: React.FC = () => {
                   >
                     <ul className="py-2 text-sm z-50 text-white bg-black" aria-labelledby="dropdownDelayButton">
                       <li>
-                        <NavLink to={"/RestaurantPages"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Restaurant</NavLink>
+                        <NavLink to={"/RestaurantPages"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Restaurant</NavLink>
                       </li>
                       <li>
-                        <NavLink to={"/MenuPages"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Menu</NavLink>
+                        <NavLink to={"/MenuPages"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Menu</NavLink>
                       </li>
                       <li>
-                        <NavLink to={"/OrderPageAdmin"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Order</NavLink>
+                        <NavLink to={"/OrderPageAdmin"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Order</NavLink>
                       </li>
                     </ul>
                   </div>
@@ -104,12 +104,13 @@ const Navbar: React.FC = () => {
                   to={"/AddToCartPage"}
                   className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0"
                   aria-current="page"
-                > 
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                >
                   <FiShoppingCart />
 
                 </NavLink>
                 {User?.items?.length && (
-                  <div className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                  <div className="absolute md:-top-2 md:-right-2 top-0 md:left-4 left-7 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
                     {User?.items.length}
                   </div>
                 )}
@@ -117,8 +118,8 @@ const Navbar: React.FC = () => {
               </li>
 
               <li>
-                <div className='rounded-full cursor-pointer overflow-hidden'>
-                  <img src={`http://localhost:3000/${User?.profilePictuer}`} alt="" className='h-8 w-8 rounded-full object-cover' />
+                <div className='rounded-full cursor-pointer overflow-hidden md:ml-0 ml-2.5'>
+                  <img src={`http://localhost:3000/${User?.profilePictuer}`} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
                 </div>
               </li>
             </>
@@ -129,12 +130,15 @@ const Navbar: React.FC = () => {
           <div className="flex space-x-4 mt-4 md:mt-0 px-10">
             {token ?
               <>
-                <span onClick={handlelogout} className="py-2 cursor-pointer px-4 shadow-lg font-bold shadow-gray-600 text-white rounded hover:bg-gray-600">Logout</span>
+                <span onClick={() => {
+                  handlelogout(); setIsMobileMenuOpen(!isMobileMenuOpen)
+                }}
+                  className="py-2 cursor-pointer px-4 shadow-lg font-bold shadow-gray-600 text-white rounded hover:bg-gray-600">Logout</span>
               </>
               :
               <>
-                <NavLink to={"/LoginPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-gray-600">Login</NavLink>
-                <NavLink to={"/SigninPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-blue-500">Signup</NavLink>
+                <NavLink to={"/LoginPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-gray-600" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Login</NavLink>
+                <NavLink to={"/SigninPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-blue-500" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Signup</NavLink>
               </>
             }
           </div>
