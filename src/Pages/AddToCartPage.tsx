@@ -201,7 +201,7 @@ const AddToCartPage: React.FC = () => {
                 <Elements stripe={stripePromise}>
                     <ToastContainer />
 
-                    <div className='flex justify-center w-full'>
+                    <div className='flex justify-center w-full relative'>
                         {showCheckoutForm && (
                             <div className='fixed inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
                                 <div className="mt-6 p-6 bg-gray-900 rounded shadow-lg absolute z-50 w-[480px] ">
@@ -289,7 +289,7 @@ const AddToCartPage: React.FC = () => {
                             </button>
                         </div>
 
-                        <div className="overflow-auto">
+                        <div className="overflow-auto relative">
                             <table className="min-w-full ">
                                 <thead>
                                     <tr className='border-b'>
@@ -472,7 +472,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
 
     return (
         <>
-            <div className='absolute w-full h-screen mt-96 bg-red-600'>
+            <div className='absolute w-full h-screen mb-[1000px] bg-red-600'>
                 <ToastContainer />
                 <div className="flex flex-col md:flex-row h-screen dark:bg-gray-800 w-full">
                     {/* Product Info Section */}
