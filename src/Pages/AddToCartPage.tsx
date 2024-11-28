@@ -175,7 +175,12 @@ const AddToCartPage: React.FC = () => {
             <div className='realtive w-full h-full'>
                 <Elements stripe={stripePromise}>
                     <ToastContainer />
-
+                    {Paymentmodel && UserInfo?.items?.length && (
+                        <PaymentPage
+                            SelectMenu={UserInfo.items}
+                            closePaymentModal={closePaymentModal}
+                        />
+                    )}
                     <div className='flex justify-center w-full relative'>
                         {showCheckoutForm && (
                             <div className='fixed inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
@@ -347,13 +352,6 @@ const AddToCartPage: React.FC = () => {
                         </div>
 
                     </div>
-
-                    {Paymentmodel && UserInfo?.items?.length && (
-                        <PaymentPage
-                            SelectMenu={UserInfo.items}
-                            closePaymentModal={closePaymentModal}
-                        />
-                    )}
                 </Elements>
             </div>
         </>

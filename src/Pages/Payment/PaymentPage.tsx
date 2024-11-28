@@ -4,10 +4,10 @@ import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { RxCross2 } from "react-icons/rx";
 
-// Define props interface
 interface PaymentPageProps {
-    SelectMenu: string | number | CartItem[]; // Adjust to match the actual type of UserInfo.items
+    SelectMenu: string | number | CartItem[];
     closePaymentModal: () => void;
 }
 
@@ -21,7 +21,6 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
 
     const handlePayment = async (event: React.FormEvent) => {
         event.preventDefault();
-        console.log("Pradip");
 
         if (!stripe || !elements) return;
         setLoading(true);
@@ -91,34 +90,64 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
         setUserName("pradip")
     }, [SelectMenu, userName])
 
+    const order = [
+        {
+            id: 1,
+            image: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg',
+            title: 'Product 1',
+            price: 49.99,
+        },
+        {
+            id: 2,
+            image: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg',
+            title: 'Product 2',
+            price: 89.99,
+        },
+        {
+            id: 3,
+            image: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg',
+            title: 'Product 3',
+            price: 29.99,
+        },
+    ];
+
     return (
         <>
-            <div className='absolute w-full bg-black flex justify-center items-center text-white z-50 border h-full border-gray-200'>
+            <div className="absolute w-full bg-black text-white z-50">
                 <ToastContainer />
-                <div className="flex flex-col md:flex-row h-screen dark:bg-gray-800 w-full">
+                <div className="flex flex-col md:flex-row dark:bg-gray-800 w-full h-full justify-center items-center">
                     {/* Product Info Section */}
-                    <div className="md:w-1/2 w-full p-5 dark:bg-gray-900 flex flex-col justify-center items-center shadow-lg">
-                        <img
-                            src="https://via.placeholder.com/300"
-                            alt="Product Image"
-                            className="w-48 h-48 object-cover rounded-lg mb-4"
-                        />
-                        <h2 className="text-2xl font-bold text-white mb-2">
-                            Product Name
-                        </h2>
-                        <p className="text-gray-300 mb-2">
-                            Quantity: <span className="font-medium">2</span>
-                        </p>
-                        <p className="text-xl font-semibold text-white">
-                            Price: ₹1,000
-                        </p>
+                    <div className="md:w-1/2 w-full flex dark:bg-gray-900 shadow-lg rounded-lg  from-gray-800 to-gray-900">
+
+                        <div className="flex w-full flex-col mt-10 px-10  min-h-screen bg-black text-white">
+                            <div className="bg-gray-950 shadow-lg rounded-lg p-6 w-full max-w-">
+                                {/* Order Item */}
+                                {order.map((val, index) => (
+                                    <div className="flex items-center justify-between mb-4" key={index}>
+                                        {/* Display order number */}
+                                        <img src={val.image} alt={val.title} className="w-16 h-16 rounded-lg object-cover" />
+
+                                        {/* Align title text to the start */}
+                                        <div className="ml-4 flex-1">
+                                            <h3 className="text-lg font-medium text-left">{val.title}</h3>
+                                        </div>
+                                        <div>
+                                            <p className="text-white mt-1">₹ {val.price.toFixed(2)}</p>
+                                        </div>
+                                    </div>
+                                ))}
+
+                            </div>
+                        </div>
                     </div>
 
+
                     <div className="md:w-1/2 flex justify-center items-center p-5 bg-black">
-                        <div className="bg-black text-white rounded-lg shadow-lg md:w-[80%] border border-gray-300 w-full p-7 max-w-xl">
-                            <p className='font-serif font-extralight text-[30px]'>Pay with Cart</p>
-                            <form onSubmit={handlePayment} className="space-y-4 bg-black">
-                                <span className='font-serif font-extralight'>Shipping information</span>
+                        <div className="bg-gray-950 text-white rounded-lg shadow-lg md:w-[80%] w-full p-7 max-w-xl">
+                            <RxCross2 className='float-right text-white text-[23px]' onClick={() => closePaymentModal()} />
+                            <p className="font-serif font-extralight text-[30px]">Pay with Cart</p>
+                            <form onSubmit={handlePayment} className="space-y-4 ">
+                                <span className="font-serif font-extralight">Shipping information</span>
 
                                 {/* Email Field */}
                                 <div className="p-">
@@ -149,8 +178,11 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
                                         required
                                     />
 
-                                    <select id="uk-cities" name="uk-cities"
-                                        className="w-full p-3 px-3 bg-gray-800 text-white border border-gray-600 font-serif">
+                                    <select
+                                        id="uk-cities"
+                                        name="uk-cities"
+                                        className="w-full p-3 px-3 bg-gray-800 text-white border border-gray-600 font-serif"
+                                    >
                                         <option value="london">United Kingdom</option>
                                         <option value="manchester">Manchester</option>
                                         <option value="birmingham">Birmingham</option>
@@ -166,14 +198,14 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
                                         type="text"
                                         id="address"
                                         className="w-full p-2 px-3 rounded-bl-lg rounded-br-lg bg-gray-800 text-white border border-gray-600 font-serif"
-                                        placeholder="Full Name"
+                                        placeholder="Address"
                                         required
                                     />
                                 </div>
 
                                 {/* Payment Details */}
-                                <p className='font-serif font-extralight text-[20px]'>Payment Details</p>
-                                <span className='font-serif font-extralight m-0 p-0 mt-2 text-gray-500'>Cart information</span>
+                                <p className="font-serif font-extralight text-[20px]">Payment Details</p>
+                                <span className="font-serif font-extralight m-0 p-0 mt-2 text-gray-500">Cart information</span>
 
                                 <div className="py-2.5 px-2.5 bg-gray-800 rounded-lg border border-gray-600">
                                     <CardElement
@@ -182,7 +214,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
                                             style: {
                                                 base: {
                                                     fontSize: "16px",
-                                                    color: "#ffffff",  // Updated to white for better contrast
+                                                    color: "#ffffff", // Updated to white for better contrast
                                                     "::placeholder": {
                                                         color: "#aab7c4",
                                                     },
@@ -229,21 +261,15 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SelectMenu, closePaymentModal
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className={`w-full py-2 text-[20px] font-serif px-4 rounded-lg text-white ${loading
-                                        ? "bg-blue-500 loading"
-                                        : "bg-blue-500 hover:bg-blue-700"
-                                        } transition duration-300`}
+                                    className={`w-full py-2 text-[20px] font-serif px-4 rounded-lg text-white ${loading ? "bg-blue-500 loading" : "bg-blue-500 hover:bg-blue-700"} transition duration-300`}
                                 >
                                     {loading ? "Processing..." : `Pay`}
                                 </button>
                             </form>
                         </div>
                     </div>
-
-
                 </div>
             </div>
-
         </>
     );
 };
