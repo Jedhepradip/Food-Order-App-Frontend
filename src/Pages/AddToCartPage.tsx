@@ -177,7 +177,6 @@ const AddToCartPage: React.FC = () => {
                     <ToastContainer />
                     {Paymentmodel && UserInfo?.items?.length && (
                         <PaymentPage
-                            SelectMenu={UserInfo.items}
                             closePaymentModal={closePaymentModal}
                         />
                     )}
@@ -352,6 +351,7 @@ const AddToCartPage: React.FC = () => {
                         </div>
 
                     </div>
+                    
                 </Elements>
             </div>
         </>
