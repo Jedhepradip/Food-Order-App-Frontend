@@ -428,23 +428,23 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
     // };
 
     const onsubmit: SubmitHandler<CheckoutFormData> = async (data) => {
-        const fromdata = new FormData();
-        fromdata.append("email", data.email);
-        fromdata.append("name", data.fullName);
-        fromdata.append("country", data.country);
-        fromdata.append("address", data.address);
-        fromdata.append("expiry", data.expiry);
-        fromdata.append("cvc", data.cvc);
-        // Uncomment if needed
-        // if (UserInfo?.items) {
-        //     fromdata.append("MenuItem", JSON.stringify(UserInfo.items));
-        // }
+        // const fromdata = new FormData();
+        // fromdata.append("email", data.email);
+        // fromdata.append("name", data.fullName);
+        // fromdata.append("country", data.country);
+        // fromdata.append("address", data.address);
+        // fromdata.append("expiry", data.expiry);
+        // fromdata.append("cvc", data.cvc);
 
-        fromdata.forEach((value, key) => {
-            console.log("key, value :", key, value);  // Log each form data key-value pair
-        });
-
-
+        const fromdata = {
+            email: data.email,
+            name: data.fullName,
+            country: data.country,
+            address: data.address,
+            expiry: data.expiry,
+            cvc: data.cvc,
+            MenuItem: UserInfo, // Send the array directly without converting to string
+        };
 
         if (!stripe || !elements) return;
         setLoading(true);
@@ -458,9 +458,10 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
 
             const { data } = await axios.post(
                 "http://localhost:3000/api-Order/OrderTo/Menu/Payment",
-                fromdata, // Send FormData directly
+                fromdata, // Send FormData directly,
                 {
                     headers: {
+                        "Content-Type": "application/json",
                         authorization: `Bearer ${Token}`, // Do not set Content-Type manually
                     },
                 }
@@ -478,9 +479,16 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
                 payment_method: {
                     card: elements.getElement(CardElement)!,
                     billing_details: {
-                        // Example details
-                        name: data.fullName,
+                        // // Example details
+                        // name: data.fullName,
+                        // email: data.email,
                         email: data.email,
+                        name: data.fullName,
+                        // country: data.country,
+                        address: data.address,
+                        // expiry: data.expiry,
+                        // cvc: data.cvc,
+                        // MenuItem: UserInfo,
                     },
                 },
             });
