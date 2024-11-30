@@ -322,112 +322,22 @@ interface PaymentPageProps {
 interface CheckoutFormData {
     email: string;
     fullName: string;
-    city: string;
+    country: string;
     address: string;
     expiry: string;
     cvc: string;
+    MenuItem: [],
 }
 
 const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [loading, setLoading] = useState(false);
-    // const [userName, setUserName] = useState('');
-    // const [userEmail, setUserEmail] = useState('');
-    // const [UnitedKingdom, setUnitedKingdom] = useState('')
-    // const [Address, setaddress] = useState("")
     const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
     const Dispatch: AppDispatch = useDispatch()
     const navigate = useNavigate();
     const UserData = useSelector((state: RootState) => state.User.User)
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
-    // const [userEmail, setUserEmail] = useState("");
-    // const [userName, setUserName] = useState("");
-    // const [unitedKingdom, setUnitedKingdom] = useState("");
-    // const [address, setAddress] = useState("");
-
-
-    const onsubmit: SubmitHandler<CheckoutFormData> = async (data) => {
-        // event.preventDefault();
-        console.log("pradip", data);
-
-        if (!stripe || !elements) return;
-        setLoading(true);
-
-        try {
-            const Token = localStorage.getItem('Token');
-            if (!Token) {
-                toast.error('You need to log in first.');
-                return navigate('/login');
-            }
-
-            const { data } = await axios.post(
-                'http://localhost:3000/api-Order/OrderTo/Menu/Payment',
-                {
-                    // userName,
-                    // userEmail,
-                    // address: {
-                    //     country: UnitedKingdom,
-                    //     AtPost: Address
-                    // },
-                    // UserInfo,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${Token}`,
-                    },
-                }
-            );
-
-            const clientSecret = data.clientSecret;
-            if (!clientSecret) {
-                toast.error(<div>Failed to retrieve payment intent.</div>);
-                return;
-            }
-
-            const result = await stripe.confirmCardPayment(clientSecret, {
-                payment_method: {
-                    card: elements.getElement(CardElement)!,
-                    billing_details: {
-                        // name: userName,
-                        // email: userEmail,
-                        // address: {
-                        //     country: UnitedKingdom,
-                        // },
-                    },
-                },
-            });
-
-            if (result.error) {
-                toast.error(result.error.message);
-            } else if (result.paymentIntent?.status === 'succeeded') {
-                closePaymentModal();
-                toast.success('Payment succeeded!');
-            } else {
-                toast.error('Payment status is not successful.');
-            }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            if (error.response) {
-                toast.error(error.response.data.message);
-            } else if (error.request) {
-                toast.error('Network error occurred. Please try again.');
-            } else {
-                toast.error(error.message);
-            }
-        } finally {
-            setLoading(false);
-            setTimeout(() => {
-                // closePaymentModal();
-            }, 2500);
-        }
-    };
-
+    const { register, handleSubmit, formState: { errors } } = useForm<CheckoutFormData>();
 
     useEffect(() => {
         if (UserData) {
@@ -444,6 +354,162 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
         return UserInfo?.items?.reduce((total, item) =>
             total + calculateItemTotal(item.Menu.price, item.quantity), 0);
     };
+
+    // const onsubmit: SubmitHandler<CheckoutFormData> = async (data) => {
+    //     const fromdata = new FormData()
+    //     fromdata.append("email", data.email)
+    //     fromdata.append("name", data.fullName)
+    //     fromdata.append("country", data.country)
+    //     fromdata.append("address", data.address)
+    //     fromdata.append("expiry", data.expiry)
+    //     fromdata.append("cvc", data.cvc)
+    //     // if (UserInfo?.items) {
+    //     //     fromdata.append("MenuItem", JSON.stringify(UserInfo?.items))
+    //     // }
+
+    //     if (!stripe || !elements) return;
+    //     setLoading(true);
+
+    //     try {
+    //         const Token = localStorage.getItem('Token');
+    //         if (!Token) {
+    //             toast.error('You need to log in first.');
+    //             return navigate('/login');
+    //         }
+    //         const { data } = await axios.post('http://localhost:3000/api-Order/OrderTo/Menu/Payment', { fromdata }, {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 authorization: `Bearer ${Token}`,
+    //             },
+    //         });
+    //         setLoading(false);
+    //         const clientSecret = data.clientSecret;
+    //         if (!clientSecret) {
+    //             toast.error(<div>Failed to retrieve payment intent.</div>);
+    //             return;
+    //         }
+
+    //         const result = await stripe.confirmCardPayment(clientSecret, {
+    //             payment_method: {
+    //                 card: elements.getElement(CardElement)!,
+    //                 billing_details: {
+    //                     // name: userName,
+    //                     // email: userEmail,
+    //                     // address: {
+    //                     //     country: UnitedKingdom,
+    //                     // },
+    //                 },
+    //             },
+    //         });
+
+    //         if (result.error) {
+    //             toast.error(result.error.message);
+    //         } else if (result.paymentIntent?.status === 'succeeded') {
+    //             closePaymentModal();
+    //             toast.success('Payment succeeded!');
+    //         } else {
+    //             toast.error('Payment status is not successful.');
+    //         }
+    //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //     } catch (error: any) {
+    //         if (error.response) {
+    //             toast.error(error.response.data.message);
+    //         } else if (error.request) {
+    //             toast.error('Network error occurred. Please try again.');
+    //         } else {
+    //             toast.error(error.message);
+    //         }
+    //     } finally {
+    //         setLoading(false);
+    //         setTimeout(() => {
+    //             // closePaymentModal();
+    //         }, 2500);
+    //     }
+    // };
+
+    const onsubmit: SubmitHandler<CheckoutFormData> = async (data) => {
+        const fromdata = new FormData();
+        fromdata.append("email", data.email);
+        fromdata.append("name", data.fullName);
+        fromdata.append("country", data.country);
+        fromdata.append("address", data.address);
+        fromdata.append("expiry", data.expiry);
+        fromdata.append("cvc", data.cvc);
+        // Uncomment if needed
+        // if (UserInfo?.items) {
+        //     fromdata.append("MenuItem", JSON.stringify(UserInfo.items));
+        // }
+
+        fromdata.forEach((value, key) => {
+            console.log("key, value :", key, value);  // Log each form data key-value pair
+        });
+
+
+
+        if (!stripe || !elements) return;
+        setLoading(true);
+
+        try {
+            const Token = localStorage.getItem("Token");
+            if (!Token) {
+                toast.error("You need to log in first.");
+                return navigate("/login");
+            }
+
+            const { data } = await axios.post(
+                "http://localhost:3000/api-Order/OrderTo/Menu/Payment",
+                fromdata, // Send FormData directly
+                {
+                    headers: {
+                        authorization: `Bearer ${Token}`, // Do not set Content-Type manually
+                    },
+                }
+            );
+
+            setLoading(false);
+
+            const clientSecret = data.clientSecret;
+            if (!clientSecret) {
+                toast.error(<div>Failed to retrieve payment intent.</div>);
+                return;
+            }
+
+            const result = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: elements.getElement(CardElement)!,
+                    billing_details: {
+                        // Example details
+                        name: data.fullName,
+                        email: data.email,
+                    },
+                },
+            });
+
+            if (result.error) {
+                toast.error(result.error.message);
+            } else if (result.paymentIntent?.status === "succeeded") {
+                closePaymentModal();
+                toast.success("Payment succeeded!");
+            } else {
+                toast.error("Payment status is not successful.");
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                toast.error(error.response.data.message);
+            } else if (error.request) {
+                toast.error("Network error occurred. Please try again.");
+            } else {
+                toast.error(error.message);
+            }
+        } finally {
+            setLoading(false);
+            setTimeout(() => {
+                // closePaymentModal();
+            }, 2500);
+        }
+    };
+
 
     return (
         <>
@@ -499,123 +565,6 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
                         <div className="bg-gray-950 text-white rounded-lg shadow-lg md:w-[80%] w-full p-7 max-w-xl">
                             <RxCross2 className='float-right text-white text-[23px]' onClick={() => closePaymentModal()} />
                             <p className="font-serif font-extralight text-[30px]">Pay with Cart</p>
-                            {/* <form onSubmit={handlePayment} className="space-y-4 ">
-                                <span className="font-serif font-extralight">Shipping information</span>
-
-                                <div className="p-">
-                                    <label htmlFor="email" className="block text-white mb-2 font-serif">
-                                        Email:
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        value={userEmail}
-                                        onChange={(e) => setUserEmail(e.target.value)}
-                                        className="w-full py-2 px-3 rounded-lg bg-gray-800 text-white border border-gray-600 font-serif"
-                                        placeholder="Enter your email"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="address" className="block text-white mb-2 font-serif">
-                                        Shipping Address:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        onChange={(e) => setUserName(e.target.value)}
-                                        className="w-full p-2 px-3 rounded-tr-lg rounded-tl-lg bg-gray-800 text-white border border-gray-600 font-serif"
-                                        placeholder="Full Name"
-                                        required
-                                    />
-
-                                    <select
-                                        id="uk-cities"
-                                        name="uk-cities"
-                                        className="w-full p-2 px-3 bg-gray-800 text-white border border-gray-600 font-serif" onChange={(e) => setUnitedKingdom(e.target.value)}
-                                    >
-                                        <option value="london">United Kingdom</option>
-                                        <option value="manchester">Manchester</option>
-                                        <option value="birmingham">Birmingham</option>
-                                        <option value="glasgow">Glasgow</option>
-                                        <option value="edinburgh">Edinburgh</option>
-                                        <option value="cardiff">Cardiff</option>
-                                        <option value="belfast">Belfast</option>
-                                        <option value="leeds">Leeds</option>
-                                        <option value="liverpool">Liverpool</option>
-                                    </select>
-
-                                    <input
-                                        type="text"
-                                        id="address"
-                                        onChange={(e) => setaddress(e.target.value)}
-                                        className="w-full p-2 px-3 rounded-bl-lg rounded-br-lg bg-gray-800 text-white border border-gray-600 font-serif"
-                                        placeholder="Address"
-                                        required
-                                    />
-                                </div>
-
-                                <p className="font-serif font-extralight text-[20px]">Payment Details</p>
-                                <span className="font-serif font-extralight m-0 p-0 mt-2 text-gray-500">Cart information</span>
-
-                                <div className="py-3 px-2.5 bg-gray-800 rounded-lg border border-gray-600">
-                                    <CardElement
-                                        className="p-0"
-                                        options={{
-                                            style: {
-                                                base: {
-                                                    fontSize: "16px",
-                                                    color: "#ffffff", // Updated to white for better contrast
-                                                    "::placeholder": {
-                                                        color: "#aab7c4",
-                                                    },
-                                                },
-                                                invalid: {
-                                                    color: "#9e2146",
-                                                },
-                                            },
-                                        }}
-                                    />
-                                </div>
-
-                                <div className="flex justify-between items-center">
-                                    <div className="w-1/2 pr-0">
-                                        <input
-                                            type="text"
-                                            placeholder="MM/YY"
-                                            className="w-full p-2 px-3 rounded-tl-lg rounded-bl-lg bg-gray-800 text-white border border-gray-600 font-serif"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="w-1/2 pl-0">
-                                        <input
-                                            type="text"
-                                            placeholder="CVC"
-                                            className="w-full p-2 px-3 rounded-tr-lg rounded-br-lg bg-gray-800 text-white border border-gray-600 font-serif"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center mb-4 ml-1">
-                                    <input
-                                        type="checkbox"
-                                        id="show-payment-info"
-                                        className="mr-1"
-                                    />
-                                    <label htmlFor="show-payment-info" className="font-serif text-gray-500">
-                                        Billing info is same as Shipping
-                                    </label>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className={`w-full py-2 text-[20px] font-serif px-4 rounded-lg text-white ${loading ? "bg-blue-500 loading" : "bg-blue-500 hover:bg-blue-700"} transition duration-300`}
-                                >
-                                    {loading ? "Processing..." : `Pay`}
-                                </button>
-                            </form> */}
                             <form onSubmit={handleSubmit(onsubmit)} className="space-y-6">
                                 <h2 className="font-serif text-lg text-gray-300">Shipping Information</h2>
 
@@ -634,39 +583,36 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
                                                 message: "Invalid email address",
                                             },
                                         })}
-                                        className={`w-full py-2 px-3 rounded-lg bg-gray-800 text-white border ${errors.email ? "border-red-500" : "border-gray-600"} font-serif`}
+                                        className={`w-full py-2 px-3 rounded-lg bg-gray-800 text-white border ${errors.email ? "border-red-500" : "border-gray-600"
+                                            } font-serif`}
                                         placeholder="Enter your email"
                                     />
-                                    {errors.email && (
+                                    {errors.email?.message && typeof errors.email.message === "string" && (
                                         <span className="text-red-500 text-sm">{errors.email.message}</span>
                                     )}
                                 </div>
 
                                 {/* Address Field */}
                                 <div>
-                                    <label htmlFor="fullName" className="block text-gray-300 font-serif mb-2">
-                                        Full Name
+                                    <label htmlFor="address" className="block text-white mb-2 font-serif">
+                                        Shipping Address:
                                     </label>
                                     <input
                                         type="text"
                                         id="fullName"
                                         {...register("fullName", { required: "Full Name is required" })}
-                                        className={`w-full p-2 px-3 rounded-lg bg-gray-800 text-white border ${errors.fullName ? "border-red-500" : "border-gray-600"
+                                        className={`w-full p-2 px-3 rounded-tr-lg rounded-tl-lg bg-gray-800 text-white border ${errors.fullName ? "border-red-500" : "border-gray-600"
                                             } font-serif`}
                                         placeholder="Enter your full name"
                                     />
-                                    {errors.fullName && (
+                                    {errors.fullName?.message && typeof errors.fullName.message === "string" && (
                                         <span className="text-red-500 text-sm">{errors.fullName.message}</span>
                                     )}
 
-                                    <label htmlFor="uk-cities" className="block text-gray-300 font-serif mt-4 mb-2">
-                                        City
-                                    </label>
                                     <select
                                         id="uk-cities"
-                                        {...register("city", { required: "City is required" })}
-                                        className={`w-full p-2 px-3 rounded-lg bg-gray-800 text-white border ${errors.city ? "border-red-500" : "border-gray-600"
-                                            } font-serif`}
+                                        {...register("country", { required: "City is required" })}
+                                        className="w-full p-2 px-3 bg-gray-800 text-white border border-gray-600 font-serif"
                                     >
                                         <option value="">Select a city</option>
                                         <option value="london">London</option>
@@ -679,22 +625,19 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
                                         <option value="leeds">Leeds</option>
                                         <option value="liverpool">Liverpool</option>
                                     </select>
-                                    {errors.city && (
-                                        <span className="text-red-500 text-sm">{errors.city.message}</span>
+                                    {errors.country?.message && typeof errors.country.message === "string" && (
+                                        <span className="text-red-500 text-sm">{errors.country.message}</span>
                                     )}
 
-                                    <label htmlFor="address" className="block text-gray-300 font-serif mt-4 mb-2">
-                                        Address
-                                    </label>
                                     <input
                                         type="text"
                                         id="address"
                                         {...register("address", { required: "Address is required" })}
-                                        className={`w-full p-2 px-3 rounded-lg bg-gray-800 text-white border ${errors.address ? "border-red-500" : "border-gray-600"
+                                        className={`w-full p-2 px-3 rounded-br-lg rounded-bl-lg bg-gray-800 text-white border ${errors.address ? "border-red-500" : "border-gray-600"
                                             } font-serif`}
                                         placeholder="Enter your address"
                                     />
-                                    {errors.address && (
+                                    {errors.address?.message && typeof errors.address.message === "string" && (
                                         <span className="text-red-500 text-sm">{errors.address.message}</span>
                                     )}
                                 </div>
@@ -722,28 +665,32 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
                                 </div>
 
                                 <div className="flex gap-4">
-                                    <input
-                                        type="text"
-                                        placeholder="MM/YY"
-                                        {...register("expiry", { required: "Expiry date is required" })}
-                                        className={`w-1/2 p-2 px-3 rounded-lg bg-gray-800 text-white border ${errors.expiry ? "border-red-500" : "border-gray-600"
-                                            } font-serif`}
-                                    />
-                                    {errors.expiry && (
-                                        <span className="text-red-500 text-sm">{errors.expiry.message}</span>
-                                    )}
-
-                                    <input
-                                        type="text"
-                                        placeholder="CVC"
-                                        {...register("cvc", { required: "CVC is required" })}
-                                        className={`w-1/2 p-2 px-3 rounded-lg bg-gray-800 text-white border ${errors.cvc ? "border-red-500" : "border-gray-600"
-                                            } font-serif`}
-                                    />
-                                    {errors.cvc && (
-                                        <span className="text-red-500 text-sm">{errors.cvc.message}</span>
-                                    )}
+                                    <div className="w-1/2">
+                                        <input
+                                            type="date"
+                                            placeholder="MM/YY"
+                                            {...register("expiry", { required: "Expiry date is required" })}
+                                            className={`w-full p-2 px-3 rounded-lg bg-gray-800 text-white border ${errors.expiry ? "border-red-500" : "border-gray-600"
+                                                } font-serif`}
+                                        />
+                                        {errors.expiry?.message && typeof errors.expiry.message === "string" && (
+                                            <span className="text-red-500 text-sm">{errors.expiry.message}</span>
+                                        )}
+                                    </div>
+                                    <div className="w-1/2">
+                                        <input
+                                            type="text"
+                                            placeholder="CVC"
+                                            {...register("cvc", { required: "CVC is required" })}
+                                            className={`w-full p-2 px-3 rounded-lg bg-gray-800 text-white border ${errors.cvc ? "border-red-500" : "border-gray-600"
+                                                } font-serif`}
+                                        />
+                                        {errors.cvc?.message && typeof errors.cvc.message === "string" && (
+                                            <span className="text-red-500 text-sm">{errors.cvc.message}</span>
+                                        )}
+                                    </div>
                                 </div>
+
 
                                 <div className="flex items-center">
                                     <input type="checkbox" id="billing-info" className="mr-2" />

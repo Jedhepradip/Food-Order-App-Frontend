@@ -245,7 +245,7 @@ const AddToCartPage: React.FC = () => {
                                             </div>
                                         </div>
 
-                                        <button className="px-4 py-2 bg-orange-500 float-right hover:bg-orange-600 text-white rounded" onClick={() => SetThePaymentModel()}>
+                                        <button className="px-4 py-2 bg-orange-500 float-right hover:bg-orange-600 text-white rounded font-serif" onClick={() => SetThePaymentModel()}>
                                             Continue to payment
                                         </button>
                                     </form>
@@ -327,7 +327,7 @@ const AddToCartPage: React.FC = () => {
                                             <td className="p-3">
                                                 <button
                                                     onClick={() => RemoveToaddToCart(item?.Menu?._id)}
-                                                    className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded"
+                                                    className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif"
                                                 >
                                                     Remove
                                                 </button>
@@ -345,7 +345,7 @@ const AddToCartPage: React.FC = () => {
 
                         {/* Proceed to Checkout button */}
                         <div className="mt-4 flex justify-end md:pr-[100px]">
-                            <button onClick={() => handleProceedToCheckout()} className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded">
+                            <button onClick={() => handleProceedToCheckout()} className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif">
                                 Proceed to Checkout
                             </button>
                         </div>
