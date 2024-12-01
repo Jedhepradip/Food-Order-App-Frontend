@@ -146,7 +146,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
                                         <tr className='border-b'>
                                             <th className="p-3 text-left">Image</th>
                                             <th className="p-3 text-left">Title</th>
-                                            {/* <th className="p-3 text-left">Price</th> */}
+                                            <th className="p-3 text-left">Price</th>
                                             <th className="p-3 text-left">Quantity</th>
                                             <th className="p-3 text-left">Total</th>
                                         </tr>
@@ -160,7 +160,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ closePaymentModal }) => {
                                                         alt={item?.Menu?.name} className="w-12 h-12 rounded-full object-cover" />
                                                 </td>
                                                 <td className="p-3">{item?.Menu?.name}</td>
-                                                {/* <td className="p-3">${item?.Menu?.price.toFixed(2)}</td> */}
+                                                <td className="p-3">${item?.Menu?.price.toFixed(2)}</td>
                                                 <td className="px-10 py-3 flex items-center">
                                                     <span>{item?.quantity}</span>
                                                 </td>

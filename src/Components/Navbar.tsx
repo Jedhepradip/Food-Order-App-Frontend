@@ -148,4 +148,9 @@ const Navbar: React.FC = () => {
   );
 };
 
+{/* <div className="md:hidden lg:hidden">
+  ]
+          <MobileNavbar />
+        </div> */}
+
 export default Navbar;

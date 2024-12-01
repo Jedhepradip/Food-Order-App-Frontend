@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import UserReducers from "../Features/UserSlice"
 import MenuReducers from "../Features/MenuSlice"
+import OrderReducres from "../Features/OrderMenuSlice"
 import Allrestaurant from "../Features/RestaurantAllSlice"
 import Filtercuisines from "../Features/CuisinesFilterSlice"
 import RestaurantReducers from "../Features/RestaurantSlice"
@@ -10,6 +11,7 @@ export const store = configureStore({
     reducer: {
         User: UserReducers,
         Menu: MenuReducers,
+        Order: OrderReducres,
         Cuisines: Filtercuisines,
         Search: SetSearchByCountry,
         AllRestaurant: Allrestaurant,

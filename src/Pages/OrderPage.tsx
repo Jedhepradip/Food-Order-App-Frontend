@@ -1,28 +1,66 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../Redux/Store/Store';
+import { FetchingOrderMenuData } from '../Redux/Features/OrderMenuSlice';
+
+interface MenuItme {
+    Quantity: number,
+    description: string,
+    menuId: string,
+    name: string,
+    price: number,
+    _id: string
+}
+
+interface deliveryDetails {
+    name: string;
+    email: string;
+    address: string;
+    city: string;
+    country: string,
+    expiry: string,
+    cvc: string,
+}
+
+interface OrderData {
+    MenuItemsList: MenuItme,
+    deliveryDetails: deliveryDetails,
+    restaurant: string,
+    status: string,
+    totalAmount: number,
+    createdAt: string,
+    updatedAt: string,
+    user: [],
+    __v: string,
+    _id: string,
+}
 
 const OrderPage: React.FC = () => {
+    const [OrderMenu, SetOrderMenuData] = useState<OrderData[]>([])
+    const [OrderMenu1, SetOrderMenuData1] = useState<MenuItme | null>(null)
+    const Dispatch: AppDispatch = useDispatch()
+    const OrderMenuData = useSelector((state: RootState) => state.Order.Order)
 
-    const order = [
-        {
-            id: 1,
-            image: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg',
-            title: 'Product 1',
-            price: 49.99,
-        },
-        {
-            id: 2,
-            image: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg',
-            title: 'Product 2',
-            price: 89.99,
-        },
-        {
-            id: 3,
-            image: 'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg',
-            title: 'Product 3',
-            price: 29.99,
-        },
-    ];
+    useEffect(() => {
+        if (OrderMenuData?.length) {
+            SetOrderMenuData(OrderMenuData)
+        }
+
+        OrderMenu.map((val) => (
+            // console.log("val :", val?.MenuItemsList)
+            SetOrderMenuData1(val?.MenuItemsList)
+        ))
+        console.log("OrderMenu1 ;", OrderMenu1);
+    }, [OrderMenuData])
+
+    useEffect(() => {
+        Dispatch(FetchingOrderMenuData())
+    }, [Dispatch])
+
+    console.log(OrderMenu);
+
+
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
@@ -30,20 +68,20 @@ const OrderPage: React.FC = () => {
                 <h2 className="text-2xl font-semibold mb-4 text-center">Order Status: <span className='text-red-500'>pending</span></h2>
 
                 {/* Order Item */}
-                {order.map((val, index) => (
+                {/* {OrderMenu1.map((val, index) => (
                     <div className="flex items-center justify-between mb-4" key={index}>
-                        {/* Display order number */}
-                        <img src={val.image} alt={val.title} className="w-16 h-16 rounded-lg object-cover" />
+                       
+                        <img src={"val.MenuItemsList"} className="w-16 h-16 rounded-lg object-cover" />
 
-                        {/* Align title text to the start */}
+                     
                         <div className="ml-4 flex-1">
-                            <h3 className="text-lg font-medium text-left">{val.title}</h3>
+                            <h3 className="text-lg font-medium text-left">{val.name}</h3>
                         </div>
                         <div>
-                            <p className="text-white mt-1">₹ {val.price.toFixed(2)}</p>
+                            <p className="text-white mt-1">₹ {val.MenuItemsList[index]?.price}</p>
                         </div>
                     </div>
-                ))}
+                ))} */}
 
                 {/* Continue Shopping Button */}
                 <NavLink to={"/AddToCartPage"}>
