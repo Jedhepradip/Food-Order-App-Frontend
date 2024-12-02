@@ -29,8 +29,6 @@ const MenuPages: React.FC = () => {
         dispatch(FetchingMenuData())
     }, [dispatch])
 
-    console.log(Menu);
-
     const token = localStorage.getItem("Token")
 
     useEffect(() => {
