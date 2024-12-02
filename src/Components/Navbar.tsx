@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
         </button>
 
         <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} w-full md:flex md:items-center md:justify-between md:w-auto`} id="navbar-dropdown">
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-black md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-black md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
             <li>
               <NavLink to={"/"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Home</NavLink>
             </li>
@@ -126,22 +126,23 @@ const Navbar: React.FC = () => {
               :
               null
             }
+
+            <div className="flex space-x-4 mt-4 md:mt-0 md:px-6 px-0 ">
+              {token ?
+                <>
+                  <span onClick={() => {
+                    handlelogout(); setIsMobileMenuOpen(!isMobileMenuOpen)
+                  }}
+                    className="py-2 cursor-pointer px-4 shadow-lg font-bold shadow-gray-600 text-white rounded hover:bg-gray-600">Logout</span>
+                </>
+                :
+                <>
+                  <NavLink to={"/LoginPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-gray-600" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Login</NavLink>
+                  <NavLink to={"/SigninPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-blue-500" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Signup</NavLink>
+                </>
+              }
+            </div>
           </ul>
-          <div className="flex space-x-4 mt-4 md:mt-0 px-10">
-            {token ?
-              <>
-                <span onClick={() => {
-                  handlelogout(); setIsMobileMenuOpen(!isMobileMenuOpen)
-                }}
-                  className="py-2 cursor-pointer px-4 shadow-lg font-bold shadow-gray-600 text-white rounded hover:bg-gray-600">Logout</span>
-              </>
-              :
-              <>
-                <NavLink to={"/LoginPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-gray-600" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Login</NavLink>
-                <NavLink to={"/SigninPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-blue-500" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Signup</NavLink>
-              </>
-            }
-          </div>
         </div>
       </div>
     </nav >

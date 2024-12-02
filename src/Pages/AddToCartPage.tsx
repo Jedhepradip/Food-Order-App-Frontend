@@ -351,7 +351,7 @@ const AddToCartPage: React.FC = () => {
                         </div>
 
                     </div>
-                    
+
                 </Elements>
             </div>
         </>

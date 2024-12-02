@@ -24,7 +24,7 @@ interface deliveryDetails{
 }
 
 interface OrderData {
-    MenuItemsList: MenuItme,
+    MenuItemsList: MenuItme[],
     deliveryDetails: deliveryDetails,
     restaurant: string,
     status: string,
