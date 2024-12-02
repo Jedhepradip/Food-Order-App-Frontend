@@ -11,6 +11,7 @@ interface MenuItme {
     name: string,
     price: number,
     image: string,
+    status: string,    
     _id: string
 }
 
@@ -28,7 +29,6 @@ interface OrderData {
     MenuItemsList: MenuItme[],
     deliveryDetails: deliveryDetails,
     restaurant: string,
-    status: string,
     totalAmount: number,
     createdAt: string,
     updatedAt: string,
@@ -182,18 +182,18 @@ const OrderPage: React.FC = () => {
                                     <div>
 
                                         <span
-                                            className={`px-3 py-1 text-sm font-medium rounded-full ${order.status === "Pending"
+                                            className={`px-3 py-1 text-sm font-medium rounded-full ${item.status === "Pending"
                                                 ? "bg-yellow-600 text-white"
-                                                : order.status === "Confirmed"
+                                                : item.status === "Confirmed"
                                                     ? "bg-purple-600 text-white"
-                                                    : order.status === "Preparing"
+                                                    : item.status === "Preparing"
                                                         ? "bg-blue-600 text-white"
-                                                        : order.status === "Out for Delivery"
+                                                        : item.status === "Out for Delivery"
                                                             ? "bg-orange-600 text-white"
                                                             : "bg-green-600 text-white"
                                                 }`}
                                         >
-                                            {order.status}
+                                            {item.status}
                                         </span>
                                     </div>
                                 </div>

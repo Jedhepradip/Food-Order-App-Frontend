@@ -5,30 +5,30 @@ import axios from "axios";
 
 
 interface MenuItme {
-    Quantity:number,
-    description:string,
-    menuId:string,
-    name:string,
-    image:string,
-    price:number,
-    _id:string
+    Quantity: number,
+    description: string,
+    menuId: string,
+    name: string,
+    image: string,
+    price: number,
+    status: string,
+    _id: string
 }
 
-interface deliveryDetails{
+interface deliveryDetails {
     name: string;
     email: string;
     address: string;
     city: string;
-    country:string,
-    expiry:string,
-    cvc:string,
+    country: string,
+    expiry: string,
+    cvc: string,
 }
 
 interface OrderData {
     MenuItemsList: MenuItme[],
     deliveryDetails: deliveryDetails,
     restaurant: string,
-    status: string,
     totalAmount: number,
     createdAt: string,
     updatedAt: string,
