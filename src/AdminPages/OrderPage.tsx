@@ -48,7 +48,6 @@ const OrderPage: React.FC = () => {
     const [OrderMenu, SetOrderMenuData] = useState<OrderData[]>([])
     const [MenuQun, SetMenuQun] = useState<MenuItme[]>([])
     const [OrderMenuFilter, SetOrderMenuDataFilter] = useState<OrderData[]>([])
-
     // const RestaurantData = useSelector((state: RootState) => state.Restaurant.Restaurant)
     const Orderdata = useSelector((state: RootState) => state.Order.Order)
     const menudata = useSelector((state: RootState) => state.Menu.Menu)
@@ -63,19 +62,24 @@ const OrderPage: React.FC = () => {
         }
     }, [Orderdata, menudata])
 
-
-    console.log("rani ", Menu);
-
     useEffect(() => {
         if (Menu && Menu[0]) {  // Check if 'Menu' is not null or undefined and has elements
             const filtermenu = OrderMenu.filter((menu) => {
                 const pradip = menu.MenuItemsList.some((val) => {
-                    return Menu[1]?._id === val?.menuId;  // Safe to access _id here
+                    return Menu[0]?._id === val?.menuId;  // Safe to access _id here
                 });
                 return pradip;
             });
             SetOrderMenuDataFilter(filtermenu)
         }
+
+        const sameProducts = OrderMenu.filter(productA => {
+            return Menu?.some(productB => {
+                return productA.MenuItemsList[0].menuId === productB._id;                
+            });
+        });
+
+        console.log("sameProducts :", sameProducts);
 
         if (Menu && Menu[0]) {
             OrderMenu.filter((menu) => {
@@ -86,11 +90,6 @@ const OrderPage: React.FC = () => {
             });
         }
     }, [OrderMenu, Menu]);
-
-    console.log(OrderMenu);
-
-    console.log(Menu);
-
 
     useEffect(() => {
         Dispatch(FetchingMenuData())
@@ -104,7 +103,6 @@ const OrderPage: React.FC = () => {
     //     return data?.reduce((total: number, item: { price: number; Quantity: number; }) =>
     //         total + calculateItemTotal(item.price, item.Quantity), 0);
     // };
-
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleStatusChange = async (e: any, OrderId: string, menuID: string) => {
@@ -150,7 +148,6 @@ const OrderPage: React.FC = () => {
             }
         }
     };
-
 
     return (
         <div className="min-h-screen bg-black text-white font-serif flex flex-col items-center py-10 animate__animated animate__fadeIn">
@@ -216,7 +213,6 @@ const OrderPage: React.FC = () => {
                     </>
                 ))}
             </div>
-
         </div>
     );
 };

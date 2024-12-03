@@ -21,6 +21,7 @@ const AddToCartPage: React.FC = () => {
     const [Paymentmodel, ShowPaymentModel] = useState<boolean>(false);
     const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
     const UserData = useSelector((state: RootState) => state.User.User)
+    const [MenuID, SetMenuId] = useState<string | number>("")
 
     useEffect(() => {
         Dispatch(FetchingUserData())
@@ -39,8 +40,9 @@ const AddToCartPage: React.FC = () => {
             total + calculateItemTotal(item.Menu.price, item.quantity), 0);
     };
 
-    const handleProceedToCheckout = () => {
+    const handleProceedToCheckout = (menuId: number | string,) => {
         setShowCheckoutForm(true);
+        SetMenuId(menuId)
     };
 
     const SetThePaymentModel = () => {
@@ -177,6 +179,7 @@ const AddToCartPage: React.FC = () => {
                     <ToastContainer />
                     {Paymentmodel && UserInfo?.items?.length && (
                         <PaymentPage
+                            SetShowMenuId={MenuID}
                             closePaymentModal={closePaymentModal}
                         />
                     )}
@@ -277,7 +280,8 @@ const AddToCartPage: React.FC = () => {
                                         <th className="p-3 text-left">Price</th>
                                         <th className="p-3 text-left">Quantity</th>
                                         <th className="p-3 text-left">Total</th>
-                                        <th className="p-3 text-left">Remove</th>
+                                        <th className="p-0 text-left">Remove</th>
+                                        <th className="p-0 text-left">BUY NOW </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -295,7 +299,6 @@ const AddToCartPage: React.FC = () => {
                                                 {item.quantity > 1 ?
                                                     <>
                                                         <button
-                                                            // onClick={() => updateQuantity(item?.Menu?._id, 'decrease')}
                                                             onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
                                                             className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
                                                         >
@@ -305,8 +308,6 @@ const AddToCartPage: React.FC = () => {
                                                     :
                                                     <>
                                                         <button
-                                                            // onClick={() => updateQuantity(item?.Menu?._id, 'decrease')}
-                                                            // onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
                                                             className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
                                                         >
                                                             <FaMinus />
@@ -316,15 +317,17 @@ const AddToCartPage: React.FC = () => {
 
                                                 <span>{item?.quantity}</span>
                                                 <button
-                                                    // onClick={() => updateQuantity(item?.Menu?._id, 'increase')}
                                                     onClick={() => AddToCartIncreaseQuantity(item?.Menu?._id)}
                                                     className="px-1 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded-full"
                                                 >
                                                     <FaPlus />
                                                 </button>
                                             </td>
-                                            <td className="p-3">${calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}</td>
-                                            <td className="p-3">
+
+                                            <td className="p-3">${calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}
+                                            </td>
+
+                                            <td className="p-0">
                                                 <button
                                                     onClick={() => RemoveToaddToCart(item?.Menu?._id)}
                                                     className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif"
@@ -332,6 +335,16 @@ const AddToCartPage: React.FC = () => {
                                                     Remove
                                                 </button>
                                             </td>
+
+                                            <td className="p-0">
+                                                <button
+                                                    onClick={() => handleProceedToCheckout(item?.Menu?._id)}
+                                                    className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif"
+                                                >
+                                                    Buy Now
+                                                </button>
+                                            </td>
+
                                         </tr>
                                     ))}
                                 </tbody>
@@ -345,13 +358,12 @@ const AddToCartPage: React.FC = () => {
 
                         {/* Proceed to Checkout button */}
                         <div className="mt-4 flex justify-end md:pr-[100px]">
-                            <button onClick={() => handleProceedToCheckout()} className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif">
-                                Proceed to Checkout
+                            <button className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif">
+                                {/* Proceed to Checkout                                 */}
+                                Continue Shopping
                             </button>
                         </div>
-
                     </div>
-
                 </Elements>
             </div>
         </>

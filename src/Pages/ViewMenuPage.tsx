@@ -48,8 +48,6 @@ const ViewMenuPage: React.FC = () => {
         Dispatch(FetchingMenuData())
     }, [Dispatch]);
 
-    console.log("RestaurantData :", Restaurant);
-
     useEffect(() => {
         if (RestaurantData && id) {
             const filteredRestaurant = RestaurantData.find(
