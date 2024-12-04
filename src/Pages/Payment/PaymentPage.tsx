@@ -37,7 +37,6 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
     const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
     const dispatch: AppDispatch = useDispatch()
     const navigate = useNavigate();
-    // const MenuData = useSelector((state: RootState) => state.MenuAll.MenuAllData);
     const UserData = useSelector((state: RootState) => state.User.User)
     const { register, handleSubmit, formState: { errors } } = useForm<CheckoutFormData>();
 
@@ -59,9 +58,15 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
     }, [SetShowMenuId, UserInfo?.items])
 
     const calculateItemTotal = (price: number, quantity: number) => price * quantity;
+
     const calculateTotal = () => {
-        return UserInfo?.items?.reduce((total, item) =>
-            total + calculateItemTotal(item.Menu.price, item.quantity), 0);
+        if (!MenuDataShow?.[0]?.Menu) {
+            return 0; // Return 0 if MenuDataShow or Menu is undefined or null
+        }
+        return MenuDataShow?.reduce(
+            (total: number, item: { Menu: { price: number; }; quantity: number; }) => total + calculateItemTotal(item.Menu.price, item.quantity),
+            0
+        );
     };
 
     const onsubmit: SubmitHandler<CheckoutFormData> = async (data) => {
@@ -72,7 +77,9 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
             address: data.address,
             expiry: data.expiry,
             cvc: data.cvc,
-            MenuItem: [], // Send the array directly without converting to string
+            restaurantId: MenuDataShow?.[0]?.Menu?.restaurantId || null,
+            MenuID: MenuDataShow?.[0]?.Menu?._id || null,
+            MenuItem: MenuDataShow, // Send the array directly without converting to string
         };
 
         if (!stripe || !elements) return;
