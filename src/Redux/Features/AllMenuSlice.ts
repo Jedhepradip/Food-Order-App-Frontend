@@ -3,7 +3,6 @@ import { menucreateInterface } from "../../interface/MenucreateInterface";
 import { AppDispatch } from "../Store/Store";
 import axios from "axios";
 
-
 interface Menustate {
     MenuAllData: menucreateInterface[] | null
 }
@@ -19,9 +18,7 @@ export const FetchinMenuAlldata = () => async (dispatch: AppDispatch) => {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         });
-        dispatch(SetMenuAllDataShow(response?.data?.menus)); // Dispatch the user data received
-        console.log(response.data);
-
+        dispatch(SetMenuAllDataShow(response?.data));         
     } catch (error) {
         console.log(error);
     }

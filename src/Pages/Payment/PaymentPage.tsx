@@ -6,11 +6,13 @@ import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store/Store";
-import { menucreateInterface } from "../../interface/MenucreateInterface";
+// import { menucreateInterface } from "../../interface/MenucreateInterface";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../Redux/Store/Store";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FetchinMenuAlldata } from "../../Redux/Features/AllMenuSlice";
+import { CartItem } from "../../interface/UserInterface";
+import { UserInterFaceData } from "../../interface/UserInterface";
+import { FetchingUserData } from "../../Redux/Features/UserSlice";
 
 interface PaymentPageProps {
     SetShowMenuId: string | number,
@@ -31,39 +33,36 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
     const stripe = useStripe();
     const elements = useElements();
     const [loading, setLoading] = useState(false);
-    const [MenuDataShow, SetMenuData] = useState<menucreateInterface[] | null>(null);
-    const Dispatch: AppDispatch = useDispatch()
+    const [MenuDataShow, SetMenuData] = useState<CartItem[] | undefined | null>(null);
+    const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
+    const dispatch: AppDispatch = useDispatch()
     const navigate = useNavigate();
-    const MenuData = useSelector((state: RootState) => state.MenuAll.MenuAllData)
+    // const MenuData = useSelector((state: RootState) => state.MenuAll.MenuAllData);
+    const UserData = useSelector((state: RootState) => state.User.User)
     const { register, handleSubmit, formState: { errors } } = useForm<CheckoutFormData>();
 
     useEffect(() => {
-        if (MenuData) {
-            SetMenuData(MenuData)
+        if (UserData) {
+            setUserData(UserData)
         }
-    }, [MenuData])
+    }, [UserData, UserInfo])
 
     useEffect(() => {
-        Dispatch(FetchinMenuAlldata())
-    }, [Dispatch])
-
-    console.log("MenuData :", MenuData);
-
-    console.log(SetShowMenuId);
+        dispatch(FetchingUserData());
+    }, [dispatch]);
 
     useEffect(() => {
-        const FilterMenu = MenuDataShow?.filter((item =>
-            item._id == SetShowMenuId       
+        const FilterMenu = UserInfo?.items?.filter((item =>
+            item?.Menu?._id == SetShowMenuId
         ))
-        console.log("FilterMenu :", FilterMenu);
-    }, [MenuDataShow, SetShowMenuId])
+        SetMenuData(FilterMenu)
+    }, [SetShowMenuId, UserInfo?.items])
 
-
-    // const calculateItemTotal = (price: number, quantity: number) => price * quantity;
-    // const calculateTotal = () => {
-    //     return UserInfo?.items?.reduce((total, item) =>
-    //         total + calculateItemTotal(item.Menu.price, item.quantity), 0);
-    // };
+    const calculateItemTotal = (price: number, quantity: number) => price * quantity;
+    const calculateTotal = () => {
+        return UserInfo?.items?.reduce((total, item) =>
+            total + calculateItemTotal(item.Menu.price, item.quantity), 0);
+    };
 
     const onsubmit: SubmitHandler<CheckoutFormData> = async (data) => {
         const fromdata = {
@@ -165,23 +164,33 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {/* {UserInfo?.items.map(item => (
+                                        {MenuDataShow?.map(item => (
                                             <tr key={item?.Menu?._id} className='border-b'>
                                                 <td className="p-3">
-                                                    <img
+                                                    {/* {console.log("item.Menu p:", item.Menu?.menuPicture)} */}
+                                                    {/* <img
                                                         src={`http://localhost:3000/${item?.Menu?.menuPicture}`}
-                                                        alt={item?.Menu?.name} className="w-12 h-12 rounded-full object-cover" />
+                                                        alt={item?.Menu?.name} className="w-12 h-12 rounded-full object-cover" /> */}
+
+                                                    {item.Menu?.menuPicture ? (
+                                                        <img src={`http://localhost:3000/${item?.Menu?.menuPicture}`} alt="Menu Picture" />
+                                                    ) : (
+                                                        <>
+                                                        </>
+                                                        // <p>No picture available</p>
+                                                    )}
+
                                                 </td>
                                                 <td className="p-3">{item?.Menu?.name}</td>
-                                                <td className="p-3">${item?.Menu?.price.toFixed(2)}</td>
+                                                <td className="p-3">${item?.Menu?.price}</td>
                                                 <td className="px-10 py-3 flex items-center">
                                                     <span>{item?.quantity}</span>
                                                 </td>
                                                 <td className="p-3">$
-                                                    {/* {calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}
+                                                    {calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}
                                                 </td>
                                             </tr>
-                                        ))} */}
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>
@@ -189,7 +198,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
                             <div className="mt-3 flex justify-between items-center bg-gray-800 text-black">
                                 <span className="text-lg font-bold text-white px-2 text-[21px]">Total</span>
                                 <span className="px-4 py-2 font-bold text-[20px] text-white md:mr-12">${
-                                    // calculateTotal()
+                                    calculateTotal()
                                 }</span>
                             </div>
 
