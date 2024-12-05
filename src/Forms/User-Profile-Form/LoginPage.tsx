@@ -116,6 +116,7 @@ const Login: React.FC = () => {
                   <span>{loadingOTP ? 'Loading...' : 'Login'}</span>
                 </button>
               </div>
+              
             </div>
 
             <div className='flex text-white'>

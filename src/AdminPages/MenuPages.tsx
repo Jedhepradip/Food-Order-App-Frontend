@@ -15,6 +15,8 @@ import { RootState, AppDispatch } from '../Redux/Store/Store';
 const MenuPages: React.FC = () => {
     const [showupdate, setshowupdate] = useState(false)
     const [Menuupdate, setmenuUpdate] = useState(false)
+    const [loadingOTP, setLoadingOTP] = useState(false);
+    const [EditMenu, EditTheMenu] = useState(false);
     const [Menu, SetMenu] = useState<menucreateInterface[] | null>(null);
 
     // const [Menudata, SetMenuData] = useState<menucreateInterface[] | undefined>(undefined);
@@ -42,7 +44,11 @@ const MenuPages: React.FC = () => {
 
 
     const setshowmodel = () => {
-        setshowupdate(true)
+        setLoadingOTP(true)
+        setTimeout(() => {
+            setLoadingOTP(false)
+            setshowupdate(true)
+        }, 1200);
     }
     const closeMenuModal = () => {
         setmenuUpdate(false)
@@ -51,48 +57,59 @@ const MenuPages: React.FC = () => {
     }
 
     const UpdateMenuModelShow = (id: string) => {
-        const EdittheMenu = Menu?.filter((e) => e._id == id)
-        setSelectedProduct(EdittheMenu)
-        setmenuUpdate(true)
+        EditTheMenu(true)
+        setTimeout(() => {
+            const EdittheMenu = Menu?.filter((e) => e._id == id)
+            setSelectedProduct(EdittheMenu)
+            EditTheMenu(false)
+            setmenuUpdate(true)
+        }, 1300);
+        EditTheMenu(true)
     }
 
     return (
         <>
-            {/* <div className='w-full bg-black text-white py-10 h-screen'>
-                <ToastContainer />
-                <div className='flex justify-around items-center w-full mb-4'>
-                    <h1 className='font-bold text-white text-2xl'>Available Menus</h1>
-                    <button onClick={() => setshowmodel()} className='btn bg-orange-400 text-black font-bold rounded-lg px-5 py-1.5'>Add Menu</button>
-                </div>
-
-                {Menu?.map((val, index: React.Key | null | undefined) => (
-                    <div key={index} className='flex px-60 text-black w-full overflow-hidden py-3 '>
-                        <div className='flex bg-gray-800 w-full rounded-lg p-2 justify-center items-center'>
-                            <img src={`http://localhost:3000/${val?.menuPictuer}`} alt="" className='rounded-lg h-24 w-24 object-cover' />
-
-                            <div className='py-1 font-semibold px-3 w-full overflow-hidden'>
-                                <h1 className='text-gray-950'>{val.name}</h1>
-                                <button onClick={() => UpdateMenuModelShow(val._id)} className='btn bg-orange-400 text-black font-semibold rounded-lg px-4 py-1.5 float-right'>Edit</button>
-                                <p className='text-gray-600'>
-                                    {val.description}
-                                </p>
-                                <h1 className='text-white'>Price: <span className='text-orange-400'>₹{val.price}</span> </h1>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div> */}
-
             <div className="w-full bg-black text-white py-10 h-screen">
                 <ToastContainer />
                 <div className="flex flex-wrap md:flex-nowrap justify-around items-center w-full mb-4 px-4 md:px-0">
-                    <h1 className="font-bold text-white text-2xl text-center md:text-left">Available Menus</h1>
-                    <button
-                        onClick={() => setshowmodel()}
-                        className="btn bg-orange-400 text-black font-bold rounded-lg px-5 py-1.5 mt-2 md:mt-0"
-                    >
-                        Add Menu
-                    </button>
+                    <h1 className=" font-serif text-white text-2xl text-center md:text-left">Available Menus</h1>
+
+                    <div className="w-fu pb-2">
+                        <button onClick={() => setshowmodel()}
+                            type='submit'
+                            className={`
+                                btn bg-orange-400 flex hover:bg-orange-500 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right                                                              
+                                ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                            disabled={loadingOTP}
+                        // mt-2 flex justify-center items-center text-black w-full bg-orange-400 hover:bg-orange-500 focus:outline-none focus:ring-4 focus:ring-white rounded-md text-[19px] px-5 py-1.5 
+                        >
+                            {loadingOTP && (
+                                <svg
+                                    className="animate-spin h-5 w-5 mr-2 text-black rounded-full"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    ></circle>
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                    ></path>
+                                </svg>
+                            )}
+                            <span>{loadingOTP ? 'Loading...' : 'Add Menu'}</span>
+                        </button>
+                    </div>
+
+
                 </div>
 
                 {Menu?.map((val, index: React.Key | null | undefined) => (
@@ -109,12 +126,44 @@ const MenuPages: React.FC = () => {
 
                             <div className="py-1 font-semibold px-3 w-full overflow-hidden text-center md:text-left">
                                 <h1 className="text-gray-950">{val.name}</h1>
-                                <button
-                                    onClick={() => UpdateMenuModelShow(val._id)}
-                                    className="btn bg-orange-400 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right"
-                                >
-                                    Edit
-                                </button>
+
+                                <div className="w-fu pb-2">
+                                    <button onClick={() => UpdateMenuModelShow(val._id)}
+                                        type='submit'
+                                        className={`
+                                                     btn bg-orange-400 flex hover:bg-orange-500 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right                                                             
+                                ${EditMenu ? 'cursor-not-allowed' : ''} ${EditMenu ? 'animate-pulse' : ''}`}
+                                        disabled={EditMenu}
+                                    // mt-2 flex justify-center items-center text-black w-full bg-orange-400 hover:bg-orange-500 focus:outline-none focus:ring-4 focus:ring-white rounded-md text-[19px] px-5 py-1.5 
+                                    >
+                                        {EditMenu && (
+                                            <svg
+                                                className="animate-spin h-5 w-5 mr-2 text-black rounded-full"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <circle
+                                                    className="opacity-25"
+                                                    cx="12"
+                                                    cy="12"
+                                                    r="10"
+                                                    stroke="currentColor"
+                                                    strokeWidth="4"
+                                                ></circle>
+                                                <path
+                                                    className="opacity-75"
+                                                    fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                ></path>
+                                            </svg>
+                                        )}
+
+                                        <span>{EditMenu ? 'Loading...' : 'Edit'}</span>
+                                    </button>
+                                </div>
+
+
                                 <p className="text-gray-600 mt-2">{val.description}</p>
                                 <h1 className="text-white mt-2">
                                     Price: <span className="text-orange-400">₹{val.price}</span>
@@ -147,10 +196,12 @@ const MenuPages: React.FC = () => {
 //add the menu model
 const AddMenuModel = ({ closeMenuModal }: any) => {
     const [file, setFile] = useState<File | null>(null);
+    const [loadingOTP, setLoadingOTP] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm<menucreateInterface>();
     const dispatch: AppDispatch = useDispatch()
 
     const onsubmit: SubmitHandler<menucreateInterface> = async (data) => {
+        setLoadingOTP(true);
         const formdata = new FormData();
         formdata.append("menuPictuer", file!); // Corrected key
         formdata.append("name", data.name);
@@ -173,12 +224,14 @@ const AddMenuModel = ({ closeMenuModal }: any) => {
             if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{UserUpdate.message}</div>);
                 setTimeout(() => {
+                    setLoadingOTP(false);
                     closeMenuModal()
                     dispatch(FetchingMenuData())
                 }, 1600);
             }
         } catch (error: any) {
             if (error.response) {
+                setLoadingOTP(false);
                 const errorMessage = error.response.data.message;
                 if (error.response.status === 409 || errorMessage === "User already exists") {
                     console.log("Error: User already exists.");
@@ -253,9 +306,41 @@ const AddMenuModel = ({ closeMenuModal }: any) => {
                                 {errors.menuPictuer && <span className="text-red-500 text-sm">{errors.menuPictuer.message}</span>}
                             </div>
 
-                            <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded">
+                            {/* <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded">
                                 Submit
-                            </button>
+                            </button> */}
+
+                            <div className="w-full flex justify-center items-center pb-2">
+                                <button
+                                    type='submit'
+                                    className={`mt-2 flex justify-center items-center text-white w-full bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[19px] font-serif px-5 py-2.5 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                                    disabled={loadingOTP}
+                                >
+                                    {loadingOTP && (
+                                        <svg
+                                            className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                            ></path>
+                                        </svg>
+                                    )}
+                                    <span>{loadingOTP ? 'Loading...' : 'Submit'}</span>
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -267,11 +352,13 @@ const AddMenuModel = ({ closeMenuModal }: any) => {
 // menu update 
 const MenuUpdateModel = ({ selectedProduct, closeMenuModal }: any) => {
     const [file, setFile] = useState<File | null>(null);
+    const [loadingOTP, setLoadingOTP] = useState(false);
     const { register, handleSubmit } = useForm<menucreateInterface>();
     const dispatch: AppDispatch = useDispatch()
 
     const token = localStorage.getItem("Token")
     const onsubmit: SubmitHandler<menucreateInterface> = async (data) => {
+        setLoadingOTP(true)
         const fromdata = new FormData()
         fromdata.append("menuPictuer", file!)
         fromdata.append("name", data.name)
@@ -288,12 +375,17 @@ const MenuUpdateModel = ({ selectedProduct, closeMenuModal }: any) => {
 
             const Restaurantdata = response.data;
             if (response.status === 200) {
-                toast.success(<div className='font-serif text-[15px] text-black'>{Restaurantdata.message}</div>);
-                closeMenuModal()
+                setInterval(() => {
+                    toast.success(<div className='font-serif text-[15px] text-black'>{Restaurantdata.message}</div>);
+                    closeMenuModal()
+                    setLoadingOTP(false)
+                }, 1300);
             }
+            setLoadingOTP(true)
             dispatch(FetchingMenuData())
         } catch (error: any) {
             if (error.response) {
+                setLoadingOTP(true)
                 const errorMessage = error.response.data.message;
                 if (error.response.status === 409 || errorMessage === "User already exists") {
                     console.log("Error: User already exists.");
@@ -365,9 +457,44 @@ const MenuUpdateModel = ({ selectedProduct, closeMenuModal }: any) => {
                                 </div>
                             </div>
 
-                            <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-semibold">
+                            {/* <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-semibold">
                                 Submit
-                            </button>
+                            </button> */}
+
+                            <div className="w-fu pb-2">
+                                <button
+                                    type='submit'
+                                    className={`
+                                btn bg-orange-400 flex hover:bg-orange-500 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right                                                              
+                                ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                                    disabled={loadingOTP}
+                                // mt-2 flex justify-center items-center text-black w-full bg-orange-400 hover:bg-orange-500 focus:outline-none focus:ring-4 focus:ring-white rounded-md text-[19px] px-5 py-1.5 
+                                >
+                                    {loadingOTP && (
+                                        <svg
+                                            className="animate-spin h-5 w-5 mr-2 text-black rounded-full"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                            ></path>
+                                        </svg>
+                                    )}
+                                    <span>{loadingOTP ? 'Loading...' : 'Submit'}</span>
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
