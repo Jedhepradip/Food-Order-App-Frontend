@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../Redux/Store/Store";
 import { FetchingRestaurant } from "../Redux/Features/RestaurantSlice";
-import { FetchingMenuData } from "../Redux/Features/MenuSlice";
-import { FetchingOrderMenuData } from "../Redux/Features/OrderMenuSlice";
-import { menucreateInterface } from "../interface/MenucreateInterface";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
+import { FetchingAllOrderData } from "../Redux/Features/AllOrdersDataSlice";
 
 interface MenuItme {
     Quantity: number,
@@ -43,66 +41,79 @@ interface OrderData {
 }
 
 const OrderPage: React.FC = () => {
-    // const [Restaurant, setRestaurant] = useState<RestaurantInterface | null>(null);
-    const [Menu, SetMenu] = useState<menucreateInterface[] | null>(null);
-    const [OrderMenu, SetOrderMenuData] = useState<OrderData[]>([])
-    const [MenuQun, SetMenuQun] = useState<MenuItme[]>([])
-    const [OrderMenuFilter, SetOrderMenuDataFilter] = useState<OrderData[]>([])
-    // const RestaurantData = useSelector((state: RootState) => state.Restaurant.Restaurant)
-    const Orderdata = useSelector((state: RootState) => state.Order.Order)
-    const menudata = useSelector((state: RootState) => state.Menu.Menu)
+    // const [Menu, SetMenu] = useState<menucreateInterface[] | null>(null);
+    // const [sameProducts, setSameProducts] = useState([]);
+    const [AllOrder, SetAllOrderData] = useState<OrderData[]>([])
+    const [sameProducts, setSameProducts] = useState<OrderData[]>([])
+    // const [MenuQun, SetMenuQun] = useState<MenuItme[]>([])
+    // const [OrderMenuFilter, SetOrderMenuDataFilter] = useState<OrderData[]>([])
+    const Orderdata = useSelector((state: RootState) => state.OrderAll.AllOrder)
+    const user = useSelector((state: RootState) => state.User.User)
+    const Restaurant = useSelector((state: RootState) => state.Restaurant.Restaurant)
+
+    console.log("Restaurant :", Restaurant);
+
     const Dispatch: AppDispatch = useDispatch()
+
+    console.log(AllOrder);
+    console.log(user);
 
     useEffect(() => {
         if (Orderdata?.length) {
-            SetOrderMenuData(Orderdata)
+            SetAllOrderData(Orderdata)
         }
-        if (menudata) {
-            SetMenu(menudata)
-        }
-    }, [Orderdata, menudata])
+
+    }, [Orderdata])
+
+
+    console.log("Orderdata ", Orderdata);
 
     useEffect(() => {
-        if (Menu && Menu[0]) {  // Check if 'Menu' is not null or undefined and has elements
-            const filtermenu = OrderMenu.filter((menu) => {
-                const pradip = menu.MenuItemsList.some((val) => {
-                    return Menu[0]?._id === val?.menuId;  // Safe to access _id here
-                });
-                return pradip;
-            });
-            SetOrderMenuDataFilter(filtermenu)
-        }
+        if (!Restaurant?.menus || !AllOrder) return;
 
-        const sameProducts = OrderMenu.filter(productA => {
-            return Menu?.some(productB => {
-                return productA.MenuItemsList[0].menuId === productB._id;                
-            });
+        const filteredProducts = AllOrder.filter(productA => {
+            const pradip = productA.MenuItemsList.filter(a =>
+                Restaurant?.menus.some(productB => a.menuId === productB)
+            );
+            return pradip.length > 0;
         });
 
-        console.log("sameProducts :", sameProducts);
+        setSameProducts(filteredProducts);
+    }, [AllOrder, Restaurant]);
 
-        if (Menu && Menu[0]) {
-            OrderMenu.filter((menu) => {
-                const pradip = menu.MenuItemsList.filter((val) => {
-                    return Menu[0]._id === val?.menuId;
-                });
-                SetMenuQun(pradip)
-            });
-        }
-    }, [OrderMenu, Menu]);
+    console.log("sameProducts:", sameProducts);
 
     useEffect(() => {
-        Dispatch(FetchingMenuData())
+        Dispatch(FetchingAllOrderData())
         Dispatch(FetchingRestaurant())
-        Dispatch(FetchingOrderMenuData())
     }, [Dispatch])
 
 
     // const calculateItemTotal = (price: number, quantity: number) => price * quantity;
-    // const calculateTotal = (data: any[] | MenuItme) => {
+    // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // const calculateTotal = (data: any | MenuItme) => {
+    //     // console.log("data :",data);        
     //     return data?.reduce((total: number, item: { price: number; Quantity: number; }) =>
     //         total + calculateItemTotal(item.price, item.Quantity), 0);
     // };
+
+
+    const calculateItemTotal = (price: number, quantity: number): number => {
+        return price * quantity;
+    };
+
+    const calculateTotal = (data: MenuItme[] | undefined): number => {
+        if (!data || !Array.isArray(data)) {
+            console.error("Invalid data format. Expected an array.");
+            return 0;
+        }
+
+        return data.reduce((total: number, item: MenuItme) => {
+            return total + calculateItemTotal(item.price, item.Quantity);
+        }, 0); // Initial total is 0
+    };
+
+    // Example usage  
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleStatusChange = async (e: any, OrderId: string, menuID: string) => {
@@ -154,23 +165,22 @@ const OrderPage: React.FC = () => {
             <ToastContainer />
             <div className="max-w-3xl w-full space-y-6">
                 <h2 className="text-2xl font-semibold text-center text-red-500">Order Overview</h2>
-                {OrderMenuFilter.map((userOrder, index) => (
+                {sameProducts.map((userOrder, index) => (
                     <>
-                        {MenuQun?.map((item) => (
+                        {userOrder.MenuItemsList?.map((item) => (
                             <div key={index} className="border shadow-lg rounded-lg p-6 mb-6 animate__animated animate__fadeInUp">
-                                {/* User Info */}
                                 <div className="flex justify-between items-center w-full">
                                     <div className="mb-4 md:w-[50%] w-full">
                                         <div className="text-start mt-4 font-serif">
                                             <p className="text-lg font-medium">{userOrder.deliveryDetails.name}</p>
                                             <p className="text-md">{userOrder.deliveryDetails.address || "Not Provided"}</p>
                                             <h3 className="text-lg font-serif">Total Amount: $
-                                                {/* {calculateTotal(item)} */}
+                                                {calculateTotal([item])}
                                             </h3>
                                         </div>
                                     </div>
 
-                                    {/* Order Status */}
+
                                     <div className="mb-4 md:w-[50%] w-full">
                                         <label htmlFor="status" className="block text-lg font-medium mb-2">Order Status</label>
                                         <select
@@ -187,7 +197,7 @@ const OrderPage: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Menu Items */}
+
                                 <div className="flex justify-between items-center gap-2">
 
                                     <div className="md:w-[50%] w-full">
@@ -207,7 +217,7 @@ const OrderPage: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* Total Amount */}
+
                             </div>
                         ))}
                     </>

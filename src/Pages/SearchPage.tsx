@@ -102,12 +102,12 @@ const SearchPage: React.FC = () => {
     return (
         <div className="bg-black text-white min-h-screen p-6 flex">
             {/* Sidebar filter section */}
-            <div className="w-1/4 h-full">
+            <div className="md:w-1/4 w-full h-full">
                 <Filtercuisines />
             </div>
 
             {/* Main content area */}
-            <div className="w-3/4 ml-4">
+            <div className="md:w-3/4 w-full md:ml-4 ml-0">
                 <div className="flex items-center mt-4 space-x-2">
                     <input
                         type="text"
@@ -135,7 +135,7 @@ const SearchPage: React.FC = () => {
                     </>
                 }
 
-                <div className="grid md:grid-cols-3 gap-6 mt-6">
+                <div className="grid md:grid-cols-3 grid-cols-1 gap-6 mt-6">
                     {AllRestaurantDataShowUI?.map((val, index: React.Key | null | undefined) => (
                         <div key={index} className="bg-gray-900 rounded-lg shadow-lg p-4">
                             <img
@@ -166,6 +166,98 @@ const SearchPage: React.FC = () => {
                 </div>
             </div>
         </div>
+
+        // <div className="bg-black text-white min-h-screen p-6 flex flex-wrap">
+        //     {/* Sidebar filter section */}
+        //     <div className="w-full md:w-1/4 h-auto md:h-full">
+        //         <Filtercuisines />
+        //     </div>
+
+        //     {/* Main content area */}
+        //     <div className="w-full md:w-3/4 md:ml-4 mt-4 md:mt-0">
+        //         <div className="flex flex-wrap items-center mt-4 space-y-2 md:space-y-0 md:space-x-2">
+        //             <input
+        //                 type="text"
+        //                 placeholder="Search by restaurants & cuisines"
+        //                 value={SearchByResCui || ""}
+        //                 onChange={(e) => {
+        //                     SetSearchByResCui(e.target.value); // Update state
+        //                     SearchToRestaurant(); // Call your custom function
+        //                 }}
+        //                 className="border border-gray-600 bg-gray-800 text-white rounded-lg p-2 w-full md:w-auto flex-grow focus:outline-none focus:ring-2 focus:ring-orange-400"
+        //             />
+        //             <button
+        //                 className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg w-full md:w-auto hover:bg-orange-600 transition duration-300"
+        //                 onClick={() => SearchToRestaurant()}
+        //             >
+        //                 Search
+        //             </button>
+        //         </div>
+
+        //         {SearchCountry?.length ? (
+        //             <h1 className="mt-6 text-lg text-gray-300">
+        //                 ({SearchCountry?.length}) Search result Found
+        //             </h1>
+        //         ) : (
+        //             <h1 className="mt-6 text-lg text-gray-300">
+        //                 ({AllRestaurantData?.length}) Search result Found
+        //             </h1>
+        //         )}
+
+        //         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+        //             {AllRestaurantDataShowUI?.map(
+        //                 (val, index: React.Key | null | undefined) => (
+        //                     <div
+        //                         key={index}
+        //                         className="bg-gray-900 rounded-lg shadow-lg p-4"
+        //                     >
+        //                         <img
+        //                             src={`http://localhost:3000/${val.RestaurantBanner}`}
+        //                             alt="Restaurant"
+        //                             className="w-full h-40 object-cover rounded-t-lg"
+        //                         />
+        //                         <div className="p-4">
+        //                             <h2 className="text-xl text-white font-semibold">
+        //                                 {val.restaurantName}
+        //                             </h2>
+        //                             <p className="text-gray-400 flex gap-1">
+        //                                 <MdOutlineLocationOn className="mt-1 text-[23px]" />{" "}
+        //                                 City: {val.city}
+        //                             </p>
+        //                             <p className="text-gray-400 flex gap-1 ml-1">
+        //                                 <FaEarthAmericas className="mt-1 text-[18px]" />{" "}
+        //                                 Country: {val.country}
+        //                             </p>
+
+        //                             <div className="mt-2 text-black truncate grid grid-cols-3 gap-1 text-center justify-around items-center overflow-hidden">
+        //                                 {val?.cuisines?.map(
+        //                                     (data, index: React.Key | null | undefined) => (
+        //                                         <span
+        //                                             key={index}
+        //                                             className="bg-white font-semibold rounded-full text-[15px] px-1"
+        //                                         >
+        //                                             {data.charAt(0).toUpperCase() +
+        //                                                 data.slice(1).toLowerCase()}
+        //                                         </span>
+        //                                     )
+        //                                 )}
+        //                             </div>
+        //                             <NavLink to={`/ViewMenuPage/${val._id}`}>
+        //                                 <button className="bg-orange-500 text-black py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300 font-semibold">
+        //                                     View Menu
+        //                                 </button>
+        //                             </NavLink>
+        //                         </div>
+        //                     </div>
+        //                 )
+        //             )}
+
+        //             {/* Repeat this card structure for other search results */}
+        //         </div>
+        //     </div>
+        // </div>
+
+
     );
 };
 

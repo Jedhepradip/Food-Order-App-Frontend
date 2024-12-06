@@ -36,7 +36,7 @@ const RestaurantPages: React.FC = () => {
         formdata.append("RestaurantBanner", file!)
         formdata.append("city", data.city)
         formdata.append("country", data.country)
-        formdata.append("cuisines", data?.cuisines!)
+        formdata.append("cuisines", data.cuisines)
         formdata.append("deliveryTime", data.deliveryTime)
         formdata.append("restaurantName", data.restaurantName)
         try {
@@ -199,9 +199,42 @@ const RestaurantPages: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-bold text-[18px]">
+                                    {/* <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-bold text-[18px]">
                                         Create
-                                    </button>
+                                    </button> */}
+
+                                    <div className="w-ful pb-2">
+                                        <button
+                                            // type='submit'
+                                            className={`px-6 py-2 flex bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-bold ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                                            disabled={loadingOTP}
+                                        >
+                                            {loadingOTP && (
+                                                <svg
+                                                    className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <circle
+                                                        className="opacity-25"
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="10"
+                                                        stroke="currentColor"
+                                                        strokeWidth="4"
+                                                    ></circle>
+                                                    <path
+                                                        className="opacity-75"
+                                                        fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                    ></path>
+                                                </svg>
+                                            )}
+                                            <span>{loadingOTP ? 'Loading...' : 'Create'}</span>
+                                        </button>
+                                    </div>
+
                                 </form>
                             </div>
                         </div>

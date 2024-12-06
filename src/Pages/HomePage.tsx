@@ -25,6 +25,7 @@ const HomePage: React.FC = () => {
             <div className="flex w-full max-w-md bg-white rounded-lg overflow-hidden shadow-md mt-5">
               <input
                 type="text"
+                title='Search Restaurant by name, city & country'
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search Restaurant by name, city & country"
                 className="w-full p-2 text-gray-700 placeholder-gray-400 focus:outline-none hover:border bg-border"
