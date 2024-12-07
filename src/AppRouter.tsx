@@ -23,7 +23,7 @@ import SendLinkEmailPage from './Forms/User-Profile-Form/SendLinkEmailPage'
 const AppContent: React.FC = () => {
     const location = useLocation();
     // Define routes where Navbar and Footer should be hidden
-    const hideNavbarFooter = location.pathname === '/LoginPage' || location.pathname === '/SigninPage' || location.pathname === '/SendLinkEmailPage' || location.pathname === '/SetNewPassword';
+    const hideNavbarFooter = location.pathname === '/LoginPage' || location.pathname === '/SigninPage' || location.pathname === '/SendLinkEmailPage' || location.pathname === '/SetNewPassword' || location.pathname === "/AdminDashboard";
 
     return (
         <>

@@ -1,7 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { menucreateInterface } from "../../interface/MenucreateInterface";
 import { AppDispatch } from "../Store/Store";
 import axios from "axios";
+
+
+ interface Restaurant {
+    _id: string;
+    restaurantName: string;
+    city: string;
+    country: string;
+    deliveryTime: string;
+    cuisines: string[];
+    RestaurantBanner: string;
+    user: [];
+    menus: string[];
+}
+ interface menucreateInterface {
+    name: string,
+    description: string,
+    price: string,
+    menuPictuer: string
+    _id: string
+    createdAt: string,
+    restaurantId: Restaurant[],
+    __v: string,
+    updatedAt: string,
+}
 
 interface Menustate {
     MenuAllData: menucreateInterface[] | null
