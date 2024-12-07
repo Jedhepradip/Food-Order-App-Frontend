@@ -150,7 +150,7 @@ const ProfilePage: React.FC = () => {
 
         </div>
         <div className='w-full flex justify-center items-center' onClick={() => setshowmodel()}>
-          <button className='md:w-[12%] w-[20%] py-1 mt-4 bg-orange-400 text-black font-semibold rounded-md hover:bg-orange-700 transition duration-300 text-[20px]'>
+          <button className='md:w-[12%] w-[20%] py-1 mt-4 bg-orange-500 font-serif text-black rounded-md hover:bg-orange-700 transition duration-300 text-[20px]'>
             Update
           </button>
         </div>
@@ -231,7 +231,7 @@ const ProfilePage: React.FC = () => {
                   </div>
                 </div>
 
-                <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded">
+                <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-bold font-serif">
                   Update
                 </button>
               </form>

@@ -3,6 +3,7 @@ import UserReducers from "../Features/UserSlice"
 import MenuReducers from "../Features/MenuSlice"
 import OrderReducres from "../Features/OrderMenuSlice"
 import MenuAllDataReducer from "../Features/AllMenuSlice"
+import SetAllUserData from "../Features/AllUserDataSlice";
 import RestaurantReducers from "../Features/RestaurantSlice"
 import OrderAllDataShow from "../Features/AllOrdersDataSlice";
 import AllrestaurantReducer from "../Features/RestaurantAllSlice"
@@ -14,6 +15,7 @@ export const store = configureStore({
         User: UserReducers,
         Menu: MenuReducers,
         Order: OrderReducres,
+        AllUser: SetAllUserData,
         OrderAll: OrderAllDataShow,
         MenuAll: MenuAllDataReducer,
         Restaurant: RestaurantReducers,

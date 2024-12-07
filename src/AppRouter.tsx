@@ -15,6 +15,7 @@ import Filtercuisines from './Pages/Filtercuisines'
 import OrderPageAdmin from './AdminPages/OrderPage'
 import RestaurantPages from './AdminPages/RestaurantPages'
 import LoginPage from './Forms/User-Profile-Form/LoginPage'
+import AdminDashboard from './AdminDashboard/AdminDashboard'
 import SigninPage from './Forms/User-Profile-Form/SigninPage'
 import SetNewPassword from './Forms/User-Profile-Form/SetNewPassword'
 import SendLinkEmailPage from './Forms/User-Profile-Form/SendLinkEmailPage'
@@ -36,6 +37,7 @@ const AppContent: React.FC = () => {
                 <Route path='/SearchPage' element={<SearchPage />} />
                 <Route path='/ProfilePage' element={<ProfilePage />} />
                 <Route path='/AddToCartPage' element={<AddToCartPage />} />
+                <Route path='/AdminDashboard' element={<AdminDashboard />} />
                 <Route path='/SetNewPassword' element={<SetNewPassword />} />
                 <Route path='/Filtercuisines' element={<Filtercuisines />} />
                 <Route path='/ViewMenuPage/:id' element={<ViewMenuPage />} />

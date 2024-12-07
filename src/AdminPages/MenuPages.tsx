@@ -130,12 +130,9 @@ const MenuPages: React.FC = () => {
                                 <div className="w-fu pb-2">
                                     <button onClick={() => UpdateMenuModelShow(val._id)}
                                         type='submit'
-                                        className={`
-                                                     btn bg-orange-400 flex hover:bg-orange-500 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right                                                             
-                                ${EditMenu ? 'cursor-not-allowed' : ''} ${EditMenu ? 'animate-pulse' : ''}`}
-                                        disabled={EditMenu}
-                                    // mt-2 flex justify-center items-center text-black w-full bg-orange-400 hover:bg-orange-500 focus:outline-none focus:ring-4 focus:ring-white rounded-md text-[19px] px-5 py-1.5 
-                                    >
+                                        className={`btn bg-orange-400 flex hover:bg-orange-500 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right 
+                                        ${EditMenu ? 'cursor-not-allowed' : ''} ${EditMenu ? 'animate-pulse' : ''}`}
+                                        disabled={EditMenu} >
                                         {EditMenu && (
                                             <svg
                                                 className="animate-spin h-5 w-5 mr-2 text-black rounded-full"
@@ -159,7 +156,9 @@ const MenuPages: React.FC = () => {
                                             </svg>
                                         )}
 
-                                        <span>{EditMenu ? 'Loading...' : 'Edit'}</span>
+                                        <span>
+                                            {EditMenu ? 'Loading...' : 'Edit'}
+                                        </span>
                                     </button>
                                 </div>
 

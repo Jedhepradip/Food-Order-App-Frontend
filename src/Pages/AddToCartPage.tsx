@@ -265,7 +265,7 @@ const AddToCartPage: React.FC = () => {
                         <div className="flex justify-end mb-4 px-[150px]">
                             <button
                                 onClick={() => ClearAllAddToCart()}
-                                className="px-4 py-2 font-bold"
+                                className="px-4 py-2 rounded-lg font-serif bg-orange-500"
                             >
                                 Clear All
                             </button>

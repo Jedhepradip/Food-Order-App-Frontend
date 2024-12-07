@@ -3,7 +3,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/Store";
 import axios from "axios";
 
-
+interface UserInterFaceData {
+    profilePictuer: string;  //profilePicture
+    name: string;
+    email: string;
+    contact: string;
+    password: string;
+    address: string;
+    country: string;
+    city: string;
+    updatedAt: string;
+    items: string[]; // Array of individual CartItem objects
+    __v: string;
+    _id: string;
+}
 interface Restaura {
     _id: string;
     restaurantName: string;
@@ -12,7 +25,7 @@ interface Restaura {
     deliveryTime: string;
     cuisines: string[];
     RestaurantBanner: string;
-    user: string[];
+    user: UserInterFaceData[];
     menus: string[];
 }
 
