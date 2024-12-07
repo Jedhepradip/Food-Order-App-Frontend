@@ -10,20 +10,37 @@ import { UserInterFaceData } from '../interface/UserInterface';
 import { FetchingUserData } from '../Redux/Features/UserSlice';
 import { ProfileUpdateFrom } from '../interface/ProfileUpdateInterface';
 
-const UserEditFrom: React.FC = () => {
-    //   const [showupdate, setshowupdate] = useState(false)
+interface UserEditFormProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    UserID: any;
+    closeMenuModal: () => void;
+}
+
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const UserEditFrom: React.FC<UserEditFormProps> = ({ UserID, closeMenuModal }: any) => {
     const [file, setFile] = useState<File | null>(null);
     const Dispatch: AppDispatch = useDispatch()
     const { register, handleSubmit } = useForm<ProfileUpdateFrom>();
-    const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
-    const UserData = useSelector((state: RootState) => state.User.User)
+    const [UserInfo, setUserData] = useState<UserInterFaceData[] | null>(null);
+    const [User, UserDataShow] = useState<UserInterFaceData[] | []>([]);
+    const UserData = useSelector((state: RootState) => state.AllUser.AllUser)
 
+    console.log("UserID pp:", UserID);
 
     useEffect(() => {
         if (UserData) {
             setUserData(UserData)
         }
     }, [UserData])
+
+    useEffect(() => {
+        if (UserInfo && UserID) {
+            const user = UserInfo?.filter((val) => val._id == UserID);
+            console.log(user);
+            UserDataShow(user); // Set `null` if `user` is undefined
+        }
+    }, [UserID, UserInfo]);
 
     const ShowToastContainer = () => {
         toast.error(<div className='font-serif text-[15px] text-black'>Email is Not Update...</div>);
@@ -40,7 +57,7 @@ const UserEditFrom: React.FC = () => {
 
         try {
             const response = await axios.post(
-                `http://localhost:3000/api-user/Update/User/${UserInfo?._id}`,
+                `http://localhost:3000/api-user/Update/User/${UserID}`,
                 formdata,
                 {
                     headers: {
@@ -54,6 +71,7 @@ const UserEditFrom: React.FC = () => {
             if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{UserUpdate.message}</div>);
                 setTimeout(() => {
+                    closeMenuModal()
                 }, 1600);
                 Dispatch(FetchingUserData())
             }
@@ -84,9 +102,9 @@ const UserEditFrom: React.FC = () => {
             <div className='flex justify-center w-full '>
                 <ToastContainer />
                 {/* grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/60 */}
-                <div className='fixed inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
-                    <div className="mt-6 p-6 bg-gray-900 rounded shadow-lg absolute z-50 w-[500px] ">
-                        <RxCross2 className='float-right text-white text-[23px] cursor-pointer'
+                <div className='fixed inset-0 z-50 place-items-center grid grid-cols-1'>
+                    <div className="mt-6 p-6 bg-gray-950 inset-0 border rounded shadow-lg z-50 w-[500px] ">
+                        <RxCross2 className='float-right text-white text-[23px] cursor-pointer' onClick={() => closeMenuModal()}
                         />
                         <form onSubmit={handleSubmit(onsubmit)}>
                             <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 md:mb-4">
@@ -106,7 +124,7 @@ const UserEditFrom: React.FC = () => {
                                     <input {...register("name")}
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                        defaultValue={UserInfo?.name}
+                                        defaultValue={User[0]?.name}
                                     />
                                 </div>
 
@@ -116,7 +134,7 @@ const UserEditFrom: React.FC = () => {
                                         type="email"
                                         onClick={() => ShowToastContainer()}
                                         className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                        value={UserInfo?.email}
+                                        value={User[0]?.email}
                                     />
                                 </div>
 
@@ -125,7 +143,7 @@ const UserEditFrom: React.FC = () => {
                                     <input {...register("contact")}
                                         type="tel"
                                         className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                        defaultValue={UserInfo?.contact}
+                                        defaultValue={User[0]?.contact}
                                     />
                                 </div>
 
@@ -134,7 +152,7 @@ const UserEditFrom: React.FC = () => {
                                     <input {...register("address")}
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                        defaultValue={UserInfo?.address}
+                                        defaultValue={User[0]?.address}
                                     />
                                 </div>
 
@@ -143,7 +161,7 @@ const UserEditFrom: React.FC = () => {
                                     <input {...register("city")}
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                        defaultValue={UserInfo?.city}
+                                        defaultValue={User[0]?.city}
                                     />
                                 </div>
 
@@ -152,12 +170,12 @@ const UserEditFrom: React.FC = () => {
                                     <input {...register("country")}
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
-                                        defaultValue={UserInfo?.country}
+                                        defaultValue={User[0]?.country}
                                     />
                                 </div>
                             </div>
 
-                            <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-bold font-serif">
+                            <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-serif">
                                 Update
                             </button>
                         </form>

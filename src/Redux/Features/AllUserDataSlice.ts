@@ -22,7 +22,7 @@ interface UserAllData {
 }
 
 const initialState: UserAllData = {
-    AllUser: null
+    AllUser: []
 }
 
 export const FetchingAllUserData = () => async (dispatch: AppDispatch) => {

@@ -240,6 +240,7 @@ const RestaurantPages: React.FC = () => {
                         </div>
                     </>
                     :
+                    
                     <div className='grid justify-center items-center grid-cols-1 mb-10 w-[85%]'>
                         <ToastContainer />
                         <div className="mt-6 p-6 rounded shadow-lg bg-black">

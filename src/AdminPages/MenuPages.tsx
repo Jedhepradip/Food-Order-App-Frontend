@@ -18,9 +18,6 @@ const MenuPages: React.FC = () => {
     const [loadingOTP, setLoadingOTP] = useState(false);
     const [EditMenu, EditTheMenu] = useState(false);
     const [Menu, SetMenu] = useState<menucreateInterface[] | null>(null);
-
-    // const [Menudata, SetMenuData] = useState<menucreateInterface[] | undefined>(undefined);
-
     const Navigate = useNavigate()
     const dispatch: AppDispatch = useDispatch()
     const menudata = useSelector((state: RootState) => state.Menu.Menu)
@@ -41,7 +38,6 @@ const MenuPages: React.FC = () => {
             Navigate("/Login")
         }
     }, [Navigate, menudata, token])
-
 
     const setshowmodel = () => {
         setLoadingOTP(true)
@@ -73,7 +69,6 @@ const MenuPages: React.FC = () => {
                 <ToastContainer />
                 <div className="flex flex-wrap md:flex-nowrap justify-around items-center w-full mb-4 px-4 md:px-0">
                     <h1 className=" font-serif text-white text-2xl text-center md:text-left">Available Menus</h1>
-
                     <div className="w-fu pb-2">
                         <button onClick={() => setshowmodel()}
                             type='submit'
@@ -108,8 +103,6 @@ const MenuPages: React.FC = () => {
                             <span>{loadingOTP ? 'Loading...' : 'Add Menu'}</span>
                         </button>
                     </div>
-
-
                 </div>
 
                 {Menu?.map((val, index: React.Key | null | undefined) => (
@@ -173,15 +166,9 @@ const MenuPages: React.FC = () => {
                 ))}
             </div>
 
-
             {showupdate && (
                 <AddMenuModel closeMenuModal={closeMenuModal} />
             )}
-
-            {/* Menu Update From */}
-            {/* {Menuupdate && (
-                <MenuUpdateMode closeMenuModal={closeMenuModal} />
-            )} */}
 
             {Menuupdate && selectedProduct && (
                 <MenuUpdateModel selectedProduct={selectedProduct} closeMenuModal={closeMenuModal} />

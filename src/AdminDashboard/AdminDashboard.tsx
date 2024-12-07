@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../Redux/Store/Store";
 import { RestaurantInterface } from "../interface/RestaurantInterface";
 import { FetchinMenuAlldata } from "../Redux/Features/AllMenuSlice";
+import UserEditFrom from "./UserEditFrom";
+import RestaurantEdit from "./RestaurantEdit";
 // import { UserInterFaceData } from "../interface/UserInterface";
 
 export interface UserInterFaceData {
@@ -50,12 +52,16 @@ interface menucreateInterface {
 const AdminDashboard: React.FC = () => {
     const [activeTab, setActiveTab] = useState("users");
     const dispatch: AppDispatch = useDispatch()
-    const [UserInfo, setUserData] = useState<UserInterFaceData[] | null>(null);
     const [AllRestaurant, setAllRestauran] = useState<RestaurantInterface[] | undefined | null>(null)
     const [selectedProduct, setSelectedProduct] = useState<menucreateInterface[] | undefined>(undefined);
     const RestureantdataAll = useSelector((state: RootState) => state.AllRestaurant.RestaurantAll)
     const menuall = useSelector((state: RootState) => state.MenuAll.MenuAllData)
+    const [UserInfo, setUserData] = useState<UserInterFaceData[] | null>(null);
     const userAll = useSelector((state: RootState) => state.AllUser.AllUser)
+    const [UserEdit, SetUserEditFrom] = useState(false)
+    const [RestaurentEditdata, SetRestaurentFrom] = useState(false)
+    const [UserID, SetUserID] = useState(String)
+    const [RestaurentID, SetRestaurentID] = useState(String)
 
     useEffect(() => {
         if (RestureantdataAll) {
@@ -69,17 +75,42 @@ const AdminDashboard: React.FC = () => {
         }
     }, [RestureantdataAll, menuall, userAll])
 
+
+    const handelUserEditFrom = (id: string) => {
+        SetUserID(id)
+        SetUserEditFrom(true)
+    }
+
+    const handelRestaurantFrom = (id: string) => {
+        SetRestaurentID(id)
+        SetRestaurentFrom(true)
+    }
+
+    const closeMenuModal = () => {
+        SetRestaurentFrom(false)
+        SetUserEditFrom(false)
+        SetRestaurentID("")
+        SetUserID("")
+    }
+
     useEffect(() => {
         dispatch(FetchinMenuAlldata())
         dispatch(FetchingAllUserData())
         dispatch(FetchingUserAllRestaurant())
     }, [dispatch])
 
-    console.log(selectedProduct);
-
 
     return (
         <div className="flex min-h-screen bg-black text-white">
+
+            {UserEdit && UserID && (
+                <UserEditFrom UserID={UserID} closeMenuModal={closeMenuModal} />
+            )}
+
+            {RestaurentEditdata && RestaurentID && (
+                <RestaurantEdit RestaurentID={RestaurentID} closeMenuModal={closeMenuModal} />
+            )}
+
             {/* Sidebar */}
             <aside className="w-64 bg-gray-950 text-white p-6">
                 <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
@@ -162,7 +193,7 @@ const AdminDashboard: React.FC = () => {
                                                 </p>
                                             </div>
                                             <div className="flex gap-2">
-                                                <button className="p-2 bg-blue-600 hover:bg-blue-700 rounded-md">
+                                                <button onClick={() => handelUserEditFrom(user._id)} className="p-2 bg-blue-600 hover:bg-blue-700 rounded-md">
                                                     <FaEdit />
                                                 </button>
                                                 <button className="p-2 bg-red-600 hover:bg-red-700 rounded-md">
@@ -190,7 +221,7 @@ const AdminDashboard: React.FC = () => {
                                         </div>
                                         <div className="flex gap-2">
                                             <button className="p-2 bg-blue-600 hover:bg-blue-700 rounded-md">
-                                                <FaEdit />
+                                                <FaEdit onClick={() => handelRestaurantFrom(restaurant._id)} />
                                             </button>
                                             <button className="p-2 bg-red-600 hover:bg-red-700 rounded-md">
                                                 <FaTrashAlt />
