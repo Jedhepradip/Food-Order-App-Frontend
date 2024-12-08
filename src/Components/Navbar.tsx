@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
 import { FetchingUserData } from '../Redux/Features/UserSlice';
 
+import { FaHome, FaUser } from "react-icons/fa";
+import { LuHandPlatter, LuPackageCheck, LuSquareMenu, LuUtensilsCrossed } from "react-icons/lu";
+
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -47,12 +50,13 @@ const Navbar: React.FC = () => {
         <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} w-full md:flex md:items-center md:justify-between md:w-auto`} id="navbar-dropdown">
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-black md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
             <li>
-              <NavLink to={"/"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Home</NavLink>
+              <NavLink to={"/"} className="cursor-pointer py-2 px-3 text-white flex md:gap-0 gap-2 hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                <FaHome className='md:hidden' /> Home</NavLink>
             </li>
             {token ?
               <>
                 <li>
-                  <NavLink to={"/ProfilePage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Profile</NavLink>
+                  <NavLink to={"/ProfilePage"} className="flex cursor-pointer py-2 px-3 md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <FaUser className='md:hidden' /> Profile</NavLink>
                 </li>
               </>
               :
@@ -60,10 +64,11 @@ const Navbar: React.FC = () => {
             }
 
             <li>
-              <NavLink to={"/OrderPage"} className="block cursor-pointer py-2 px-3 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Order</NavLink>
+              <NavLink to={"/OrderPage"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                <LuHandPlatter className='md:hidden' /> Order</NavLink>
             </li>
 
-            <li className='bg-black'>
+            <li className='bg-black md:block hidden'>
               <div className="relative inline-block text-left">
                 <button
                   id="dropdownDelayButton"
@@ -102,10 +107,20 @@ const Navbar: React.FC = () => {
               </div>
             </li>
 
+            <li className='bg-black md:hidden'>
+              <li>
+                <NavLink to={"/RestaurantPages"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuUtensilsCrossed className='md:hidden' /> Restaurant</NavLink>
+              </li>
+              <li>
+                <NavLink to={"/MenuPages"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuSquareMenu className="md:hidden" /> Menu</NavLink>
+              </li>
+              <li>
+                <NavLink to={"/OrderPageAdmin"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuPackageCheck className="md:hidden" /> Order</NavLink>
+              </li>
+            </li>
 
             {token ? <>
-
-              <li className="relative">
+              <li className="relative md:block hidden">
                 <NavLink
                   to={"/AddToCartPage"}
                   className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0"
@@ -113,19 +128,36 @@ const Navbar: React.FC = () => {
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
                   <FiShoppingCart />
-
                 </NavLink>
                 {User?.items?.length && (
                   <div className="absolute md:-top-2 md:-right-2 top-0 md:left-4 left-7 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
                     {User?.items.length}
                   </div>
                 )}
-
               </li>
 
-              <li>
+
+              <li className="relative block md:hidden">
+                <NavLink
+                  to={"/AddToCartPage"}
+                  className="cursor-pointer py-1 px-3 mb-2 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0"
+                  aria-current="page"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                >
+                  <FiShoppingCart /> Cart({User?.items.length})
+                </NavLink>
+              </li>
+
+
+              <li className='bg-black md:block hidden'>
                 <div className='rounded-full cursor-pointer overflow-hidden md:ml-0 ml-2.5'>
                   <img src={`http://localhost:3000/${User?.profilePictuer}`} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+                </div>
+              </li>
+              <li className='bg-black block md:hidden'>
+                <div className='rounded-full cursor-pointer gap-2 flex overflow-hidden md:ml-0 ml-2.5'>
+                  <img src={`http://localhost:3000/${User?.profilePictuer}`} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+                 <span className='mt-1'>{User?.name}</span>
                 </div>
               </li>
             </>
@@ -139,7 +171,11 @@ const Navbar: React.FC = () => {
                   <span onClick={() => {
                     handlelogout(); setIsMobileMenuOpen(!isMobileMenuOpen)
                   }}
-                    className="py-2 cursor-pointer px-4 shadow-lg font-bold shadow-gray-600 text-white rounded hover:bg-gray-600">Logout</span>
+                    className="py-2 cursor-pointer px-4 shadow-lg font-bold shadow-gray-600 text-white rounded hover:bg-gray-600 md:block hidden">Logout</span>
+                     <span onClick={() => {
+                    handlelogout(); setIsMobileMenuOpen(!isMobileMenuOpen)
+                  }}
+                    className="py-2 cursor-pointer px-4 shadow-lg font-bold bg-orange-500 text-center shadow-gray-600 text-black rounded hover:bg-orange-600 block md:hidden w-[25%]">Logout</span>
                 </>
                 :
                 <>

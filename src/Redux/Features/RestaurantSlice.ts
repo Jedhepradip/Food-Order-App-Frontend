@@ -3,9 +3,8 @@ import { RestaurantInterface } from "../../interface/RestaurantInterface";
 import { AppDispatch } from "../Store/Store";
 import axios from "axios";
 
-
 interface RestaurantState {
-    Restaurant: RestaurantInterface | null; // Allow User to be either UserInterFaceData or null
+    Restaurant: RestaurantInterface[] | null; // Allow User to be either UserInterFaceData or null
 }
 
 const initialState: RestaurantState = {
@@ -29,7 +28,7 @@ const RestaurantSlice = createSlice({
     name: "Restaurant",
     initialState,
     reducers: {
-        SetRestaurantData: (state, action: PayloadAction<RestaurantInterface | null>) => {
+        SetRestaurantData: (state, action: PayloadAction<RestaurantInterface[] | null>) => {
             state.Restaurant = action.payload; // Allow User to be null or UserInterFaceData
         }
     }
