@@ -55,7 +55,6 @@ const ViewMenuPage: React.FC = () => {
                 (e) => e._id === id
             ) || null; // Ensure the result is `Restaura | null`
             setRestaurant(filteredRestaurant as Restaura | null);
-
         }
 
         if (Restaurant?.menus?.length) {
