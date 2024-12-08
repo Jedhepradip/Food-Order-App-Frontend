@@ -9,6 +9,7 @@ import { RestaurantInterface } from "../interface/RestaurantInterface";
 import { FetchinMenuAlldata } from "../Redux/Features/AllMenuSlice";
 import UserEditFrom from "./UserEditFrom";
 import RestaurantEdit from "./RestaurantEdit";
+import MenuEditFrom from "./MenuEditFrom";
 // import { UserInterFaceData } from "../interface/UserInterface";
 
 export interface UserInterFaceData {
@@ -50,18 +51,20 @@ interface menucreateInterface {
 }
 
 const AdminDashboard: React.FC = () => {
-    const [activeTab, setActiveTab] = useState("users");
-    const dispatch: AppDispatch = useDispatch()
-    const [AllRestaurant, setAllRestauran] = useState<RestaurantInterface[] | undefined | null>(null)
     const [selectedProduct, setSelectedProduct] = useState<menucreateInterface[] | undefined>(undefined);
+    const [AllRestaurant, setAllRestauran] = useState<RestaurantInterface[] | undefined | null>(null)
     const RestureantdataAll = useSelector((state: RootState) => state.AllRestaurant.RestaurantAll)
     const menuall = useSelector((state: RootState) => state.MenuAll.MenuAllData)
     const [UserInfo, setUserData] = useState<UserInterFaceData[] | null>(null);
     const userAll = useSelector((state: RootState) => state.AllUser.AllUser)
-    const [UserEdit, SetUserEditFrom] = useState(false)
     const [RestaurentEditdata, SetRestaurentFrom] = useState(false)
-    const [UserID, SetUserID] = useState(String)
     const [RestaurentID, SetRestaurentID] = useState(String)
+    const [activeTab, setActiveTab] = useState("users");
+    const [UserEdit, SetUserEditFrom] = useState(false)
+    const [MenuFrom, SetMenuFromShow] = useState(false)
+    const [MenuID, SetMenuID] = useState(String)
+    const [UserID, SetUserID] = useState(String)
+    const dispatch: AppDispatch = useDispatch()
 
     useEffect(() => {
         if (RestureantdataAll) {
@@ -75,7 +78,6 @@ const AdminDashboard: React.FC = () => {
         }
     }, [RestureantdataAll, menuall, userAll])
 
-
     const handelUserEditFrom = (id: string) => {
         SetUserID(id)
         SetUserEditFrom(true)
@@ -86,10 +88,17 @@ const AdminDashboard: React.FC = () => {
         SetRestaurentFrom(true)
     }
 
+    const handelMenuFrom = (id: string) => {
+        SetMenuFromShow(true)
+        SetMenuID(id)
+    }
+
     const closeMenuModal = () => {
         SetRestaurentFrom(false)
+        SetMenuFromShow(false)
         SetUserEditFrom(false)
         SetRestaurentID("")
+        SetMenuID("")
         SetUserID("")
     }
 
@@ -109,6 +118,10 @@ const AdminDashboard: React.FC = () => {
 
             {RestaurentEditdata && RestaurentID && (
                 <RestaurantEdit RestaurentID={RestaurentID} closeMenuModal={closeMenuModal} />
+            )}
+
+            {MenuFrom && MenuID && (
+                <MenuEditFrom MenuID={MenuID} closeMenuModal={closeMenuModal} />
             )}
 
             {/* Sidebar */}
@@ -249,7 +262,7 @@ const AdminDashboard: React.FC = () => {
                                             }
                                         </div>
                                         <div className="flex gap-2">
-                                            <button className="p-2 bg-blue-600 hover:bg-blue-700 rounded-md">
+                                            <button onClick={() => handelMenuFrom(menu._id)} className="p-2 bg-blue-600 hover:bg-blue-700 rounded-md">
                                                 <FaEdit />
                                             </button>
                                             <button className="p-2 bg-red-600 hover:bg-red-700 rounded-md">

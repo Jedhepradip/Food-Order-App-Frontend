@@ -11,12 +11,17 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import { ToastContainer, toast } from 'react-toastify';
 import PaymentPage from './Payment/PaymentPage';
+import { NavLink } from 'react-router-dom';
 const stripePromise = loadStripe("pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24")
 
 //Backend sk_test_51Q7VKrP6jlrB3RhjFTQN841rp3fXw2YSB51FsLRvNQ3YOnMddwHhNnxLa7DYdJPSGt8Sf4r2sjPq6GKQop8Q2MGU00f5Sjhbm3
 
 const AddToCartPage: React.FC = () => {
     const Dispatch: AppDispatch = useDispatch()
+    const [loadingClearAll, SetLoadingClearAll] = useState(false)
+    const [loadingRemove, SetLoadingRemove] = useState(false)
+    const [loadingBuyNow, SetLoadingBuyNow] = useState(false)
+    const [loadingPayment, SetContinuePayment] = useState(false)
     const [showCheckoutForm, setShowCheckoutForm] = useState(false);
     const [Paymentmodel, ShowPaymentModel] = useState<boolean>(false);
     const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
@@ -41,18 +46,26 @@ const AddToCartPage: React.FC = () => {
     };
 
     const handleProceedToCheckout = (menuId: number | string,) => {
-        setShowCheckoutForm(true);
-        SetMenuId(menuId)
+        SetLoadingBuyNow(true)
+        setTimeout(() => {
+            SetLoadingBuyNow(false)
+            setShowCheckoutForm(true);
+            SetMenuId(menuId)
+        }, 1200);
     };
 
     const SetThePaymentModel = () => {
-        ShowPaymentModel(true)
-        setShowCheckoutForm(false)
+        SetContinuePayment(true)
+        setTimeout(() => {
+            ShowPaymentModel(true)
+            setShowCheckoutForm(false)
+            SetContinuePayment(false)
+        }, 1200);
     }
 
     const closePaymentModal = () => {
         ShowPaymentModel(true)
-        // setUserData(null)
+        SetMenuId("")
     }
 
     const AddToCartIncreaseQuantity = async (id: number | string,) => {
@@ -118,6 +131,7 @@ const AddToCartPage: React.FC = () => {
     }
 
     const RemoveToaddToCart = async (id: number | string) => {
+        SetLoadingRemove(true)
         try {
             const response = await axios.put(`http://localhost:3000/api-restaurant/AddToCart/Remove/MenuItems/${id}`, {}, {
                 headers: {
@@ -126,10 +140,14 @@ const AddToCartPage: React.FC = () => {
             })
 
             if (response.status === 200) {
-                Dispatch(FetchingUserData())
+                setTimeout(() => {
+                    SetLoadingRemove(false)
+                    Dispatch(FetchingUserData())
+                }, 1200);
             }
         } catch (error: any) {
             if (error.response) {
+                SetLoadingRemove(false)
                 const errorMessage = error.response.data.message;
                 if (error.response.status === 409 || errorMessage === "User already exists") {
                     console.log("Error: User already exists.");
@@ -145,6 +163,7 @@ const AddToCartPage: React.FC = () => {
     };
 
     const ClearAllAddToCart = async () => {
+        SetLoadingClearAll(true)
         try {
             const response = await axios.delete(`http://localhost:3000/api-restaurant/ClearAll/AddToCart`, {
                 headers: {
@@ -153,10 +172,14 @@ const AddToCartPage: React.FC = () => {
             })
 
             if (response.status === 200) {
-                Dispatch(FetchingUserData())
+                setTimeout(() => {
+                    SetLoadingClearAll(false)
+                    Dispatch(FetchingUserData())
+                }, 1200);
             }
         } catch (error: any) {
             if (error.response) {
+                SetLoadingClearAll(false)
                 const errorMessage = error.response.data.message;
                 if (error.response.status === 409 || errorMessage === "User already exists") {
                     console.log("Error: User already exists.");
@@ -177,7 +200,7 @@ const AddToCartPage: React.FC = () => {
             <div className='realtive w-full h-full'>
                 <Elements stripe={stripePromise}>
                     <ToastContainer />
-                    {Paymentmodel && UserInfo?.items?.length && (
+                    {Paymentmodel && MenuID && (
                         <PaymentPage
                             SetShowMenuId={MenuID}
                             closePaymentModal={closePaymentModal}
@@ -248,9 +271,43 @@ const AddToCartPage: React.FC = () => {
                                             </div>
                                         </div>
 
-                                        <button className="px-4 py-2 bg-orange-500 float-right hover:bg-orange-600 text-white rounded font-serif" onClick={() => SetThePaymentModel()}>
+                                        {/* <button className="px-4 py-2 bg-orange-500 float-right hover:bg-orange-600 text-white rounded font-serif" onClick={() => SetThePaymentModel()}>
                                             Continue to payment
+                                        </button> */}
+
+                                        {/* <div className="w-ful pb-2 flex overflow-hidden "> */}
+                                        <button
+                                            onClick={() => SetThePaymentModel()}
+                                            // type='submit'
+                                            className={`px-4 py-2 flex bg-orange-500 float-right hover:bg-orange-600 text-white rounded font-serif ${loadingPayment ? 'cursor-not-allowed' : ''} ${loadingPayment ? 'animate-pulse' : ''}`}
+                                            disabled={loadingPayment}
+                                        >
+                                            {loadingPayment && (
+                                                <svg
+                                                    className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <circle
+                                                        className="opacity-25"
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="10"
+                                                        stroke="currentColor"
+                                                        strokeWidth="4"
+                                                    ></circle>
+                                                    <path
+                                                        className="opacity-75"
+                                                        fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                    ></path>
+                                                </svg>
+                                            )}
+                                            <span>{loadingPayment ? 'Loading...' : ' Continue To Payment'}</span>
                                         </button>
+                                        {/* </div> */}
+
                                     </form>
 
                                 </div>
@@ -263,12 +320,37 @@ const AddToCartPage: React.FC = () => {
                         <h2 className="text-2xl font-bold mb-1">Shopping Cart</h2>
 
                         <div className="flex justify-end mb-4 px-[150px]">
-                            <button
-                                onClick={() => ClearAllAddToCart()}
-                                className="px-4 py-2 rounded-lg font-serif bg-orange-500"
-                            >
-                                Clear All
-                            </button>
+                            <div className="w-ful pb-2">
+                                <button onClick={() => ClearAllAddToCart()}
+                                    // type='submit'
+                                    className={`px-6 py-2 flex bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-serif ${loadingClearAll ? 'cursor-not-allowed' : ''} ${loadingClearAll ? 'animate-pulse' : ''}`}
+                                    disabled={loadingClearAll}
+                                >
+                                    {loadingClearAll && (
+                                        <svg
+                                            className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                            ></path>
+                                        </svg>
+                                    )}
+                                    <span>{loadingClearAll ? 'Loading...' : 'Clear All'}</span>
+                                </button>
+                            </div>
                         </div>
 
                         <div className="overflow-auto relative">
@@ -328,21 +410,74 @@ const AddToCartPage: React.FC = () => {
                                             </td>
 
                                             <td className="p-0">
-                                                <button
-                                                    onClick={() => RemoveToaddToCart(item?.Menu?._id)}
-                                                    className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif"
-                                                >
-                                                    Remove
-                                                </button>
+                                                <div className="w-ful pb-2 flex">
+                                                    <button
+                                                        onClick={() => RemoveToaddToCart(item?.Menu?._id)}
+                                                        // type='submit'
+                                                        className={`px-2 py-1 flex bg-orange-500 hover:bg-orange-600 text-white rounded font-serif${loadingRemove ? 'cursor-not-allowed' : ''} ${loadingRemove ? 'animate-pulse' : ''}`}
+                                                        disabled={loadingRemove}
+                                                    >
+                                                        {loadingRemove && (
+                                                            <svg
+                                                                className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                            >
+                                                                <circle
+                                                                    className="opacity-25"
+                                                                    cx="12"
+                                                                    cy="12"
+                                                                    r="10"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="4"
+                                                                ></circle>
+                                                                <path
+                                                                    className="opacity-75"
+                                                                    fill="currentColor"
+                                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                                ></path>
+                                                            </svg>
+                                                        )}
+                                                        <span>{loadingRemove ? 'Loading...' : 'Remove'}</span>
+                                                    </button>
+                                                </div>
+
                                             </td>
 
                                             <td className="p-0">
-                                                <button
-                                                    onClick={() => handleProceedToCheckout(item?.Menu?._id)}
-                                                    className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif"
-                                                >
-                                                    Buy Now
-                                                </button>
+                                                <div className="w-ful pb-2 flex overflow-hidden ">
+                                                    <button
+                                                        onClick={() => handleProceedToCheckout(item?.Menu?._id)}
+                                                        // type='submit'
+                                                        className={`px-2 py-1 flex bg-orange-500 hover:bg-orange-600 text-white rounded font-serif${loadingBuyNow ? 'cursor-not-allowed' : ''} ${loadingBuyNow ? 'animate-pulse' : ''}`}
+                                                        disabled={loadingBuyNow}
+                                                    >
+                                                        {loadingBuyNow && (
+                                                            <svg
+                                                                className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                            >
+                                                                <circle
+                                                                    className="opacity-25"
+                                                                    cx="12"
+                                                                    cy="12"
+                                                                    r="10"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="4"
+                                                                ></circle>
+                                                                <path
+                                                                    className="opacity-75"
+                                                                    fill="currentColor"
+                                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                                ></path>
+                                                            </svg>
+                                                        )}
+                                                        <span>{loadingBuyNow ? 'Loading...' : 'Buy Now'}</span>
+                                                    </button>
+                                                </div>
                                             </td>
 
                                         </tr>
@@ -358,10 +493,12 @@ const AddToCartPage: React.FC = () => {
 
                         {/* Proceed to Checkout button */}
                         <div className="mt-4 flex justify-end md:pr-[100px]">
-                            <button className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif">
-                                {/* Proceed to Checkout                                 */}
-                                Continue Shopping
-                            </button>
+                            <NavLink to={"/"} >
+                                <button className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif">
+                                    {/* Proceed to Checkout                                 */}
+                                    Continue Shopping
+                                </button>
+                            </NavLink>
                         </div>
                     </div>
                 </Elements>

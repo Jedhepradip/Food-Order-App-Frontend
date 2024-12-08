@@ -15,18 +15,6 @@ interface UserRestaurentProps {
     closeMenuModal: () => void;
 }
 
-interface RestaurantInter {
-    _id: string;
-    restaurantName: string;
-    city: string;
-    country: string;
-    deliveryTime: string;
-    cuisines: string[];
-    RestaurantBanner: string;
-    user: [];
-    menus: string[];
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenuModal }: any) => {
     const { register, handleSubmit } = useForm();
@@ -45,7 +33,7 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
 
     useEffect(() => {
         const Restaurant = Restaurantdata?.filter(val => val._id == RestaurentID)
-        SetFilterData(Restaurant)
+        SetFilterData(Restaurant || [])
     }, [Restaurantdata, RestaurentID])
 
 
@@ -73,7 +61,7 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
 
         try {
             const response = await axios.put(
-                `http://localhost:3000/api-restaurant/Restaurant/Updated/${Restaurant?._id}`,
+                `http://localhost:3000/api-restaurant/Restaurant/Updated/${RestaurentID}`,
                 formData,
                 {
                     headers: {
@@ -90,6 +78,7 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
                         <div className='font-serif text-[15px] text-black'>{Restaurantdata.message}</div>
                     );
                     closeMenuModal()
+                    FetchingUserAllRestaurant()
                     SetLoadingEdit(false);
                 }, 1200);
             }
@@ -125,7 +114,7 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
                                 <input
                                     {...register("restaurantName")}
                                     type="text"
-                                    defaultValue={RestFilterData?.restaurantName}
+                                    defaultValue={RestFilterData[0]?.restaurantName}
                                     className="w-full px-4 py-1.5 border border-gray-800 rounded-lg bg-gray-900 text-white focus:ring focus:ring-orange-500 focus:outline-none"
                                 />
                             </div>
@@ -138,7 +127,7 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
                                 <input
                                     {...register("city")}
                                     type="text"
-                                    defaultValue={RestFilterData?.city}
+                                    defaultValue={RestFilterData[0]?.city}
                                     className="w-full px-4 py-1.5 border border-gray-800 rounded-lg bg-gray-900 text-white focus:ring focus:ring-orange-500 focus:outline-none"
                                 />
                             </div>
@@ -151,7 +140,7 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
                                 <input
                                     {...register("country")}
                                     type="text"
-                                    defaultValue={RestFilterData?.country}
+                                    defaultValue={RestFilterData[0]?.country}
                                     className="w-full px-4 py-1.5 border border-gray-800 rounded-lg bg-gray-900 text-white focus:ring focus:ring-orange-500 focus:outline-none"
                                 />
                             </div>
@@ -164,7 +153,7 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
                                 <input
                                     {...register("cuisines")}
                                     type="text"
-                                    defaultValue={RestFilterData?.cuisines}
+                                    defaultValue={RestFilterData[0]?.cuisines}
                                     className="w-full px-4 py-1.5 border border-gray-800 rounded-lg bg-gray-900 text-white focus:ring focus:ring-orange-500 focus:outline-none"
                                 />
                             </div>
@@ -177,7 +166,7 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
                                 <input
                                     {...register("deliveryTime")}
                                     type="time"
-                                    defaultValue={RestFilterData?.deliveryTime}
+                                    defaultValue={RestFilterData[0]?.deliveryTime}
                                     className="w-full px-4 py-1.5 border border-gray-800 rounded-lg bg-gray-900 text-white focus:ring focus:ring-orange-500 focus:outline-none"
                                 />
                             </div>

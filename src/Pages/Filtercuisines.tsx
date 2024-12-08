@@ -43,7 +43,7 @@ const Filtercuisines: React.FC = () => {
     }
 
     return (
-        <div className="bg-black w-full text-white md:w-72 h-auto fixed top-20 md:left-5 md:right-0 right-1 rounded-lg shadow-lg ">
+        <div className="bg-black w-full text-white md:w-72 h-auto top-20 md:left-5 md:right-0 right-1 rounded-lg shadow-lg ">
             <div className="flex justify-between items-center md:mb-6 md:p-0 p-5 pt-0 border-b border-gray-700 md:pb-2">
                 <h1 className="text-xl font-bold tracking-wide">Filter By Cuisines</h1>
                 <h2 className="text-sm cursor-pointer underline hover:text-gray-400 transition-all duration-200" onClick={() => ResetTheCuisines()}>

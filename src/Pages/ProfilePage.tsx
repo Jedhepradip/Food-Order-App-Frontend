@@ -14,6 +14,8 @@ import axios from 'axios';
 
 const ProfilePage: React.FC = () => {
   const [showupdate, setshowupdate] = useState(false)
+  const [loadingOTP, setLoadingOTP] = useState(false);
+  const [loadingShow, setLoadingShow] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const Dispatch: AppDispatch = useDispatch()
   const { register, handleSubmit } = useForm<ProfileUpdateFrom>();
@@ -27,7 +29,11 @@ const ProfilePage: React.FC = () => {
   }, [UserData])
 
   const setshowmodel = () => {
-    setshowupdate(true)
+    setLoadingShow(true)
+    setTimeout(() => {
+      setshowupdate(true)
+      setLoadingShow(false)
+    }, 1200);
   }
 
   const ShowToastContainer = () => {
@@ -35,6 +41,7 @@ const ProfilePage: React.FC = () => {
   }
 
   const onsubmit: SubmitHandler<ProfileUpdateFrom> = async (data) => {
+    setLoadingOTP(true)
     const formdata = new FormData();
     formdata.append("profilePicture", file!); // Corrected key
     formdata.append("name", data.name);
@@ -59,6 +66,7 @@ const ProfilePage: React.FC = () => {
       if (response.status === 200) {
         toast.success(<div className='font-serif text-[15px] text-black'>{UserUpdate.message}</div>);
         setTimeout(() => {
+          setLoadingOTP(false)
           setshowupdate(false)
         }, 1600);
         Dispatch(FetchingUserData())
@@ -66,6 +74,7 @@ const ProfilePage: React.FC = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response) {
+        setLoadingOTP(false)
         const errorMessage = error.response.data.message;
         if (error.response.status === 409 || errorMessage === "User already exists") {
           console.log("Error: User already exists.");
@@ -90,7 +99,6 @@ const ProfilePage: React.FC = () => {
       <div className='max-w-7xl mx-auto p-6 bg-black text-white shadow-md h-screen'>
         <div className='flex items-center mb-6'>
           <img
-            // src="https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg"
             src={`http://localhost:3000/${UserInfo?.profilePictuer}`}
             alt="Profile"
             className='h-36 w-36 rounded-full object-cover'
@@ -149,9 +157,35 @@ const ProfilePage: React.FC = () => {
           </div>
 
         </div>
-        <div className='w-full flex justify-center items-center' onClick={() => setshowmodel()}>
-          <button className='md:w-[12%] w-[20%] py-1 mt-4 bg-orange-500 font-serif text-black rounded-md hover:bg-orange-700 transition duration-300 text-[20px]'>
-            Update
+        <div className='w-full flex justify-center items-center' onClick={() => setshowmodel()}>         
+          <button
+            // type='submit'
+            className={`md:w-[12%] w-[20%] flex justify-center items-center py-1 mt-4 bg-orange-500 font-serif text-black rounded-md hover:bg-orange-700 transition duration-300 text-[20px] ${loadingShow ? 'cursor-not-allowed' : ''} ${loadingShow ? 'animate-pulse' : ''}`}
+            disabled={loadingShow}
+          >
+            {loadingShow && (
+              <svg
+                className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                ></path>
+              </svg>
+            )}
+            <span>{loadingShow ? 'Loading...' : 'Update'}</span>
           </button>
         </div>
       </div>
@@ -230,12 +264,38 @@ const ProfilePage: React.FC = () => {
                     />
                   </div>
                 </div>
-
-                <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-bold font-serif">
-                  Update
-                </button>
+                <div className="w-ful pb-2">
+                  <button
+                    // type='submit'
+                    className={`px-6 py-2 flex bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-serif ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                    disabled={loadingOTP}
+                  >
+                    {loadingOTP && (
+                      <svg
+                        className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                        ></path>
+                      </svg>
+                    )}
+                    <span>{loadingOTP ? 'Loading...' : 'Update'}</span>
+                  </button>
+                </div>
               </form>
-
             </div>
           </div>
         )}

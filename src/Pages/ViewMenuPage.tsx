@@ -36,6 +36,7 @@ interface Restaura {
 
 const ViewMenuPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const [AddToCartLoading, SetAddToCartLoading] = useState(false)
     const [Restaurant, setRestaurant] = useState<Restaura | null>(null);
     const [menus, setMenus] = useState<menucreateInterface[] | null>(null);
     const RestaurantData = useSelector((state: RootState) => state.AllRestaurant.RestaurantAll);
@@ -65,6 +66,7 @@ const ViewMenuPage: React.FC = () => {
 
 
     const AddToCartIncreaseQuantity = async (id: string) => {
+        SetAddToCartLoading(true)
         const fromdata = new FormData()
         fromdata.append("productId", id)
         try {
@@ -76,15 +78,17 @@ const ViewMenuPage: React.FC = () => {
             })
             const AddToCartData = response.data;
 
-            if (response.status === 200) {
+            if (response.status === 200) {                
                 toast.success(<div className='font-serif text-[15px] text-black'>{AddToCartData.message}</div>);
                 setTimeout(() => {
+                    SetAddToCartLoading(false)
                     Navigate("/AddToCartPage")
                 }, 1600);
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error.response) {
+                SetAddToCartLoading(false)
                 const errorMessage = error.response.data.message;
                 if (error.response.status === 409 || errorMessage === "User already exists") {
                     console.log("Error: User already exists.");
@@ -156,9 +160,44 @@ const ViewMenuPage: React.FC = () => {
                                     {val.description}
                                 </p>
                                 <p className="text-orange-400 font-semibold mt-2"><span className='text-white'>Price:</span> {val.price}</p>
-                                <button className="bg-orange-500 text-white font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300" onClick={() => AddToCartIncreaseQuantity(val._id)}>
+
+
+                                {/* <button className="bg-orange-500 text-white font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300" onClick={() => AddToCartIncreaseQuantity(val._id)}>
                                     Add To Cart
-                                </button>
+                                </button> */}
+
+                                <div className="w-ful pb-2 flex overflow-hidden justify-center items-center">
+                                    <button
+                                        onClick={() => AddToCartIncreaseQuantity(val._id)}
+                                        // type='submit'
+                                        className={`bg-orange-500 text-white flex justify-center items-center font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300 ${AddToCartLoading ? 'cursor-not-allowed' : ''} ${AddToCartLoading ? 'animate-pulse' : ''}`}
+                                        disabled={AddToCartLoading}
+                                    >
+                                        {AddToCartLoading && (
+                                            <svg
+                                                className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <circle
+                                                    className="opacity-25"
+                                                    cx="12"
+                                                    cy="12"
+                                                    r="10"
+                                                    stroke="currentColor"
+                                                    strokeWidth="4"
+                                                ></circle>
+                                                <path
+                                                    className="opacity-75"
+                                                    fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                ></path>
+                                            </svg>
+                                        )}
+                                        <span>{AddToCartLoading ? 'Loading...' : 'Add To Cart'}</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}
