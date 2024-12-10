@@ -43,7 +43,7 @@ const RestaurantPages: React.FC = () => {
         }
     }, [Restaurant, RestaurantData])
 
-    console.log("Restaurant :",Restaurant);    
+console.log("");
 
     useEffect(() => {
         Dispatch(FetchingRestaurant())
