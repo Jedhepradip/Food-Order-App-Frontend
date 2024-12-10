@@ -1,13 +1,3 @@
-// export interface RestaurantInterface {
-//     city: string,
-//     country: string,
-//     cuisines: string
-//     deliveryTime: string,
-//     restaurantName: string,
-//     RestaurantBanner: string,
-//     _id: string
-// }
-
 interface UserInterFaceData {
     profilePictuer: string;  //profilePicture
     name: string;
