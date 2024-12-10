@@ -99,6 +99,7 @@ const AddToCartPage: React.FC = () => {
         }
     }
 
+
     const AddToCartdecreaseQuantity = async (id: number | string,) => {
         const fromdata = new FormData()
         fromdata.append("productId", id.toString())
@@ -197,7 +198,7 @@ const AddToCartPage: React.FC = () => {
     return (
 
         <>
-            <div className='realtive w-full h-full'>
+            <div className='realtive w-full h-full bg-black'>
                 <Elements stripe={stripePromise}>
                     <ToastContainer />
                     {Paymentmodel && MenuID && (
@@ -208,8 +209,8 @@ const AddToCartPage: React.FC = () => {
                     )}
                     <div className='flex justify-center w-full relative'>
                         {showCheckoutForm && (
-                            <div className='fixed inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
-                                <div className="mt-6 p-6 bg-gray-900 rounded shadow-lg absolute z-50 w-[480px] ">
+                            <div className='inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
+                                <div className="mt-6 p-10 bg-black rounded shadow-lg z-50 w-[480px] ">
                                     <RxCross2 className='float-right text-white text-[23px]' onClick={() => setShowCheckoutForm(false)} />
                                     <h3 className="text-xl font-semibold mb-2 text-white">Review Your Order</h3>
                                     <p className='text-[14px] text-gray-400 mb-2'>Double-check your delivery details ensure erveryting's in order. When you're ready,hit confirm to finalize your order</p>
@@ -315,7 +316,7 @@ const AddToCartPage: React.FC = () => {
                         )}
                     </div>
 
-                    <div className="container mx-auto p-4 bg-black text-white min-h-screen relative">
+                    <div className="container mx-auto p-4 bg-black md:block hidden text-white min-h-screen ">
 
                         <h2 className="text-2xl font-bold mb-1">Shopping Cart</h2>
 
@@ -501,8 +502,93 @@ const AddToCartPage: React.FC = () => {
                             </NavLink>
                         </div>
                     </div>
+
+                    <div className='md:hidden block '>
+                        <div className="p-4 bg-black min-h-screen text-white">
+                            <h2 className="text-2xl font-medium font-serif mb-5">Shopping Cart</h2>
+                            <div className="space-y-4">
+                                {UserInfo?.items?.map((item) => (
+                                    <div
+                                        key={item.Menu._id}
+                                        className="flex items-center bg-gray-0 border p-3 rounded-lg shadow-md"
+                                    >
+                                        <img
+                                            src={item.Menu.menuPicture}
+                                            // alt={"Img Not Found"}
+                                            className="w-16 h-16 rounded-md object-cover"
+                                        />
+                                        <div className="ml-3 flex-1">
+                                            <h2 className="text-sm font-semibold">{item.Menu.name}</h2>
+                                            <p className="text-sm text-gray-400">Price: ${item.Menu.price}</p>
+                                            <div className="flex items-center space-x-2 text-sm text-gray-400">
+                                                <button
+                                                    onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
+                                                    className="bg-orange-500 text-white px-2 py-1 rounded-md"
+                                                >
+                                                    -
+                                                </button>
+                                                <span>{item.quantity}</span>
+                                                <button
+                                                    onClick={() => AddToCartIncreaseQuantity(item?.Menu?._id)}
+                                                    className="bg-orange-500 text-white px-2 py-1 rounded-md"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                            <p className="text-sm text-gray-300 font-bold">
+                                                Total: ${calculateItemTotal(item?.Menu?.price, item.quantity)}
+                                            </p>
+                                        </div>
+                                        <button
+                                            onClick={() => RemoveToaddToCart(item.Menu._id)}
+                                            className="text-red-500 font-semibold text-sm"
+                                        >
+                                            Remove
+                                        </button>
+                                        <button
+                                            onClick={() => handleProceedToCheckout(item?.Menu?._id)}
+                                            className="ml-3 bg-orange-500 text-white text-sm px-3 py-1 rounded-md"
+                                        >
+                                            Buy Now
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="mt-6 border p-4 rounded-lg shadow-md">
+                                <h2 className="text-lg font-bold">Order Summary</h2>
+                                <p className="text-sm text-gray-400">
+                                    Total Items: {UserInfo?.items.length}
+                                </p>
+                                <p className="text-sm text-gray-300 font-bold">
+                                    Total Price: ${calculateTotal()}
+                                </p>
+                                <button
+                                    onClick={() => ClearAllAddToCart()}
+                                    className="w-full mt-4 bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600"
+                                >
+                                    Clear All
+                                </button>
+
+                                <NavLink to={"/"} >
+                                    <button className="w-full mt-4 bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600">
+                                        Continue Shopping
+                                    </button>
+                                </NavLink>
+                            </div>
+
+                            {/* Show confirmation button after clicking "Buy Now" */}
+                            {/* {showBuyNow && selectedItem && (
+                                <div className="mt-4 bg-green-500 text-white p-4 rounded-lg text-center">
+                                    <p>Thank you for purchasing {selectedItem.title}!</p>
+                                </div>
+                            )} */}
+                        </div>
+                    </div>
+
                 </Elements>
             </div>
+
         </>
     );
 };
