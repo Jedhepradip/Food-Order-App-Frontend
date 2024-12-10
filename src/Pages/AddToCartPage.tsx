@@ -196,7 +196,6 @@ const AddToCartPage: React.FC = () => {
     };
 
     return (
-
         <>
             <div className='realtive w-full h-full bg-black'>
                 <Elements stripe={stripePromise}>
