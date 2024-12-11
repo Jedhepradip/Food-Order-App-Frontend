@@ -48,8 +48,8 @@ interface RestaurantInterface1 {
 }
 
 interface UserRestaurentProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    RestaurentID: any;
+
+    RestaurentID: string;
     // closeMenuModal: () => void;
 }
 
@@ -121,7 +121,7 @@ const RestaurantPages: React.FC = () => {
         <>
             <div className='flex justify-center w-full bg-black md:p-10 p-0'>
                 {!Restaurant ?
-                    <>
+                    <>  
                         <div className='grid justify-center items-center grid-cols-1 mb-10 w-[85%]'>
                             <ToastContainer />
                             <div className="md:mt-6 mt-0 p-6 rounded shadow-lg font-serif">

@@ -155,7 +155,7 @@ const SigninPage: React.FC = () => {
   }
 
   return (
-    <div className="flex items-center justify-center p-2 px-10 h-screen bg-black text-white">
+    <div className="flex items-center justify-center p-4 md:h-screen px-10 bg-black text-white">
       <ToastContainer />
       <form onSubmit={handleSubmit(onsubmit)} className="w-full max-w-lg pt-2 px-5 pr-5 pb-5 bg-gray-800 rounded-lg shadow-lg animate-fadeIn">
         <h2 className="text-3xl font-serif text-center mb-3">Profile Form</h2>

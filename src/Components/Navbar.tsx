@@ -157,7 +157,7 @@ const Navbar: React.FC = () => {
               <li className='bg-black block md:hidden'>
                 <div className='rounded-full cursor-pointer gap-2 flex overflow-hidden md:ml-0 ml-2.5'>
                   <img src={`http://localhost:3000/${User?.profilePictuer}`} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
-                 <span className='mt-1'>{User?.name}</span>
+                  <span className='mt-1'>{User?.name}</span>
                 </div>
               </li>
             </>
@@ -165,14 +165,19 @@ const Navbar: React.FC = () => {
               null
             }
 
-            <div className="flex space-x-4 mt-4 md:mt-0 md:px-6 px-0 ">
+            {/* <div className="flex space-x-4 mt-0 md:mt-0 md:px-6 px-0 ">
               {token ?
                 <>
+                  <button
+                    onClick={() => {
+                      handlelogout();
+                      setIsMobileMenuOpen(!isMobileMenuOpen);
+                    }}
+                    className=" px-4 cursor-pointer font-semibold text-white bg-orange-500 rounded shadow-md hover:bg-orange-600 hover:shadow-lg transition duration-300 ease-in-out text-center block">
+                    Logout
+                  </button>
+
                   <span onClick={() => {
-                    handlelogout(); setIsMobileMenuOpen(!isMobileMenuOpen)
-                  }}
-                    className="py-2 cursor-pointer px-4 shadow-lg font-bold shadow-gray-600 text-white rounded hover:bg-gray-600 md:block hidden">Logout</span>
-                     <span onClick={() => {
                     handlelogout(); setIsMobileMenuOpen(!isMobileMenuOpen)
                   }}
                     className="py-2 cursor-pointer px-4 shadow-lg font-bold bg-orange-500 text-center shadow-gray-600 text-black rounded hover:bg-orange-600 block md:hidden w-[25%]">Logout</span>
@@ -183,7 +188,55 @@ const Navbar: React.FC = () => {
                   <NavLink to={"/SigninPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-blue-500" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Signup</NavLink>
                 </>
               }
+            </div> */}
+
+            <div className="button-container space-y-4">
+              {token ? <>
+                <span
+                  onClick={() => {
+                    handlelogout();
+                    setIsMobileMenuOpen(!isMobileMenuOpen);
+                  }}
+                  className="px-4 py-1.5 font-serif md:block hidden cursor-pointer font-medium text-white bg-orange-500 rounded shadow-md hover:bg-orange-600 hover:shadow-lg transition duration-300 ease-in-out text-center"
+                >
+                  Logout
+                </span>
+
+                <span
+                  onClick={() => {
+                    handlelogout();
+                    setIsMobileMenuOpen(!isMobileMenuOpen);
+                  }}
+                  className="px-4 py-1.5 font-serif w-[38%] block md:hidden cursor-pointer font-medium text-white bg-orange-500 rounded shadow-md hover:bg-orange-600 hover:shadow-lg transition duration-300 ease-in-out text-center"
+                >
+                  Logout
+                </span>
+              </>
+                :
+                <>
+                  <div className='w-full md:mt-1 mt-5'>
+                    <NavLink
+                      to={"/LoginPage"}
+                      className="px-4 py-1.5 mr-5 gap-2 font-serif w-[45%] cursor-pointer font-medium text-white bg-black border rounded shadow-md hover:bg-orange-600 hover:shadow-lg transition duration-300 ease-in-out text-center"
+                      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                      Login
+                    </NavLink>
+
+                    <NavLink
+                      to={"/SigninPage"}
+                      className="px-4 py-1.5 gap-2 mr-0 font-serif w-[55%] cursor-pointer font-medium text-white bg-black border rounded shadow-md hover:bg-orange-600 hover:shadow-lg transition duration-300 ease-in-out text-center"
+                      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                      Signup
+                    </NavLink>
+
+                  </div>
+                </>
+              }
+
             </div>
+
           </ul>
         </div>
       </div>
