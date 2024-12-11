@@ -311,7 +311,7 @@ const RestaurantEdit11: React.FC<UserRestaurentProps> = ({ RestaurentID }) => {
     };
 
     return (
-        <div className="flex justify-center items-center font-serif bg-black/70 z-50">
+        <div className="flex justify-center items-center font-serif bg-black/70">
             <ToastContainer />
             <div className="p-6 rounded-lg shadow-lg w-full md:px-56">
                 <h2 className="text-2xl text-white mb-4 text-center font-serif">

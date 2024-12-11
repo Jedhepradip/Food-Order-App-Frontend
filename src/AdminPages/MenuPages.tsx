@@ -76,7 +76,6 @@ const MenuPages: React.FC = () => {
                                 btn bg-orange-400 flex hover:bg-orange-500 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right                                                              
                                 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
                             disabled={loadingOTP}
-                        // mt-2 flex justify-center items-center text-black w-full bg-orange-400 hover:bg-orange-500 focus:outline-none focus:ring-4 focus:ring-white rounded-md text-[19px] px-5 py-1.5 
                         >
                             {loadingOTP && (
                                 <svg
@@ -127,7 +126,7 @@ const MenuPages: React.FC = () => {
                                                 className={`btn bg-orange-400 flex hover:bg-orange-500 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right 
                                         ${EditMenu ? 'cursor-not-allowed' : ''} ${EditMenu ? 'animate-pulse' : ''}`}
                                                 disabled={EditMenu} >
-                                                { EditMenu && (
+                                                {EditMenu && (
                                                     <svg
                                                         className="animate-spin h-5 w-5 mr-2 text-black rounded-full"
                                                         viewBox="0 0 24 24"
@@ -165,10 +164,10 @@ const MenuPages: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* <div className="block md:hidden mt-10">
+                        <div className="block md:hidden mt-10">
                             <div className="flex justify-center items-center">
                                 <div className="w-full max-w-sm bg-black border border-gray-700 rounded-lg shadow-lg">
-                                    
+
                                     <a href="#">
                                         <img
                                             className="p-4 rounded-t-lg object-cover w-full h-48"
@@ -176,7 +175,7 @@ const MenuPages: React.FC = () => {
                                             alt="Product image"
                                         />
                                     </a>
-                                    
+
                                     <div className="px-5 pb-5 text-white">
                                         <a href="#">
                                             <h5 className="text-lg font-serif tracking-tight">{val.description}</h5>
@@ -220,7 +219,7 @@ const MenuPages: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
 
                     </>
                 ))}
@@ -230,10 +229,11 @@ const MenuPages: React.FC = () => {
                 <AddMenuModel closeMenuModal={closeMenuModal} />
             )}
 
-            {Menuupdate && selectedProduct && (
-                <MenuUpdateModel selectedProduct={selectedProduct} closeMenuModal={closeMenuModal} />
-            )}
-
+            <div className='p-10'>
+                {Menuupdate && selectedProduct && (
+                    <MenuUpdateModel selectedProduct={selectedProduct} closeMenuModal={closeMenuModal} />
+                )}
+            </div>
         </>
     )
 }
@@ -297,69 +297,65 @@ const AddMenuModel = ({ closeMenuModal }: any) => {
             <div className='flex justify-center w-full h-screen'>
                 {/* grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/60 */}
                 <div className='fixed inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
-                    <div className="mt-6 p-6 bg-gray-900 rounded shadow-lg absolute z-50 w-[500px] ">
+                    <div className="mt-6 p-10 bg-gray-950 rounded shadow-lg absolute z-50 w-[500px] ">
                         <RxCross2 className='float-right text-white text-[23px] cursor-pointer' onClick={() => closeMenuModal()} />
                         <h1 className='text-white font-bold text-[20px] '>Add a New Menu</h1>
                         <span className='text-gray-500'>create a Menu that will make your restaurant stand out!</span>
                         <form onSubmit={handleSubmit(onsubmit)}>
-                            <div className="grid grid-cols-1 md:grid-cols-1 md:gap-3 md:mb-4">
+                            <div className="grid grid-cols-1 md:grid-cols-1 md:gap-3 gap-2.5 md:mb-4 mb-2">
                                 <div>
-                                    <label className="block text-[17px] font-medium text-white md:mb-1">Name</label>
+                                    <label className="block text-[17px] font-medium text-white md:mb-1 mb-1">Name</label>
                                     <input
                                         {...register("name", { required: "Menu Name is required" })}
                                         type="text"
                                         name='name'
                                         placeholder='Enter Menu Name'
-                                        className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
+                                        className="w-full px-3 py-2 border border-gray-400 rounded bg-gray-950 text-white"
                                     />
                                     {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-[17px] font-medium text-white md:mb-1">Description</label>
+                                    <label className="block text-[17px] font-medium text-white md:mb-1 mb-1">Description</label>
                                     <input
                                         {...register("description", { required: "Menu description is required" })}
                                         type="text"
                                         name='description'
                                         placeholder='Enter Menu description'
-                                        className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
+                                        className="w-full px-3 py-2 border border-gray-400 rounded bg-gray-950 text-white"
                                     />
                                     {errors.description && <span className="text-red-500 text-sm">{errors.description.message}</span>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-[17px] font-medium text-white md:mb-1">Price in (Rupees)</label>
+                                    <label className="block text-[17px] font-medium text-white md:mb-1 mb-1">Price in (Rupees)</label>
                                     <input
                                         {...register("price", { required: "Menu Price is required" })}
                                         type="number"
                                         name='price'
                                         placeholder='Enter Menu Price'
-                                        className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
+                                        className="w-full px-3 py-2 border border-gray-400 rounded bg-gray-950 text-white"
                                     />
                                     {errors.price && <span className="text-red-500 text-sm">{errors.price.message}</span>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-[17px] font-medium text-white mb-1">MenuPictuer</label>
+                                    <label className="block text-[17px] font-medium text-white md:mb-1 mb-1">MenuPictuer</label>
                                     <input
                                         {...register("menuPictuer", { required: "Menu Pictuer is required" })}
                                         type="file"
                                         name='menuPictuer'
                                         onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
-                                        className="w-full px-2 py-1.5 border border-gray-600 rounded bg-gray-900 text-white"
+                                        className="w-full px-2 py-1.5 border border-gray-400 rounded bg-gray-950 text-white"
                                     />
                                 </div>
                                 {errors.menuPictuer && <span className="text-red-500 text-sm">{errors.menuPictuer.message}</span>}
                             </div>
 
-                            {/* <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded">
-                                Submit
-                            </button> */}
-
                             <div className="w-full flex justify-center items-center pb-2">
                                 <button
                                     type='submit'
-                                    className={`mt-2 flex justify-center items-center text-white w-full bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[19px] font-serif px-5 py-2.5 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                                    className={`mt-2 flex justify-center items-center text-white w-full bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[19px] font-serif px-5 py-2 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
                                     disabled={loadingOTP}
                                 >
                                     {loadingOTP && (
@@ -451,7 +447,7 @@ const MenuUpdateModel = ({ selectedProduct, closeMenuModal }: any) => {
             <div className='flex justify-center w-full h-screen'>
                 {/* grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/60 */}
                 <div className='fixed inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
-                    <div className="mt-6 p-7 bg-black rounded shadow-lg absolute z-50 w-[500px]">
+                    <div className="mt-6 p-11 bg-black rounded shadow-lg absolute z-50 w-[500px]">
                         <RxCross2 className='float-right text-white text-[23px] cursor-pointer' onClick={() => closeMenuModal()} />
                         <h1 className='text-white font-bold text-[20px] '>Update a Menu</h1>
                         <span className='text-gray-500'>Update a Menu that will make your restaurant stand out!</span>
