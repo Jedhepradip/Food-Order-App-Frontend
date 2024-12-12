@@ -110,9 +110,9 @@ const SearchPage: React.FC = () => {
                 </div>
 
                 {SearchCountry?.length ? (
-                    <h1 className="mt-6 text-lg text-gray-300">({SearchCountry?.length}) Search result Found</h1>
+                    <h1 className="mt-6 text-lg text-gray-300">({AllRestaurantDataShowUI?.length}) Search result Found</h1>
                 ) : (
-                    <h1 className="mt-6 text-lg text-gray-300">({AllRestaurantData?.length}) Search result Found</h1>
+                    <h1 className="mt-6 text-lg text-gray-300">({AllRestaurantDataShowUI?.length}) Search result Found</h1>
                 )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">

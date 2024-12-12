@@ -21,7 +21,8 @@ interface InputFormSignIn {
 }
 
 const SigninPage: React.FC = () => {
-
+  const [loadingSendOTP, SetloadingSendOTP] = useState(false)
+  const [loadingVerifyOTP, SetloadingVerifyOTP] = useState(false)
   const [file, setFile] = useState<File | null>(null);
   const [email, setEmail] = useState<string>("");
   const [name, setname] = useState<string>("")
@@ -31,36 +32,38 @@ const SigninPage: React.FC = () => {
   const Navigate = useNavigate()
   const { register, handleSubmit, formState: { errors } } = useForm<InputFormSignIn>();
 
-
   //Send OTP Email 
 
   const handleOtpSubmit = async () => {
-
+    SetloadingSendOTP(true)
     if (!name) {
+      SetloadingSendOTP(false)
       return toast.error(<div className='font-serif text-[15px] text-black'>{"Name are missing.😊"}</div>);
     }
     if (!email) {
+      SetloadingSendOTP(false)
       return toast.error(<div className='font-serif text-[15px] text-black'>{"Email are missing.😊"}</div>);
     }
 
     if (!contact) {
+      SetloadingSendOTP(false)
       return toast.error(<div className='font-serif text-[15px] text-black'>{"Contact are missing.😊"}</div>);
     }
 
     if (!(contact.length >= 10)) {
+      SetloadingSendOTP(false)
       return toast.error(<div className='font-serif text-[15px] text-black'>{"Contact must be at least 10 digits"}</div>);
     }
 
 
     if (!(contact.length <= 10)) {
+      SetloadingSendOTP(false)
       return toast.error(<div className='font-serif text-[15px] text-black'>{"Contact must be exactly 10 digits"}</div>);
     }
-
     const Formdata = new FormData()
     Formdata.append("email", email)
     Formdata.append("name", name)
     Formdata.append("contact", contact)
-
     try {
       const response = await axios.post("http://localhost:3000/api-user/SendOTP/ForRegistration/User", Formdata,
         {
@@ -74,12 +77,13 @@ const SigninPage: React.FC = () => {
         toast.success(<div className='font-serif text-[15px] text-black'>{OtpResponse.message}</div>);
         setTimeout(() => {
           setOtpSent(OtpResponse)
-          // setOtpVerify(false)
+          SetloadingSendOTP(false)
         }, 1600);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response) {
+        SetloadingSendOTP(false)
         const errorMessage = error.response.data.message;
         if (error.response.status === 409 || errorMessage === "User already exists") {
           console.log("Error: User already exists.");
@@ -96,6 +100,7 @@ const SigninPage: React.FC = () => {
 
 
   const onsubmit: SubmitHandler<InputFormSignIn> = async (data) => {
+    SetloadingVerifyOTP(true)
     if (!file) {
       return toast.success(<div className='font-serif text-[15px] text-black'>{"Profile Picture is required.."}</div>);
     }
@@ -130,6 +135,7 @@ const SigninPage: React.FC = () => {
       if (response.status === 200) {
         toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
         setTimeout(() => {
+          SetloadingVerifyOTP(false)
           Navigate("/");
           // setOtpVerify(false)
           const Token = UserResponse.token;
@@ -138,6 +144,7 @@ const SigninPage: React.FC = () => {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      SetloadingVerifyOTP(false)
       if (error.response) {
         const errorMessage = error.response.data.message;
         if (error.response.status === 409 || errorMessage === "User already exists") {
@@ -269,12 +276,47 @@ const SigninPage: React.FC = () => {
         </div>
 
         {!otpSent && (
+          // <button
+          //   type="button"
+          //   onClick={handleOtpSubmit}
+          //   className="w-full py-0.5 mt-2 rounded-md bg-white text-black text-[25px] mb-2 font-serif hover:bg-gray-700 hover:shadow-[4px_4px_8px_rgba(255,255,255,0.5)] hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
+          // >
+          //   Send OTP
+          // </button>
           <button
             type="button"
             onClick={handleOtpSubmit}
-            className="w-full py-0.5 mt-2 rounded-md bg-white text-black text-[25px] mb-2 font-serif hover:bg-gray-700 hover:shadow-[4px_4px_8px_rgba(255,255,255,0.5)] hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
+            className={`w-full py-2 mt-2 rounded-md bg-orange-500 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-orange-600 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500 ${loadingSendOTP ? 'cursor-not-allowed animate-pulse' : ''
+              }`}
+            disabled={loadingSendOTP}
           >
-            Send OTP
+            {loadingSendOTP ? (
+              <div className="flex items-center justify-center">
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  ></path>
+                </svg>
+                <span className="ml-2">Loading...</span>
+              </div>
+            ) : (
+              <span>Send OTP</span>
+            )}
           </button>
         )}
 
@@ -288,12 +330,47 @@ const SigninPage: React.FC = () => {
               className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
               placeholder="Enter OTP"
             />
+
             <button
+              type="submit"
+              className={`w-full py-2 mt-2 rounded-md bg-green-500 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-green-600 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 ${loadingVerifyOTP ? 'cursor-not-allowed animate-pulse' : ''
+                }`}
+              disabled={loadingVerifyOTP}
+            >
+              {loadingVerifyOTP ? (
+                <div className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    ></path>
+                  </svg>
+                  <span className="ml-2">Loading...</span>
+                </div>
+              ) : (
+                <span>Verify OTP</span>
+              )}
+            </button>
+            {/* <button
               type="submit"
               className="w-full py-0.5 mt-2 rounded-md bg-blue-500 text-black text-[25px] mb-2 font-serif hover:bg-blue-700"
             >
               Verify OTP
-            </button>
+            </button> */}
           </div>
         )}
 

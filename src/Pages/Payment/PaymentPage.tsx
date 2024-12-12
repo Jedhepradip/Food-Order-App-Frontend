@@ -156,8 +156,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
                 <div className="flex flex-col md:flex-row dark:bg-gray-800 w-full h-full justify-center items-center">
                     {/* Product Info Section */}
                     <div className="md:w-1/2 w-full flex dark:bg-gray-900 shadow-lg rounded-lg  from-gray-800 to-gray-900">
-
-                        <div className="container mx-auto p-4 bg-black text-white min-h-screen relative">
+                        <div className="container mx-auto p-4 bg-black text-white md:min-h-screen relative">
                             <p className="font-serif font-extralight text-[30px]">Pay with Cart</p>
                             <div className="overflow-auto relative">
                                 <table className="min-w-full ">
@@ -208,9 +207,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
                                     calculateTotal()
                                 }</span>
                             </div>
-
                         </div>
-
                     </div>
 
                     <div className="md:w-1/2 flex justify-center items-center p-5 bg-black">

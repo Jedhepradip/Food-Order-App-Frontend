@@ -64,7 +64,7 @@ const AddToCartPage: React.FC = () => {
     }
 
     const closePaymentModal = () => {
-        ShowPaymentModel(true)
+        ShowPaymentModel(false)
         SetMenuId("")
     }
 
@@ -206,10 +206,10 @@ const AddToCartPage: React.FC = () => {
                             closePaymentModal={closePaymentModal}
                         />
                     )}
-                    <div className='flex justify-center w-full relative'>
+                    <div className='flex justify-center w-full bg-black/80 z-40 absolute'>
                         {showCheckoutForm && (
-                            <div className='inset-0 z-50 bg-black/85  place-items-center grid grid-cols-1'>
-                                <div className="mt-6 p-10 bg-black rounded shadow-lg z-50 w-[480px]">
+                            <div className='inset-0 bg-gray-950 place-items-center grid grid-cols-1'>
+                                <div className="mt-6 p-10 rounded shadow-lg z-50 w-[480px]">
                                     <RxCross2 className='float-right text-white text-[23px]' onClick={() => setShowCheckoutForm(false)} />
                                     <h3 className="text-xl font-semibold mb-2 text-white">Review Your Order</h3>
                                     <p className='text-[14px] text-gray-400 mb-2'>Double-check your delivery details ensure erveryting's in order. When you're ready,hit confirm to finalize your order</p>
@@ -270,12 +270,6 @@ const AddToCartPage: React.FC = () => {
                                                 />
                                             </div>
                                         </div>
-
-                                        {/* <button className="px-4 py-2 bg-orange-500 float-right hover:bg-orange-600 text-white rounded font-serif" onClick={() => SetThePaymentModel()}>
-                                            Continue to payment
-                                        </button> */}
-
-                                        {/* <div className="w-ful pb-2 flex overflow-hidden "> */}
                                         <button
                                             onClick={() => SetThePaymentModel()}
                                             // type='submit'
@@ -306,16 +300,13 @@ const AddToCartPage: React.FC = () => {
                                             )}
                                             <span>{loadingPayment ? 'Loading...' : ' Continue To Payment'}</span>
                                         </button>
-                                        {/* </div> */}
-
                                     </form>
-
                                 </div>
                             </div>
                         )}
                     </div>
 
-                    <div className="container mx-auto p-4 bg-black md:block hidden text-white min-h-screen ">
+                    <div className="container mx-auto p-4 bg-black md:block hidden text-white min-h-screen">
 
                         <h2 className="text-2xl font-bold mb-1">Shopping Cart</h2>
 
@@ -502,7 +493,7 @@ const AddToCartPage: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className='md:hidden block '>
+                    <div className='md:hidden block'>
                         <div className="p-4 bg-black min-h-screen text-white">
                             <h2 className="text-2xl font-medium font-serif mb-5">Shopping Cart</h2>
                             <div className="space-y-4">
