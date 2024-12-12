@@ -86,11 +86,11 @@ const MenuEditFrom: React.FC<UserMenuProps> = ({ MenuID, closeMenuModal }: any) 
 
             const Restaurantdata = response.data;
             if (response.status === 200) {
-                setInterval(() => {
+                setTimeout(() => {
                     toast.success(<div className='font-serif text-[15px] text-black'>{Restaurantdata.message}</div>);
                     closeMenuModal()
                     setLoadingOTP(false)
-                }, 1300);
+                }, 1300)
             }
             setLoadingOTP(true)
             dispatch(FetchinMenuAlldata())
@@ -170,10 +170,6 @@ const MenuEditFrom: React.FC<UserMenuProps> = ({ MenuID, closeMenuModal }: any) 
                                 </div>
                             </div>
 
-                            {/* <button className="px-6 py-2 bg-orange-500 float-right md:mt-0 mt-3 md:mr-0 mr-6 hover:bg-orange-600 rounded font-semibold">
-                                Submit
-                            </button> */}
-
                             <div className="w-fu pb-2">
                                 <button
                                     type='submit'
@@ -181,7 +177,6 @@ const MenuEditFrom: React.FC<UserMenuProps> = ({ MenuID, closeMenuModal }: any) 
                                 btn bg-orange-400 flex hover:bg-orange-500 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right                                                              
                                 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
                                     disabled={loadingOTP}
-                                // mt-2 flex justify-center items-center text-black w-full bg-orange-400 hover:bg-orange-500 focus:outline-none focus:ring-4 focus:ring-white rounded-md text-[19px] px-5 py-1.5 
                                 >
                                     {loadingOTP && (
                                         <svg

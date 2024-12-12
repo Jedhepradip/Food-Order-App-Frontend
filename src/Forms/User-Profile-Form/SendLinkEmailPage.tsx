@@ -23,7 +23,7 @@ const SendLinkEmailPage: React.FC = () => {
                 }
             })
             const UserResponse = response.data;
-            console.log("Send Link To Email :",UserResponse);            
+            console.log("Send Link To Email :", UserResponse);
             if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
                 setTimeout(() => {
@@ -32,11 +32,14 @@ const SendLinkEmailPage: React.FC = () => {
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
+            setTimeout(() => {
+                setLoadingOTP(false);
+            }, 1600);
             if (error.response) {
-                setTimeout(() => {
-                    setLoadingOTP(false);
-                }, 1600);
                 const errorMessage = error.response.data.message;
+                if(error.response.status === 501){
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                }
                 if (error.response.status === 409 || errorMessage === "User already exists") {
                     console.log("Error: User already exists.");
                     toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
@@ -46,6 +49,7 @@ const SendLinkEmailPage: React.FC = () => {
                 }
             } else {
                 console.log("Error: Network issue or server not responding", error);
+                return
             }
         }
     }
@@ -72,7 +76,7 @@ const SendLinkEmailPage: React.FC = () => {
                             <div className="w-full flex justify-center items-center pb-2">
                                 <button
                                     type='submit'
-                                    className={`mt-2 flex justify-center items-center text-white w-full bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[20px] px-5 py-2 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                                    className={`mt-2 flex justify-center items-center text-white w-full bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[20px] px-5 py-2 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
                                     disabled={loadingOTP}
                                 >
                                     {loadingOTP && (

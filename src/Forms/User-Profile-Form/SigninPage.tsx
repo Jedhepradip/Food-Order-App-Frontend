@@ -31,7 +31,6 @@ const SigninPage: React.FC = () => {
   const [otp, setOtp] = useState(''); // State to store the OTP value
   const Navigate = useNavigate()
   const { register, handleSubmit, formState: { errors } } = useForm<InputFormSignIn>();
-
   //Send OTP Email 
 
   const handleOtpSubmit = async () => {
@@ -333,7 +332,7 @@ const SigninPage: React.FC = () => {
 
             <button
               type="submit"
-              className={`w-full py-2 mt-2 rounded-md bg-green-500 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-green-600 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 ${loadingVerifyOTP ? 'cursor-not-allowed animate-pulse' : ''
+              className={`w-full py-2 mt-2 rounded-md bg-orange-600 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-orange-700 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 ${loadingVerifyOTP ? 'cursor-not-allowed animate-pulse' : ''
                 }`}
               disabled={loadingVerifyOTP}
             >

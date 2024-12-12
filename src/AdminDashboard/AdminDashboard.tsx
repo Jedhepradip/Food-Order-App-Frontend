@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { FaUsers, FaUtensils, FaClipboardList, FaEdit, FaTrashAlt } from "react-icons/fa";
-// import { menucreateInterface } from "../interface/MenucreateInterface";
-import { FetchingUserAllRestaurant } from "../Redux/Features/RestaurantAllSlice";
-import { FetchingAllUserData } from "../Redux/Features/AllUserDataSlice";
+import axios from "axios";
+import UserEditFrom from "./UserEditFrom";
+import MenuEditFrom from "./MenuEditFrom";
+import RestaurantEdit from "./RestaurantEdit";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../Redux/Store/Store";
-import { RestaurantInterface } from "../interface/RestaurantInterface";
 import { FetchinMenuAlldata } from "../Redux/Features/AllMenuSlice";
-import UserEditFrom from "./UserEditFrom";
-import RestaurantEdit from "./RestaurantEdit";
-import MenuEditFrom from "./MenuEditFrom";
-// import { UserInterFaceData } from "../interface/UserInterface";
+import { FetchingRestaurant } from "../Redux/Features/RestaurantSlice";
+import { RestaurantInterface } from "../interface/RestaurantInterface";
+import { FetchingAllUserData } from "../Redux/Features/AllUserDataSlice";
+import { FetchingUserAllRestaurant } from "../Redux/Features/RestaurantAllSlice";
+import { FaUsers, FaUtensils, FaClipboardList, FaEdit, FaTrashAlt } from "react-icons/fa";
+import { FetchingUserData } from "../Redux/Features/UserSlice";
 
 export interface UserInterFaceData {
     profilePictuer: string;  //profilePicture
@@ -108,10 +111,101 @@ const AdminDashboard: React.FC = () => {
         dispatch(FetchingUserAllRestaurant())
     }, [dispatch])
 
+    const MenuDeleteAdmin = async (ID: string) => {
+        try {
+            const response = await axios.put(`http://localhost:3000/api-Meun/Admin/Delete/Menu/${ID}`, {}, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+                }
+            })
+            const Restaurantdata = response.data;
+            if (response.status === 200) {
+                toast.success(<div className='font-serif text-[15px] text-black'>{Restaurantdata.message}</div>);
+                dispatch(FetchinMenuAlldata())
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                // setLoadingOTP(true)
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    console.log("Error: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
+
+    const RestaurantDeleteAdmin = async (ID: string) => {
+        try {
+            const response = await axios.put(`http://localhost:3000/api-restaurant/Admin/Delete/Restaurant/${ID}`, {}, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+                }
+            })
+            const Restaurantdata = response.data;
+            if (response.status === 200) {
+                toast.success(<div className='font-serif text-[15px] text-black'>{Restaurantdata.message}</div>);
+                dispatch(FetchingUserAllRestaurant())
+                dispatch(FetchingRestaurant())
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                // setLoadingOTP(true)
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    console.log("Error: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
+
+    const UserDeleteAdmin = async (ID: string) => {
+        try {
+            const response = await axios.put(`http://localhost:3000/api-user/Admin/Delete/User/${ID}`, {}, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+                }
+            })
+            const Restaurantdata = response.data;
+            if (response.status === 200) {
+                toast.success(<div className='font-serif text-[15px] text-black'>{Restaurantdata.message}</div>);
+                dispatch(FetchingAllUserData())
+                dispatch(FetchingUserData())
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                // setLoadingOTP(true)
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    console.log("Error: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
 
     return (
         <div className="flex min-h-screen bg-black text-white">
-
+            <ToastContainer />
             {UserEdit && UserID && (
                 <UserEditFrom UserID={UserID} closeMenuModal={closeMenuModal} />
             )}
@@ -209,7 +303,7 @@ const AdminDashboard: React.FC = () => {
                                                 <button onClick={() => handelUserEditFrom(user._id)} className="p-2 bg-blue-600 hover:bg-blue-700 rounded-md">
                                                     <FaEdit />
                                                 </button>
-                                                <button className="p-2 bg-red-600 hover:bg-red-700 rounded-md">
+                                                <button onClick={() => UserDeleteAdmin(user._id)} className="p-2 bg-red-600 hover:bg-red-700 rounded-md">
                                                     <FaTrashAlt />
                                                 </button>
                                             </div>
@@ -236,7 +330,7 @@ const AdminDashboard: React.FC = () => {
                                             <button className="p-2 bg-blue-600 hover:bg-blue-700 rounded-md">
                                                 <FaEdit onClick={() => handelRestaurantFrom(restaurant._id)} />
                                             </button>
-                                            <button className="p-2 bg-red-600 hover:bg-red-700 rounded-md">
+                                            <button onClick={() => RestaurantDeleteAdmin(restaurant._id)} className="p-2 bg-red-600 hover:bg-red-700 rounded-md">
                                                 <FaTrashAlt />
                                             </button>
                                         </div>
@@ -265,7 +359,7 @@ const AdminDashboard: React.FC = () => {
                                             <button onClick={() => handelMenuFrom(menu._id)} className="p-2 bg-blue-600 hover:bg-blue-700 rounded-md">
                                                 <FaEdit />
                                             </button>
-                                            <button className="p-2 bg-red-600 hover:bg-red-700 rounded-md">
+                                            <button onClick={() => MenuDeleteAdmin(menu._id)} className="p-2 bg-red-600 hover:bg-red-700 rounded-md">
                                                 <FaTrashAlt />
                                             </button>
                                         </div>

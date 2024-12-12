@@ -120,7 +120,7 @@ const Navbar: React.FC = () => {
             </li>
 
             {token ? <>
-              <li className="relative md:block hidden">
+              {/* <li className="relative md:block hidden">
                 <NavLink
                   to={"/AddToCartPage"}
                   className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0"
@@ -134,8 +134,23 @@ const Navbar: React.FC = () => {
                     {User?.items.length}
                   </div>
                 )}
-              </li>
+              </li> */}
 
+              <li className="relative hidden md:block">
+                <NavLink
+                  to="/AddToCartPage"
+                  className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 transition duration-300 ease-in-out md:p-0"
+                  aria-current="page"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <FiShoppingCart />
+                </NavLink>
+                {User?.items?.length ? (
+                  <div className="absolute flex items-center justify-center h-5 w-5 text-xs font-bold text-white bg-red-500 rounded-full 
+                    md:-top-2 md:-right-2 top-1 left-6 shadow-md animate-pulse">{User?.items.length}
+                  </div>
+                )
+                  :
+                  null}
+              </li>
 
               <li className="relative block md:hidden">
                 <NavLink
@@ -147,7 +162,6 @@ const Navbar: React.FC = () => {
                   <FiShoppingCart /> Cart({User?.items.length})
                 </NavLink>
               </li>
-
 
               <li className='bg-black md:block hidden'>
                 <div className='rounded-full cursor-pointer overflow-hidden md:ml-0 ml-2.5'>
@@ -234,9 +248,7 @@ const Navbar: React.FC = () => {
                   </div>
                 </>
               }
-
             </div>
-
           </ul>
         </div>
       </div>
