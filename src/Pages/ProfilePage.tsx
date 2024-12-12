@@ -221,7 +221,7 @@ const ProfilePage: React.FC = () => {
           <div className='h-screen absolute'>
             <div className='flex items-center mb-6'>
               <img
-                src={`http://localhost:3000/${UserInfo?.profilePictuer}`}
+                src={UserInfo?.profilePictuer}
                 alt="Profile"
                 className='h-36 w-36 rounded-full object-cover'
               />

@@ -32,7 +32,21 @@ const Navbar: React.FC = () => {
     <nav className="bg-black text-white sticky top-0 left-0 z-30">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <span className="self-center text-2xl font-semibold whitespace-nowrap cursor-pointer">CraveCourier</span>
+          {/* <span className="self-center text-2xl font-semibold whitespace-nowrap cursor-pointer">CraveCourier</span> */}
+          <h2 className="text-2xl text-white mb-0 text-center font-serif flex justify-center space-x-1">
+            {"CraveCourier".split("").map((char, index) => (
+              <span
+                key={index}
+                className="inline-block animate-bounce"
+                style={{
+                  animationDelay: `${index * 0.1}s`,
+                  animationDuration: "2s",
+                }}
+              >
+                {char}
+              </span>
+            ))}
+          </h2>
         </a>
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -120,22 +134,6 @@ const Navbar: React.FC = () => {
             </li>
 
             {token ? <>
-              {/* <li className="relative md:block hidden">
-                <NavLink
-                  to={"/AddToCartPage"}
-                  className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 md:p-0"
-                  aria-current="page"
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                  <FiShoppingCart />
-                </NavLink>
-                {User?.items?.length && (
-                  <div className="absolute md:-top-2 md:-right-2 top-0 md:left-4 left-7 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-                    {User?.items.length}
-                  </div>
-                )}
-              </li> */}
-
               <li className="relative hidden md:block">
                 <NavLink
                   to="/AddToCartPage"
@@ -165,12 +163,12 @@ const Navbar: React.FC = () => {
 
               <li className='bg-black md:block hidden'>
                 <div className='rounded-full cursor-pointer overflow-hidden md:ml-0 ml-2.5'>
-                  <img src={`http://localhost:3000/${User?.profilePictuer}`} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+                  <img src={User?.profilePictuer} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
                 </div>
               </li>
               <li className='bg-black block md:hidden'>
                 <div className='rounded-full cursor-pointer gap-2 flex overflow-hidden md:ml-0 ml-2.5'>
-                  <img src={`http://localhost:3000/${User?.profilePictuer}`} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+                  <img src={User?.profilePictuer} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
                   <span className='mt-1'>{User?.name}</span>
                 </div>
               </li>
@@ -178,31 +176,6 @@ const Navbar: React.FC = () => {
               :
               null
             }
-
-            {/* <div className="flex space-x-4 mt-0 md:mt-0 md:px-6 px-0 ">
-              {token ?
-                <>
-                  <button
-                    onClick={() => {
-                      handlelogout();
-                      setIsMobileMenuOpen(!isMobileMenuOpen);
-                    }}
-                    className=" px-4 cursor-pointer font-semibold text-white bg-orange-500 rounded shadow-md hover:bg-orange-600 hover:shadow-lg transition duration-300 ease-in-out text-center block">
-                    Logout
-                  </button>
-
-                  <span onClick={() => {
-                    handlelogout(); setIsMobileMenuOpen(!isMobileMenuOpen)
-                  }}
-                    className="py-2 cursor-pointer px-4 shadow-lg font-bold bg-orange-500 text-center shadow-gray-600 text-black rounded hover:bg-orange-600 block md:hidden w-[25%]">Logout</span>
-                </>
-                :
-                <>
-                  <NavLink to={"/LoginPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-gray-600" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Login</NavLink>
-                  <NavLink to={"/SigninPage"} className="py-2 cursor-pointer px-4 shadow-lg shadow-gray-600 text-white rounded hover:bg-blue-500" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Signup</NavLink>
-                </>
-              }
-            </div> */}
 
             <div className="button-container space-y-4">
               {token ? <>
@@ -255,10 +228,5 @@ const Navbar: React.FC = () => {
     </nav >
   );
 };
-
-{/* <div className="md:hidden lg:hidden">
-  ]
-          <MobileNavbar />
-        </div> */}
 
 export default Navbar;

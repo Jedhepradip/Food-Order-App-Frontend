@@ -119,7 +119,7 @@ const SearchPage: React.FC = () => {
                     {AllRestaurantDataShowUI?.map((val, index) => (
                         <div key={index} className="bg-gray-900 rounded-lg shadow-lg p-4">
                             <img
-                                src={`http://localhost:3000/${val.RestaurantBanner}`}
+                                src={val.RestaurantBanner}
                                 alt="Restaurant"
                                 className="w-full h-40 object-cover rounded-t-lg"
                             />

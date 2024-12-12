@@ -68,7 +68,7 @@ const OrderPage: React.FC = () => {
                                     className="flex items-center bg-gray-800 text-white shadow-md rounded-lg p-4"
                                 >
                                     <img
-                                        src={`http://localhost:3000/${item.image}`}
+                                        src={item.image}
                                         alt={item.name}
                                         className="w-20 h-20 rounded-lg mr-4 object-cover border border-gray-600"
                                     />

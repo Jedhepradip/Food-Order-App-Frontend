@@ -77,7 +77,7 @@ const ViewMenuPage: React.FC = () => {
             })
             const AddToCartData = response.data;
 
-            if (response.status === 200) {                
+            if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{AddToCartData.message}</div>);
                 setTimeout(() => {
                     SetAddToCartLoading(false)
@@ -109,7 +109,7 @@ const ViewMenuPage: React.FC = () => {
             <div
                 className="relative w-full h-64 bg-cover object-cover bg-center rounded-lg shadow-md bg-white overflow-hidden"
                 style={{
-                    backgroundImage: `url('http://localhost:3000/${Restaurant?.RestaurantBanner}')`
+                    backgroundImage: `url('${Restaurant?.RestaurantBanner}')`
                 }}>
 
                 {/* <img src={`http://localhost:3000/${Restaurant?.RestaurantBanner}`} className='object-cover w-full h-full' alt="" /> */}
@@ -147,7 +147,7 @@ const ViewMenuPage: React.FC = () => {
                     {menus?.map((val, index) => (
                         <div key={index} className="bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
                             <img
-                                src={`http://localhost:3000/${val.menuPictuer}`}
+                                src={val.menuPictuer}
                                 alt="Restaurant"
                                 className="w-full h-40 object-cover rounded-t-lg"
                             />

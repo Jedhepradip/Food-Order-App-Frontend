@@ -16,6 +16,9 @@ const stripePromise = loadStripe("pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjka
 
 //Backend sk_test_51Q7VKrP6jlrB3RhjFTQN841rp3fXw2YSB51FsLRvNQ3YOnMddwHhNnxLa7DYdJPSGt8Sf4r2sjPq6GKQop8Q2MGU00f5Sjhbm3
 
+
+
+
 const AddToCartPage: React.FC = () => {
     const Dispatch: AppDispatch = useDispatch()
     const [loadingClearAll, SetLoadingClearAll] = useState(false)
@@ -195,6 +198,8 @@ const AddToCartPage: React.FC = () => {
         }
     };
 
+    console.log(UserInfo);
+
     return (
         <>
             <div className='realtive w-full h-full bg-black'>
@@ -359,119 +364,122 @@ const AddToCartPage: React.FC = () => {
                                 </thead>
                                 <tbody>
                                     {UserInfo?.items.map(item => (
-                                        <tr key={item?.Menu?._id} className='border-b'>
-                                            <td className="p-3">
-                                                <img
-                                                    src={`http://localhost:3000/${item?.Menu?.menuPicture}`}
-                                                    alt={item?.Menu?.name} className="w-12 h-12 rounded-full object-cover" />
-                                            </td>
-                                            <td className="p-3">{item?.Menu?.name}</td>
-                                            <td className="p-3">${item?.Menu?.price.toFixed(2)}</td>
-                                            <td className="p-3 flex items-center space-x-2">
+                                        <>
 
-                                                {item.quantity > 1 ?
-                                                    <>
-                                                        <button
-                                                            onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
-                                                            className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
-                                                        >
-                                                            <FaMinus />
-                                                        </button>
-                                                    </>
-                                                    :
-                                                    <>
-                                                        <button
-                                                            className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
-                                                        >
-                                                            <FaMinus />
-                                                        </button>
-                                                    </>
-                                                }
+                                            <tr key={item?.Menu?._id} className='border-b'>
+                                                <td className="p-3">
+                                                    <img
+                                                        src={item?.Menu?.menuPicture}
+                                                        alt={item?.Menu?.name} className="w-12 h-12 rounded-full object-cover" />
+                                                </td>
+                                                <td className="p-3">{item?.Menu?.name}</td>
+                                                <td className="p-3">${item?.Menu?.price.toFixed(2)}</td>
+                                                <td className="p-3 flex items-center space-x-2">
 
-                                                <span>{item?.quantity}</span>
-                                                <button
-                                                    onClick={() => AddToCartIncreaseQuantity(item?.Menu?._id)}
-                                                    className="px-1 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded-full"
-                                                >
-                                                    <FaPlus />
-                                                </button>
-                                            </td>
-
-                                            <td className="p-3">${calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}
-                                            </td>
-
-                                            <td className="p-0">
-                                                <div className="w-ful pb-2 flex">
-                                                    <button
-                                                        onClick={() => RemoveToaddToCart(item?.Menu?._id)}
-                                                        // type='submit'
-                                                        className={`px-2 py-1 flex bg-orange-500 hover:bg-orange-600 text-white rounded font-serif${loadingRemove ? 'cursor-not-allowed' : ''} ${loadingRemove ? 'animate-pulse' : ''}`}
-                                                        disabled={loadingRemove}
-                                                    >
-                                                        {loadingRemove && (
-                                                            <svg
-                                                                className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
-                                                                viewBox="0 0 24 24"
-                                                                fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg"
+                                                    {item.quantity > 1 ?
+                                                        <>
+                                                            <button
+                                                                onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
+                                                                className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
                                                             >
-                                                                <circle
-                                                                    className="opacity-25"
-                                                                    cx="12"
-                                                                    cy="12"
-                                                                    r="10"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="4"
-                                                                ></circle>
-                                                                <path
-                                                                    className="opacity-75"
-                                                                    fill="currentColor"
-                                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                                                                ></path>
-                                                            </svg>
-                                                        )}
-                                                        <span>{loadingRemove ? 'Loading...' : 'Remove'}</span>
-                                                    </button>
-                                                </div>
-
-                                            </td>
-
-                                            <td className="p-0">
-                                                <div className="w-ful pb-2 flex overflow-hidden ">
-                                                    <button
-                                                        onClick={() => handleProceedToCheckout(item?.Menu?._id)}
-                                                        // type='submit'
-                                                        className={`px-2 py-1 flex bg-orange-500 hover:bg-orange-600 text-white rounded font-serif${loadingBuyNow ? 'cursor-not-allowed' : ''} ${loadingBuyNow ? 'animate-pulse' : ''}`}
-                                                        disabled={loadingBuyNow}
-                                                    >
-                                                        {loadingBuyNow && (
-                                                            <svg
-                                                                className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
-                                                                viewBox="0 0 24 24"
-                                                                fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                <FaMinus />
+                                                            </button>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <button
+                                                                className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
                                                             >
-                                                                <circle
-                                                                    className="opacity-25"
-                                                                    cx="12"
-                                                                    cy="12"
-                                                                    r="10"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="4"
-                                                                ></circle>
-                                                                <path
-                                                                    className="opacity-75"
-                                                                    fill="currentColor"
-                                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                                                                ></path>
-                                                            </svg>
-                                                        )}
-                                                        <span>{loadingBuyNow ? 'Loading...' : 'Buy Now'}</span>
-                                                    </button>
-                                                </div>
-                                            </td>
+                                                                <FaMinus />
+                                                            </button>
+                                                        </>
+                                                    }
 
-                                        </tr>
+                                                    <span>{item?.quantity}</span>
+                                                    <button
+                                                        onClick={() => AddToCartIncreaseQuantity(item?.Menu?._id)}
+                                                        className="px-1 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded-full"
+                                                    >
+                                                        <FaPlus />
+                                                    </button>
+                                                </td>
+
+                                                <td className="p-3">${calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}
+                                                </td>
+
+                                                <td className="p-0">
+                                                    <div className="w-ful pb-2 flex">
+                                                        <button
+                                                            onClick={() => RemoveToaddToCart(item?.Menu?._id)}
+                                                            // type='submit'
+                                                            className={`px-2 py-1 flex bg-orange-500 hover:bg-orange-600 text-white rounded font-serif${loadingRemove ? 'cursor-not-allowed' : ''} ${loadingRemove ? 'animate-pulse' : ''}`}
+                                                            disabled={loadingRemove}
+                                                        >
+                                                            {loadingRemove && (
+                                                                <svg
+                                                                    className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                                    viewBox="0 0 24 24"
+                                                                    fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                >
+                                                                    <circle
+                                                                        className="opacity-25"
+                                                                        cx="12"
+                                                                        cy="12"
+                                                                        r="10"
+                                                                        stroke="currentColor"
+                                                                        strokeWidth="4"
+                                                                    ></circle>
+                                                                    <path
+                                                                        className="opacity-75"
+                                                                        fill="currentColor"
+                                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                                    ></path>
+                                                                </svg>
+                                                            )}
+                                                            <span>{loadingRemove ? 'Loading...' : 'Remove'}</span>
+                                                        </button>
+                                                    </div>
+
+                                                </td>
+
+                                                <td className="p-0">
+                                                    <div className="w-ful pb-2 flex overflow-hidden ">
+                                                        <button
+                                                            onClick={() => handleProceedToCheckout(item?.Menu?._id)}
+                                                            // type='submit'
+                                                            className={`px-2 py-1 flex bg-orange-500 hover:bg-orange-600 text-white rounded font-serif${loadingBuyNow ? 'cursor-not-allowed' : ''} ${loadingBuyNow ? 'animate-pulse' : ''}`}
+                                                            disabled={loadingBuyNow}
+                                                        >
+                                                            {loadingBuyNow && (
+                                                                <svg
+                                                                    className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                                    viewBox="0 0 24 24"
+                                                                    fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                >
+                                                                    <circle
+                                                                        className="opacity-25"
+                                                                        cx="12"
+                                                                        cy="12"
+                                                                        r="10"
+                                                                        stroke="currentColor"
+                                                                        strokeWidth="4"
+                                                                    ></circle>
+                                                                    <path
+                                                                        className="opacity-75"
+                                                                        fill="currentColor"
+                                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                                    ></path>
+                                                                </svg>
+                                                            )}
+                                                            <span>{loadingBuyNow ? 'Loading...' : 'Buy Now'}</span>
+                                                        </button>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        </>
                                     ))}
                                 </tbody>
                             </table>
@@ -503,20 +511,39 @@ const AddToCartPage: React.FC = () => {
                                         className="flex items-center bg-gray-0 border p-3 rounded-lg shadow-md"
                                     >
                                         <img
-                                            src={item.Menu.menuPicture}
-                                            // alt={"Img Not Found"}
+                                            src={item?.Menu?.menuPicture}
                                             className="w-16 h-16 rounded-md object-cover"
                                         />
                                         <div className="ml-3 flex-1">
                                             <h2 className="text-sm font-semibold">{item.Menu.name}</h2>
                                             <p className="text-sm text-gray-400">Price: ${item.Menu.price}</p>
                                             <div className="flex items-center space-x-2 text-sm text-gray-400">
-                                                <button
+                                                {/* <button
                                                     onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
                                                     className="bg-orange-500 text-white px-2 py-1 rounded-md"
                                                 >
                                                     -
-                                                </button>
+                                                </button> */}
+
+                                                {item.quantity > 1 ?
+                                                    <>
+                                                        <button
+                                                            onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
+                                                            className="bg-orange-500 text-white px-2 py-1 rounded-md"
+                                                        >
+                                                            <FaMinus />
+                                                        </button>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <button
+                                                            className="bg-orange-500 text-white px-2 py-1 rounded-md"
+                                                        >
+                                                            <FaMinus />
+                                                        </button>
+                                                    </>
+                                                }
+
                                                 <span>{item.quantity}</span>
                                                 <button
                                                     onClick={() => AddToCartIncreaseQuantity(item?.Menu?._id)}
@@ -566,16 +593,8 @@ const AddToCartPage: React.FC = () => {
                                     </button>
                                 </NavLink>
                             </div>
-
-                            {/* Show confirmation button after clicking "Buy Now" */}
-                            {/* {showBuyNow && selectedItem && (
-                                <div className="mt-4 bg-green-500 text-white p-4 rounded-lg text-center">
-                                    <p>Thank you for purchasing {selectedItem.title}!</p>
-                                </div>
-                            )} */}
                         </div>
                     </div>
-
                 </Elements>
             </div>
 

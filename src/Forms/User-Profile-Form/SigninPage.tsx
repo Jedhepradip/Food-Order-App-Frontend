@@ -143,8 +143,10 @@ const SigninPage: React.FC = () => {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      SetloadingVerifyOTP(false)
-      if (error.response) {
+      setTimeout(() => {
+        SetloadingVerifyOTP(false)
+      }, 1300);
+       if (error.response) {
         const errorMessage = error.response.data.message;
         if (error.response.status === 409 || errorMessage === "User already exists") {
           console.log("Error: User already exists.");

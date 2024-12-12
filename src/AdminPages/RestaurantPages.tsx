@@ -120,11 +120,26 @@ const RestaurantPages: React.FC = () => {
     return (
         <>
             <div className='flex justify-center w-full bg-black md:p-10 p-0'>
-                {!Restaurant ?
-                    <>  
+                {!Restaurant || Restaurant.length >= 0 ?
+                    <>
                         <div className='grid justify-center items-center grid-cols-1 mb-10 w-[85%]'>
                             <ToastContainer />
-                            <div className="md:mt-6 mt-0 p-6 rounded shadow-lg font-serif">
+                            <div className="md:mt-6 mt-0 p-6 rounded shadow-lg font-serif">                              
+                                <h2 className="text-2xl text-white mb-0 text-center font-serif flex justify-center space-x-1">
+                                    {"Create The Restaurant".split("").map((char, index) => (
+                                        <span
+                                            key={index}
+                                            className="inline-block animate-bounce"
+                                            style={{
+                                                animationDelay: `${index * 0.1}s`,
+                                                animationDuration: "2s",
+                                            }}
+                                        >
+                                            {char}
+                                        </span>
+                                    ))}
+                                </h2>
+
                                 <form onSubmit={handleSubmit(onsubmit)}>
                                     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 md:mb-4 space-y-3">
                                         <div>
@@ -133,7 +148,7 @@ const RestaurantPages: React.FC = () => {
                                                 type="text"
                                                 name='restaurantName'
                                                 placeholder='Restaurant Name'
-                                                className="w-full px-3 py-2 border border-gray-300 rounded bg-black text-white"
+                                                className="w-full px-3 py-2 border mt-3 border-gray-300 rounded bg-black text-white"
                                             />
                                             {errors.restaurantName && <span className="text-red-500 text-sm">{errors.restaurantName.message}</span>}
                                         </div>

@@ -11,6 +11,7 @@ import { RxCross2 } from 'react-icons/rx'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
+import { FetchinMenuAlldata } from '../Redux/Features/AllMenuSlice';
 
 const MenuPages: React.FC = () => {
     const [showupdate, setshowupdate] = useState(false)
@@ -63,6 +64,8 @@ const MenuPages: React.FC = () => {
         EditTheMenu(true)
     }
 
+    console.log("Menu :", Menu);
+
     return (
         <>
             <div className="w-full bg-black text-white py-10 md:h-screen pb-10 z-50">
@@ -113,7 +116,7 @@ const MenuPages: React.FC = () => {
                             >
                                 <div className="flex flex-col md:flex-row bg-gray-800 w-full rounded-lg p-2 justify-center md:justify-start items-center">
                                     <img
-                                        src={`http://localhost:3000/${val?.menuPictuer}`}
+                                        src={val?.menuPictuer}
                                         alt=""
                                         className="rounded-lg h-24 w-24 object-cover mb-3 md:mb-0"
                                     />
@@ -171,7 +174,7 @@ const MenuPages: React.FC = () => {
                                     <a href="#">
                                         <img
                                             className="p-4 rounded-t-lg object-cover w-full h-48"
-                                            src={`http://localhost:3000/${val?.menuPictuer}`}
+                                            src={val?.menuPictuer}
                                             alt="Product image"
                                         />
                                     </a>
@@ -417,14 +420,14 @@ const MenuUpdateModel = ({ selectedProduct, closeMenuModal }: any) => {
 
             const Restaurantdata = response.data;
             if (response.status === 200) {
-                setInterval(() => {
+                dispatch(FetchingMenuData())
+                dispatch(FetchinMenuAlldata())
+                setTimeout(() => {
                     toast.success(<div className='font-serif text-[15px] text-black'>{Restaurantdata.message}</div>);
                     closeMenuModal()
                     setLoadingOTP(false)
                 }, 1300);
             }
-            setLoadingOTP(true)
-            dispatch(FetchingMenuData())
         } catch (error: any) {
             if (error.response) {
                 setLoadingOTP(true)

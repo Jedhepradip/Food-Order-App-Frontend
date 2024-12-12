@@ -173,19 +173,12 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
                                         {MenuDataShow?.map(item => (
                                             <tr key={item?.Menu?._id} className='border-b'>
                                                 <td className="p-3">
-                                                    {/* {console.log("item.Menu p:", item.Menu?.menuPicture)} */}
-                                                    {/* <img
-                                                        src={`http://localhost:3000/${item?.Menu?.menuPicture}`}
-                                                        alt={item?.Menu?.name} className="w-12 h-12 rounded-full object-cover" /> */}
-
                                                     {item.Menu?.menuPicture ? (
-                                                        <img src={`http://localhost:3000/${item?.Menu?.menuPicture}`} alt="Menu Picture" />
+                                                        <img src={item?.Menu?.menuPicture} alt="Menu Picture" />
                                                     ) : (
                                                         <>
-                                                        </>
-                                                        // <p>No picture available</p>
+                                                        </>                                                       
                                                     )}
-
                                                 </td>
                                                 <td className="p-3">{item?.Menu?.name}</td>
                                                 <td className="p-3">${item?.Menu?.price}</td>

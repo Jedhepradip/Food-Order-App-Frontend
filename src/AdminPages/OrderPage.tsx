@@ -88,16 +88,6 @@ const OrderPage: React.FC = () => {
         Dispatch(FetchingRestaurant())
     }, [Dispatch])
 
-
-    // const calculateItemTotal = (price: number, quantity: number) => price * quantity;
-    // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // const calculateTotal = (data: any | MenuItme) => {
-    //     // console.log("data :",data);        
-    //     return data?.reduce((total: number, item: { price: number; Quantity: number; }) =>
-    //         total + calculateItemTotal(item.price, item.Quantity), 0);
-    // };
-
-
     const calculateItemTotal = (price: number, quantity: number): number => {
         return price * quantity;
     };
@@ -205,7 +195,7 @@ const OrderPage: React.FC = () => {
                                             key={item._id}
                                             className="flex items-center border text-white shadow-md rounded-lg p-3"
                                         >                 <img
-                                                src={`http://localhost:3000/${item.image}`}
+                                                src={item.image}
                                                 alt={item.name}
                                                 className="w-16 h-16 rounded-lg mr-4 object-cover border border-gray-600"
                                             />
