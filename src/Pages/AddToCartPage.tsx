@@ -16,9 +16,6 @@ const stripePromise = loadStripe("pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjka
 
 //Backend sk_test_51Q7VKrP6jlrB3RhjFTQN841rp3fXw2YSB51FsLRvNQ3YOnMddwHhNnxLa7DYdJPSGt8Sf4r2sjPq6GKQop8Q2MGU00f5Sjhbm3
 
-
-
-
 const AddToCartPage: React.FC = () => {
     const Dispatch: AppDispatch = useDispatch()
     const [loadingClearAll, SetLoadingClearAll] = useState(false)
@@ -30,6 +27,8 @@ const AddToCartPage: React.FC = () => {
     const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
     const UserData = useSelector((state: RootState) => state.User.User)
     const [MenuID, SetMenuId] = useState<string | number>("")
+
+    console.log("response.data.items[0].Menu.menuPictuer rani:", UserInfo?.items[0]?.Menu?.menuPictuer);
 
     useEffect(() => {
         Dispatch(FetchingUserData())
@@ -198,7 +197,7 @@ const AddToCartPage: React.FC = () => {
         }
     };
 
-    console.log(UserInfo);
+    console.log(UserInfo?.items.map((val) => val.Menu[0]?.menuPicture))
 
     return (
         <>

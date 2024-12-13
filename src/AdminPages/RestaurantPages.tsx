@@ -124,7 +124,7 @@ const RestaurantPages: React.FC = () => {
                     <>
                         <div className='grid justify-center items-center grid-cols-1 mb-10 w-[85%]'>
                             <ToastContainer />
-                            <div className="md:mt-6 mt-0 p-6 rounded shadow-lg font-serif">                              
+                            <div className="md:mt-6 mt-0 p-6 rounded shadow-lg font-serif">
                                 <h2 className="text-2xl text-white mb-0 text-center font-serif flex justify-center space-x-1">
                                     {"Create The Restaurant".split("").map((char, index) => (
                                         <span
@@ -329,8 +329,20 @@ const RestaurantEdit11: React.FC<UserRestaurentProps> = ({ RestaurentID }) => {
         <div className="flex justify-center items-center font-serif bg-black/70">
             <ToastContainer />
             <div className="p-6 rounded-lg shadow-lg w-full md:px-56">
-                <h2 className="text-2xl text-white mb-4 text-center font-serif">
-                    Update Restaurant Details
+                <h2 className="text-2xl text-white mb-0 text-center font-serif flex justify-center space-x-1">
+                    {/* Update Restaurant Details */}
+                    {"Update Restaurant Details".split("").map((char, index) => (
+                        <span
+                            key={index}
+                            className="inline-block animate-bounce"
+                            style={{
+                                animationDelay: `${index * 0.1}s`,
+                                animationDuration: "2s",
+                            }}
+                        >
+                            {char}
+                        </span>
+                    ))}
                 </h2>
                 <form onSubmit={handleSubmit(handleRestaurantForm)}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full bg-black">
