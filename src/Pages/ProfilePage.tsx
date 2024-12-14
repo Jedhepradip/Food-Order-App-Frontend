@@ -3,7 +3,7 @@ import { FaEnvelope, FaMapMarkerAlt, FaCity, FaGlobe } from 'react-icons/fa';
 import { IoMdCall } from "react-icons/io";
 import { RxCross2 } from 'react-icons/rx';
 import { useForm, SubmitHandler } from "react-hook-form"
-import { UserInterFaceData } from '../interface/UserInterface';
+// import { UserInterFaceData } from '../interface/UserInterface';
 import { FetchingUserData } from '../Redux/Features/UserSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
@@ -12,6 +12,38 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
+interface Menuinterfase {
+  name: string;
+  description: string;
+  price: number;
+  menuPicture: string;
+  _id: string | number;
+  createdAt: string;
+  restaurantId: string;
+  __v: string;
+  updatedAt: string;
+}
+
+export interface CartItem {
+  Menu: Menuinterfase; // Single Menu object
+  quantity: number; // Quantity for the specific menu item
+}
+
+export interface UserInterFaceData {
+  profilePictuer: string;  //profilePicture
+  name: string;
+  email: string;
+  contact: string;
+  password: string;
+  address: string;
+  country: string;
+  city: string;
+  updatedAt: string;
+  items: CartItem[]; // Array of individual CartItem objects
+  __v: string;
+  _id: string;
+}
+
 const ProfilePage: React.FC = () => {
   const [showupdate, setshowupdate] = useState(false)
   const [loadingOTP, setLoadingOTP] = useState(false);
@@ -19,8 +51,11 @@ const ProfilePage: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const Dispatch: AppDispatch = useDispatch()
   const { register, handleSubmit } = useForm<ProfileUpdateFrom>();
-  const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
-  const UserData = useSelector((state: RootState) => state.User.User)
+  // const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [UserInfo, setUserData] = useState<UserInterFaceData[] | any | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const UserData: any = useSelector((state: RootState) => state.User.User)
 
   useEffect(() => {
     if (UserData) {

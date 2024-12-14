@@ -26,8 +26,6 @@ const UserEditFrom: React.FC<UserEditFormProps> = ({ UserID, closeMenuModal }: a
     const [User, UserDataShow] = useState<UserInterFaceData[] | []>([]);
     const UserData = useSelector((state: RootState) => state.AllUser.AllUser)
 
-    console.log("UserID pp:", UserID);
-
     useEffect(() => {
         if (UserData) {
             setUserData(UserData)
@@ -95,7 +93,6 @@ const UserEditFrom: React.FC<UserEditFormProps> = ({ UserID, closeMenuModal }: a
     useEffect(() => {
         Dispatch(FetchingUserData())
     }, [Dispatch])
-
 
     return (
         <div>

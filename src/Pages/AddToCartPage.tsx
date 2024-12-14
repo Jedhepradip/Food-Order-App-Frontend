@@ -145,7 +145,7 @@ const AddToCartPage: React.FC = () => {
             if (response.status === 200) {
                 Dispatch(FetchingUserData())
             }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         } catch (error: any) {
             if (error.response) {
                 const errorMessage = error.response.data.message;
@@ -404,13 +404,13 @@ const AddToCartPage: React.FC = () => {
 
                                                 <td className="p-3">{item?.Menu?.name}</td>
                                                 <td className="p-3">${item?.Menu?.price.toFixed(2)}</td>
-                                                <td className="p-3 flex items-center space-x-2">
+                                                <td className="p-3 flex items-center space-x-2.5 mt-2">
 
                                                     {item.quantity > 1 ?
                                                         <>
                                                             <button
                                                                 onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
-                                                                className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
+                                                                className="px-1 py-1 bg-orange-500 hover:bg-gray-600 text-white rounded-full"
                                                             >
                                                                 <FaMinus />
                                                             </button>
@@ -418,7 +418,7 @@ const AddToCartPage: React.FC = () => {
                                                         :
                                                         <>
                                                             <button
-                                                                className="px-1 py-1 bg-gray-400 hover:bg-gray-600 text-white rounded-full"
+                                                                className="px-1 py-1 bg-orange-500 hover:bg-gray-600 text-white rounded-full"
                                                             >
                                                                 <FaMinus />
                                                             </button>
@@ -541,9 +541,11 @@ const AddToCartPage: React.FC = () => {
                                         className="flex items-center bg-gray-0 border p-3 rounded-lg shadow-md"
                                     >
                                         <img
-                                            src={item?.Menu?.menuPicture}
-                                            className="w-16 h-16 rounded-md object-cover"
+                                            src={item?.Menu?.menuPictuer}
+                                            alt={`Menu Image ${""}`}
+                                            className="w-12 h-12 rounded-full object-cover"
                                         />
+
                                         <div className="ml-3 flex-1">
                                             <h2 className="text-sm font-semibold">{item?.Menu?.name}</h2>
                                             <p className="text-sm text-gray-400">Price: ${item?.Menu?.price}</p>
@@ -553,17 +555,19 @@ const AddToCartPage: React.FC = () => {
                                                     <>
                                                         <button
                                                             onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
-                                                            className="bg-orange-500 text-white px-2 py-1 rounded-md"
+                                                            className="bg-orange-500 text-white px-1.5 py-1 rounded-full"
                                                         >
                                                             <FaMinus />
+                                                            {/* - */}
                                                         </button>
                                                     </>
                                                     :
                                                     <>
                                                         <button
-                                                            className="bg-orange-500 text-white px-2 py-1 rounded-md"
+                                                            className="bg-orange-500 text-white px-1.5 py-0 text-[15px] rounded-full"
                                                         >
-                                                            <FaMinus />
+                                                            {/* <FaMinus /> */}
+                                                            -
                                                         </button>
                                                     </>
                                                 }
@@ -571,7 +575,7 @@ const AddToCartPage: React.FC = () => {
                                                 <span>{item.quantity}</span>
                                                 <button
                                                     onClick={() => AddToCartIncreaseQuantity(item?.Menu?._id)}
-                                                    className="bg-orange-500 text-white px-2 py-1 rounded-md"
+                                                    className="bg-orange-500 text-white px-1.5 py-0 rounded-full"
                                                 >
                                                     +
                                                 </button>

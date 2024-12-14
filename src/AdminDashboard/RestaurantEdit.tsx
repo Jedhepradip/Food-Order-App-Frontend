@@ -41,9 +41,6 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
         Dispatch(FetchingUserAllRestaurant())
     }, [Dispatch])
 
-    console.log(RestaurentID);
-
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleRestaurantFrom = async (data: any) => {
         const token = localStorage.getItem("Token")

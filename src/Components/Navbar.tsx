@@ -5,14 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
 import { FetchingUserData } from '../Redux/Features/UserSlice';
-
 import { FaHome, FaUser } from "react-icons/fa";
 import { LuHandPlatter, LuPackageCheck, LuSquareMenu, LuUtensilsCrossed } from "react-icons/lu";
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
   const dispatch: AppDispatch = useDispatch()
   const User = useSelector((state: RootState) => state.User.User)
 

@@ -61,11 +61,8 @@ const MenuEditFrom: React.FC<UserMenuProps> = ({ MenuID, closeMenuModal }: any) 
 
     useEffect(() => {
         const menudata = Menu?.filter((val) => val._id == MenuID)
-        console.log("Rani", menudata);
         SetFilterData(menudata || [])
     }, [Menu, MenuID])
-
-    FilterMenuData?.map(val => console.log("val.name ", val.name));
 
     const token = localStorage.getItem("Token")
     const onsubmit: SubmitHandler<menucreateInterface> = async (data) => {

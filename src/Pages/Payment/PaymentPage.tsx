@@ -149,7 +149,6 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
         }
     };
 
-
     return (
         <>
             <div className="absolute w-full bg-black text-white z-50">

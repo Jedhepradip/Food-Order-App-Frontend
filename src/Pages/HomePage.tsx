@@ -11,8 +11,10 @@ const HomePage: React.FC = () => {
   const Dispatch: AppDispatch = useDispatch()
 
   const SearchToCountry = () => {
-    Dispatch(SetSearchByCountry([{ Country: search }]));
-    Navigate("/SearchPage")
+    if (search.length) {
+      Dispatch(SetSearchByCountry([{ Country: search }]));
+      Navigate("/SearchPage")
+    }
   }
 
   return (

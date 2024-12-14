@@ -22,7 +22,6 @@ const MenuPages: React.FC = () => {
     const Navigate = useNavigate()
     const dispatch: AppDispatch = useDispatch()
     const menudata = useSelector((state: RootState) => state.Menu.Menu)
-
     const [selectedProduct, setSelectedProduct] = useState<menucreateInterface[] | undefined>(undefined);
 
     useEffect(() => {
@@ -63,8 +62,6 @@ const MenuPages: React.FC = () => {
         }, 1300);
         EditTheMenu(true)
     }
-
-    console.log("Menu :", Menu);
 
     return (
         <>
