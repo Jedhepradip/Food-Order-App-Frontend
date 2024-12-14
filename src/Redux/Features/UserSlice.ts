@@ -51,8 +51,7 @@ export const FetchingUserData = () => async (dispatch: AppDispatch) => {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         });
-        dispatch(SetUserData(response.data)); // Dispatch the user data received
-        console.log("response.data.items[0] :",response.data.items[0].Menu.menuPictuer);
+        dispatch(SetUserData(response.data)); 
         
     } catch (error) {
         console.error(error); // Changed to console.error for clarity

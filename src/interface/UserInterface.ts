@@ -1,4 +1,5 @@
 interface Menuinterfase {
+    menuPictuer: string | undefined;
     name: string;
     description: string;
     price: number;

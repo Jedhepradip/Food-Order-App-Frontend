@@ -3,36 +3,42 @@ import { RestaurantInterface } from "../../interface/RestaurantInterface";
 import { AppDispatch } from "../Store/Store";
 import axios from "axios";
 
+// Corrected interface for the state
 interface RestaurantState {
-    Restaurant: RestaurantInterface[] | null; // Allow User to be either UserInterFaceData or null
+    Restaurant: RestaurantInterface | null;
 }
 
 const initialState: RestaurantState = {
-    Restaurant: null
-}
+    Restaurant: null,
+};
 
 export const FetchingRestaurant = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get("http://localhost:3000/api-restaurant/Get/Restaurant/Data", {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("Token")}`
+        const response = await axios.get(
+            "http://localhost:3000/api-restaurant/Get/Restaurant/Data",
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+                },
             }
-        });
-        dispatch(SetRestaurantData(response.data)); // Dispatch the user data received
+        );
+        dispatch(SetRestaurantData(response.data)); // Dispatch the restaurant data received
+        console.log("Restaurant Slice", response.data);
     } catch (error) {
-        console.log(error);
+        console.error("Error fetching restaurant data:", error);
     }
-}
-
+};
+// Create a slice for restaurant state management
 const RestaurantSlice = createSlice({
     name: "Restaurant",
     initialState,
     reducers: {
-        SetRestaurantData: (state, action: PayloadAction<RestaurantInterface[] | null>) => {
-            state.Restaurant = action.payload; // Allow User to be null or UserInterFaceData
-        }
-    }
-})
+        SetRestaurantData: (state, action: PayloadAction<RestaurantInterface | null>) => {
+            state.Restaurant = action.payload; // Set the restaurant data
+        },
+    },
+});
 
+// Export actions and reducer
 export const { SetRestaurantData } = RestaurantSlice.actions;
 export default RestaurantSlice.reducer;

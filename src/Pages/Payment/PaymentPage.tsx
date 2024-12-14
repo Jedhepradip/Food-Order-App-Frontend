@@ -37,7 +37,8 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
     const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
     const dispatch: AppDispatch = useDispatch()
     const navigate = useNavigate();
-    const UserData = useSelector((state: RootState) => state.User.User)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const UserData: any = useSelector((state: RootState) => state.User.User)
     const { register, handleSubmit, formState: { errors } } = useForm<CheckoutFormData>();
 
     useEffect(() => {
@@ -173,12 +174,11 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
                                         {MenuDataShow?.map(item => (
                                             <tr key={item?.Menu?._id} className='border-b'>
                                                 <td className="p-3">
-                                                    {item.Menu?.menuPicture ? (
-                                                        <img src={item?.Menu?.menuPicture} alt="Menu Picture" />
-                                                    ) : (
-                                                        <>
-                                                        </>                                                       
-                                                    )}
+                                                    <img
+                                                        src={item?.Menu?.menuPictuer}
+                                                        alt={item?.Menu?.name}
+                                                        className="w-12 h-12 rounded-full object-cover"
+                                                    />
                                                 </td>
                                                 <td className="p-3">{item?.Menu?.name}</td>
                                                 <td className="p-3">${item?.Menu?.price}</td>

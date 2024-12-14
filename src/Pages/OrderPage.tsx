@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
 import { FetchingOrderMenuData } from '../Redux/Features/OrderMenuSlice';
 
+// import { Link } from 'react-router-dom';
+
 interface MenuItme {
     Quantity: number,
     description: string,
@@ -51,7 +53,37 @@ const OrderPage: React.FC = () => {
     useEffect(() => {
         Dispatch(FetchingOrderMenuData())
     }, [Dispatch])
-    
+
+
+    // const [properties, setProperties] = useState([
+    //     {
+    //         _id: "1",
+    //         thumbnail: "https://via.placeholder.com/400x300",
+    //         title: "Modern Apartment",
+    //         description: "Spacious and well-lit apartment located in the heart of the city.",
+    //         bhk: "2 BHK",
+    //         sqft: 1200,
+    //         price: 250000,
+    //     },
+    //     {
+    //         _id: "2",
+    //         thumbnail: "https://via.placeholder.com/400x300",
+    //         title: "Luxury Villa",
+    //         description: "Luxurious villa with a private pool and garden.",
+    //         bhk: "4 BHK",
+    //         sqft: 3000,
+    //         price: 850000,
+    //     },
+    //     {
+    //         _id: "3",
+    //         thumbnail: "https://via.placeholder.com/400x300",
+    //         title: "Cozy Studio",
+    //         description: "A cozy studio apartment perfect for singles or couples.",
+    //         bhk: "1 BHK",
+    //         sqft: 500,
+    //         price: 120000,
+    //     },
+    // ]);
 
     return (
         <>
@@ -107,7 +139,6 @@ const OrderPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-
         </>
     );
 };

@@ -153,7 +153,11 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
                                 <input
                                     {...register("cuisines")}
                                     type="text"
-                                    defaultValue={RestFilterData[0]?.cuisines}
+                                    defaultValue={
+                                        RestFilterData[0]?.cuisines
+                                            ?.map((val) => val.toString()?.replace(/,/g, ""))
+                                            .join(" ") || ""
+                                    }
                                     className="w-full px-4 py-1.5 border border-gray-800 rounded-lg bg-gray-900 text-white focus:ring focus:ring-orange-500 focus:outline-none"
                                 />
                             </div>

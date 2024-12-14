@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { RxCross2 } from "react-icons/rx";
 import axios from 'axios';
-import { UserInterFaceData } from '../interface/UserInterface';
+// import { UserInterFaceData } from '../interface/UserInterface';
 import { FetchingUserData } from '../Redux/Features/UserSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
@@ -14,7 +14,38 @@ import PaymentPage from './Payment/PaymentPage';
 import { NavLink } from 'react-router-dom';
 const stripePromise = loadStripe("pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24")
 
-//Backend sk_test_51Q7VKrP6jlrB3RhjFTQN841rp3fXw2YSB51FsLRvNQ3YOnMddwHhNnxLa7DYdJPSGt8Sf4r2sjPq6GKQop8Q2MGU00f5Sjhbm3
+
+interface Menuinterfase {
+    name: string;
+    description: string;
+    price: number;
+    menuPicture: string;
+    _id: string | number;
+    createdAt: string;
+    restaurantId: string;
+    __v: string;
+    updatedAt: string;
+}
+
+export interface CartItem {
+    Menu: Menuinterfase; // Single Menu object
+    quantity: number; // Quantity for the specific menu item
+}
+
+export interface UserInterFaceData {
+    profilePictuer: string;  //profilePicture
+    name: string;
+    email: string;
+    contact: string;
+    password: string;
+    address: string;
+    country: string;
+    city: string;
+    updatedAt: string;
+    items: CartItem[]; // Array of individual CartItem objects
+    __v: string;
+    _id: string;
+}
 
 const AddToCartPage: React.FC = () => {
     const Dispatch: AppDispatch = useDispatch()
@@ -24,11 +55,9 @@ const AddToCartPage: React.FC = () => {
     const [loadingPayment, SetContinuePayment] = useState(false)
     const [showCheckoutForm, setShowCheckoutForm] = useState(false);
     const [Paymentmodel, ShowPaymentModel] = useState<boolean>(false);
-    const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
-    const UserData = useSelector((state: RootState) => state.User.User)
+    const [UserInfo, setUserData] = useState<UserInterFaceData[] | any | null>(null);
+    const UserData: any = useSelector((state: RootState) => state.User.User)
     const [MenuID, SetMenuId] = useState<string | number>("")
-
-    console.log("response.data.items[0].Menu.menuPictuer rani:", UserInfo?.items[0]?.Menu?.menuPictuer);
 
     useEffect(() => {
         Dispatch(FetchingUserData())
@@ -43,7 +72,7 @@ const AddToCartPage: React.FC = () => {
     const calculateItemTotal = (price: number, quantity: number) => price * quantity;
 
     const calculateTotal = () => {
-        return UserInfo?.items.reduce((total, item) =>
+        return UserInfo?.items.reduce((total: number, item: { Menu: { price: number; }; quantity: number; }) =>
             total + calculateItemTotal(item.Menu.price, item.quantity), 0);
     };
 
@@ -197,7 +226,6 @@ const AddToCartPage: React.FC = () => {
         }
     };
 
-    console.log(UserInfo?.items.map((val) => val.Menu[0]?.menuPicture))
 
     return (
         <>
@@ -362,15 +390,18 @@ const AddToCartPage: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {UserInfo?.items.map(item => (
+                                    {UserInfo?.items?.map((item: any, index: number): any => (
                                         <>
 
                                             <tr key={item?.Menu?._id} className='border-b'>
                                                 <td className="p-3">
                                                     <img
-                                                        src={item?.Menu?.menuPicture}
-                                                        alt={item?.Menu?.name} className="w-12 h-12 rounded-full object-cover" />
+                                                        src={item?.Menu?.menuPictuer}
+                                                        alt={`Menu Image ${index}`}
+                                                        className="w-12 h-12 rounded-full object-cover"
+                                                    />
                                                 </td>
+
                                                 <td className="p-3">{item?.Menu?.name}</td>
                                                 <td className="p-3">${item?.Menu?.price.toFixed(2)}</td>
                                                 <td className="p-3 flex items-center space-x-2">
@@ -504,9 +535,9 @@ const AddToCartPage: React.FC = () => {
                         <div className="p-4 bg-black min-h-screen text-white">
                             <h2 className="text-2xl font-medium font-serif mb-5">Shopping Cart</h2>
                             <div className="space-y-4">
-                                {UserInfo?.items?.map((item) => (
+                                {UserInfo?.items?.map((item: any) => (
                                     <div
-                                        key={item.Menu._id}
+                                        key={item?.Menu?._id}
                                         className="flex items-center bg-gray-0 border p-3 rounded-lg shadow-md"
                                     >
                                         <img
@@ -514,15 +545,9 @@ const AddToCartPage: React.FC = () => {
                                             className="w-16 h-16 rounded-md object-cover"
                                         />
                                         <div className="ml-3 flex-1">
-                                            <h2 className="text-sm font-semibold">{item.Menu.name}</h2>
-                                            <p className="text-sm text-gray-400">Price: ${item.Menu.price}</p>
+                                            <h2 className="text-sm font-semibold">{item?.Menu?.name}</h2>
+                                            <p className="text-sm text-gray-400">Price: ${item?.Menu?.price}</p>
                                             <div className="flex items-center space-x-2 text-sm text-gray-400">
-                                                {/* <button
-                                                    onClick={() => AddToCartdecreaseQuantity(item?.Menu?._id)}
-                                                    className="bg-orange-500 text-white px-2 py-1 rounded-md"
-                                                >
-                                                    -
-                                                </button> */}
 
                                                 {item.quantity > 1 ?
                                                     <>
@@ -574,7 +599,7 @@ const AddToCartPage: React.FC = () => {
                             <div className="mt-6 border p-4 rounded-lg shadow-md">
                                 <h2 className="text-lg font-bold">Order Summary</h2>
                                 <p className="text-sm text-gray-400">
-                                    Total Items: {UserInfo?.items.length}
+                                    Total Items: {UserInfo?.items?.length}
                                 </p>
                                 <p className="text-sm text-gray-300 font-bold">
                                     Total Price: ${calculateTotal()}

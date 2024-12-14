@@ -20,35 +20,34 @@ interface RestaurantInterfaceInput {
     restaurantName: string,
 }
 
-interface UserInterFaceData {
-    profilePictuer: string;  //profilePicture
-    name: string;
-    email: string;
-    contact: string;
-    password: string;
-    address: string;
-    country: string;
-    city: string;
-    updatedAt: string;
-    items: string[]; // Array of individual CartItem objects
-    __v: string;
-    _id: string;
-}
+// interface UserInterFaceData {
+//     profilePictuer: string;  //profilePicture
+//     name: string;
+//     email: string;
+//     contact: string;
+//     password: string;
+//     address: string;
+//     country: string;
+//     city: string;
+//     updatedAt: string;
+//     items: string[]; // Array of individual CartItem objects
+//     __v: string;
+//     _id: string;
+// }
 
-interface RestaurantInterface1 {
-    _id: string;
-    restaurantName: string;
-    city: string;
-    country: string;
-    deliveryTime: string;
-    cuisines: string[];
-    RestaurantBanner: string;
-    user: UserInterFaceData[];
-    menus: string[];
-}
+// interface RestaurantInterface1 {
+//     _id: string;
+//     restaurantName: string;
+//     city: string;
+//     country: string;
+//     deliveryTime: string;
+//     cuisines: string[];
+//     RestaurantBanner: string;
+//     user: UserInterFaceData[];
+//     menus: string[];
+// }
 
 interface UserRestaurentProps {
-
     RestaurentID: string;
     // closeMenuModal: () => void;
 }
@@ -56,11 +55,12 @@ interface UserRestaurentProps {
 const RestaurantPages: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [loadingOTP, setLoadingOTP] = useState(false);
-    const [Restaurant, setRestaurant] = useState<RestaurantInterface1[] | []>([]);
+    const [Restaurant, setRestaurant] = useState<RestaurantInterface | null>(null);
     const RestaurantData = useSelector((state: RootState) => state.Restaurant.Restaurant)
     const { register, handleSubmit, formState: { errors } } = useForm<RestaurantInterfaceInput>();
     const Navigate = useNavigate()
     const Dispatch: AppDispatch = useDispatch()
+
     const token = localStorage.getItem("Token")
 
     useEffect(() => {
@@ -73,10 +73,16 @@ const RestaurantPages: React.FC = () => {
         Dispatch(FetchingRestaurant())
     }, [Dispatch])
 
+    const CheckTheLoginUser = () => {
+        if (!token) {
+            Navigate("/LoginPage")
+            return
+        }
+    }
     const onsubmit: SubmitHandler<RestaurantInterfaceInput> = async (data) => {
         setLoadingOTP(true)
         if (!token) {
-            Navigate("/LoginPage")
+            Navigate("/")
             return
         }
         const formdata = new FormData()
@@ -120,7 +126,7 @@ const RestaurantPages: React.FC = () => {
     return (
         <>
             <div className='flex justify-center w-full bg-black md:p-10 p-0'>
-                {!Restaurant || Restaurant.length >= 0 ?
+                {!Restaurant ?
                     <>
                         <div className='grid justify-center items-center grid-cols-1 mb-10 w-[85%]'>
                             <ToastContainer />
@@ -178,7 +184,7 @@ const RestaurantPages: React.FC = () => {
                                         <div>
                                             <label className="block text-[20px] font-normal text-white md:mb-1">Estimated Delivery Time(mi)</label>
                                             <input {...register("deliveryTime", { required: "deliveryTime is required" })}
-                                                type="Time"
+                                                type="text"
                                                 name='deliveryTime'
                                                 placeholder='delivery Time'
                                                 className="w-full px-3 py-2 border border-gray-300 rounded bg-black text-white"
@@ -212,7 +218,8 @@ const RestaurantPages: React.FC = () => {
 
                                     <div className="w-ful pb-2">
                                         <button
-                                            // type='submit'
+                                            type='submit'
+                                            onClick={() => CheckTheLoginUser()}
                                             className={`px-6 py-2 flex bg-orange-500 float-right md:mt-0 mt-3  hover:bg-orange-600 rounded font-serif ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
                                             disabled={loadingOTP}
                                         >
@@ -386,7 +393,13 @@ const RestaurantEdit11: React.FC<UserRestaurentProps> = ({ RestaurentID }) => {
                             <input
                                 {...register("cuisines")}
                                 type="text"
-                                defaultValue={filteredRestaurant?.cuisines || ""}
+                              
+                                defaultValue={
+                                    filteredRestaurant?.cuisines
+                                        ?.map((val) => val.toString()?.replace(/,/g, "")) 
+                                        .join(" ") || "" 
+                                }
+
                                 className="w-full px-4 py-2 border border-gray-100 rounded-lg bg-black text-white focus:ring focus:ring-orange-500 focus:outline-none"
                             />
                         </div>
@@ -396,7 +409,7 @@ const RestaurantEdit11: React.FC<UserRestaurentProps> = ({ RestaurentID }) => {
                             </label>
                             <input
                                 {...register("deliveryTime")}
-                                type="time"
+                                type="text"
                                 defaultValue={filteredRestaurant?.deliveryTime || ""}
                                 className="w-full px-4 py-2 border border-gray-100 rounded-lg bg-black text-white focus:ring focus:ring-orange-500 focus:outline-none"
                             />
