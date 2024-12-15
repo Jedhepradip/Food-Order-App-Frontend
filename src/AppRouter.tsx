@@ -6,6 +6,7 @@ import HomePage from './Pages/HomePage'
 import Navbar from './Components/Navbar'
 import Footer from './Components/Footer'
 import OrderPage from './Pages/OrderPage'
+import NotFound from './Pages/NotFound'
 import SearchPage from './Pages/SearchPage'
 import ProfilePage from './Pages/ProfilePage'
 import MenuPages from './AdminPages/MenuPages'
@@ -31,6 +32,7 @@ const AppContent: React.FC = () => {
         <>
             {!hideNavbarFooter && <Navbar />}
             <Routes>
+                <Route path="*" element={<NotFound />} />
                 <Route path='/' element={<HomePage />} />
                 <Route path='/OrderPage' element={<OrderPage />} />
                 <Route path='/MenuPages' element={<MenuPages />} />
