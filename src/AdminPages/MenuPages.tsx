@@ -297,7 +297,7 @@ const AddMenuModel = ({ closeMenuModal }: any) => {
             <div className='flex justify-center w-full md:h-screen'>
                 {/* grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/60 */}
                 <div className='fixed inset-0 z-50 bg-black/85 md:place-items-center md:mt-0 mt-20 grid grid-cols-1'>
-                    <div className="mt-6 p-11 bg-gray-950 rounded shadow-lg absolute z-50 md:w-[500px]">
+                    <div className="mt-6 p-10 bg-gray-950 rounded shadow-lg absolute z-50 md:w-[500px]">
                         <RxCross2 className='float-right text-white text-[23px] cursor-pointer' onClick={() => closeMenuModal()} />
                         <h1 className='text-white font-bold text-[20px] '>Add a New Menu</h1>
                         <span className='text-gray-500'>create a Menu that will make your restaurant stand out!</span>
