@@ -146,7 +146,7 @@ const SigninPage: React.FC = () => {
       setTimeout(() => {
         SetloadingVerifyOTP(false)
       }, 1300);
-       if (error.response) {
+      if (error.response) {
         const errorMessage = error.response.data.message;
         if (error.response.status === 409 || errorMessage === "User already exists") {
           console.log("Error: User already exists.");

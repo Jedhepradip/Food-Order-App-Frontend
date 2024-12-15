@@ -27,6 +27,7 @@ export interface UserInterFaceData {
     contact: string;
     password: string;
     address: string;
+    idAdmin:boolean;
     country: string;
     city: string;
     updatedAt: string;
