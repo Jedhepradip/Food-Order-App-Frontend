@@ -132,9 +132,9 @@ const ProfilePage: React.FC = () => {
   return (
     <>
       <div className='p-6 bg-black text-white shadow-md h-screen'>
-        <div className="flex justify-center w-full z-50 bg-black relative">
+        <div className="flex justify-center w-full z-30 bg-black relative">
           <ToastContainer />
-          <div className='flex justify-center w-full z-50 bg-black relative'>
+          <div className='flex justify-center w-full z-30 bg-black relative'>
             {showupdate && (
               <div className="z-50 bg-black/85 flex items-center justify-center px-4 relative">
                 <div className="md:mt-6  p-6 bg-black rounded-lg shadow-2xl w-full max-w-lg ">

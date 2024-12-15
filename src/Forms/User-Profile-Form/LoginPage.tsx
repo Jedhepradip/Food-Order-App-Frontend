@@ -58,9 +58,9 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className='grid grid-cols-1 place-items-center p-5 bg-black text-white min-h-screen animate-fadeIn'>
+      <div className='grid grid-cols-1 place-items-center p-5 bg-black text-white md:min-h-screen animate-fadeIn'>
         <ToastContainer />
-        <div className='px-5 py-5 shadow-[4px_4px_8px_rgba(255,255,255,0.5)] bg-gray-900 rounded-lg w-80 animate-zoomIn'>
+        <div className='px-5 py-5 shadow-[4px_4px_8px_rgba(255,255,255,0.5)] md:mt-0 mt-28 md:mb-0 mb-96 bg-gray-950 rounded-lg w-80 animate-zoomIn'>
           <h1 className='text-center font-medium font-serif text-[30px] animate-slideIn'>Login</h1>
           <form onSubmit={handleSubmit(onsubmit)}>
             <div className='space-y-1 font-serif'>
@@ -71,7 +71,7 @@ const Login: React.FC = () => {
                   type="text"
                   name='email'
                   placeholder='PradipJedhe@gmail.com'
-                  className='w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-white outline-none focus:border-transparent text-black'
+                  className='w-full px-4 py-2.5 border border-gray-300 rounded-md bg-black focus:ring-2 focus:ring-white outline-none focus:border-transparent text-white'
                 />
               </div>
 
@@ -81,14 +81,14 @@ const Login: React.FC = () => {
                   type="password"
                   name='password'
                   placeholder='password'
-                  className='w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-white focus:border-transparent outline-none text-black'
+                  className='w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2  bg-black focus:ring-white focus:border-transparent outline-none text-white'
                 />
               </div>
 
               <div className="w-full flex justify-center items-center pb-2">
                 <button
                   type='submit'
-                  className={`mt-2 flex justify-center items-center text-white w-full bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[20px] px-5 py-2.5 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                  className={`mt-2 flex justify-center items-center text-white w-full bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[20px] px-5 py-2.5 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
                   disabled={loadingOTP}
                 >
                   {loadingOTP && (

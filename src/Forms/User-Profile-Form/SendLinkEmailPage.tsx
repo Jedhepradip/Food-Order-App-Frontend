@@ -37,7 +37,7 @@ const SendLinkEmailPage: React.FC = () => {
             }, 1600);
             if (error.response) {
                 const errorMessage = error.response.data.message;
-                if(error.response.status === 501){
+                if (error.response.status === 501) {
                     toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
                 }
                 if (error.response.status === 409 || errorMessage === "User already exists") {
@@ -56,9 +56,9 @@ const SendLinkEmailPage: React.FC = () => {
 
     return (
         <>
-            <div className='grid grid-cols-1 place-items-center p-5 bg-black text-white h-screen animate-fadeIn'>
+            <div className='grid grid-cols-1 place-items-center p-5 bg-black text-white md:h-screen animate-fadeIn'>
                 <ToastContainer />
-                <div className='px-5 py-5 mb-20 shadow-[4px_4px_8px_rgba(255,255,255,0.5)] bg-gray-900 rounded-lg w-80 animate-zoomIn'>
+                <div className='px-5 py-5 shadow-[4px_4px_8px_rgba(255,255,255,0.5)] md:mt-0 mt-28 md:mb-0 mb-[450px] bg-gray-950 rounded-lg w-80 animate-zoomIn'>
                     <h1 className='text-center font-medium font-serif text-[25px] animate-slideIn'>Send Link To Email</h1>
                     <form onSubmit={handleSubmit(onsubmit)}>
                         <div className='space-y-1 font-serif'>
@@ -69,7 +69,7 @@ const SendLinkEmailPage: React.FC = () => {
                                     type="text"
                                     name='email'
                                     placeholder='PradipJedhe@gmail.com'
-                                    className='w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-white outline-none focus:border-transparent text-black'
+                                    className='w-full px-4 py-2.5 border border-gray-300 rounded-md bg-black focus:ring-2 focus:ring-white outline-none focus:border-transparent text-black'
                                 />
                             </div>
 

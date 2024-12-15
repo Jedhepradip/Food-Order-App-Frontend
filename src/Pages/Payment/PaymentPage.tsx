@@ -184,7 +184,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
                                                 <td className="px-10 py-3 flex items-center">
                                                     <span>{item?.quantity}</span>
                                                 </td>
-                                                <td className="p-3">$
+                                                <td className="p-3">
                                                     {calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}
                                                 </td>
                                             </tr>

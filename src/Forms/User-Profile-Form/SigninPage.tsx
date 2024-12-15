@@ -162,9 +162,9 @@ const SigninPage: React.FC = () => {
   }
 
   return (
-    <div className="flex items-center justify-center p-4 md:h-screen px-10 bg-black text-white">
+    <div className="flex items-center justify-center p-4 md:h-screen md:px-10 px-2 bg-black text-white">
       <ToastContainer />
-      <form onSubmit={handleSubmit(onsubmit)} className="w-full max-w-lg pt-2 px-5 pr-5 pb-5 bg-gray-800 rounded-lg shadow-lg animate-fadeIn">
+      <form onSubmit={handleSubmit(onsubmit)} className="w-full max-w-lg pt-2 border md:border-gray-500 border-gray-100 px-5 pr-5 pb-5 bg-gray-950 rounded-lg shadow-lg animate-fadeIn">
         <h2 className="text-3xl font-serif text-center mb-3">Profile Form</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -174,7 +174,7 @@ const SigninPage: React.FC = () => {
               type="text"
               name='name'
               onChange={(e) => setname(e.target.value)}
-              className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
               placeholder="name"
             />
             {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
@@ -186,7 +186,7 @@ const SigninPage: React.FC = () => {
               type="email"
               name='email'
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
               placeholder="email"
             />
             {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
@@ -200,7 +200,7 @@ const SigninPage: React.FC = () => {
               {...register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" } })}
               type="password"
               name='password'
-              className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
               placeholder="password"
             />
             {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
@@ -217,7 +217,7 @@ const SigninPage: React.FC = () => {
               onChange={(e) => setContact(e.target.value)}
               type="tel"
               name='contact'
-              className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
               placeholder="contact"
             />
             {errors.contact && <span className="text-red-500 text-sm">{errors.contact.message}</span>}
@@ -232,7 +232,7 @@ const SigninPage: React.FC = () => {
               {...register("city", { required: "City is required" })}
               type="text"
               name='city'
-              className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
               placeholder="city"
             />
             {errors.city && <span className="text-red-500 text-sm">{errors.city.message}</span>}
@@ -243,7 +243,7 @@ const SigninPage: React.FC = () => {
               {...register("address", { required: "Address is required" })}
               type="text"
               name='address'
-              className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
               placeholder="address"
             />
             {errors.address && <span className="text-red-500 text-sm">{errors.address.message}</span>}
@@ -257,7 +257,7 @@ const SigninPage: React.FC = () => {
               {...register("country", { required: "Country is required" })}
               type="text"
               name='country'
-              className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              className="w-full p-2 rounded-md bg-gray-950 border md:border-white border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
               placeholder="country"
             />
             {errors.country && <span className="text-red-500 text-sm">{errors.country.message}</span>}
@@ -269,7 +269,7 @@ const SigninPage: React.FC = () => {
               type="file"
               name='profilePicture:'
               onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
-              className="w-full p-1.5 rounded-md bg-gray-700 text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              className="w-full p-1.5 rounded-md bg-gray-950 border md:border-white border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
             />
             {errors.profilePicture && <span className="text-red-500 text-sm">{errors.profilePicture.message}</span>}
           </div>
@@ -279,14 +279,14 @@ const SigninPage: React.FC = () => {
           // <button
           //   type="button"
           //   onClick={handleOtpSubmit}
-          //   className="w-full py-0.5 mt-2 rounded-md bg-white text-black text-[25px] mb-2 font-serif hover:bg-gray-700 hover:shadow-[4px_4px_8px_rgba(255,255,255,0.5)] hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
+          //   className="w-full py-0.5 mt-2 rounded-md bg-white text-black text-[25px] mb-2 font-serif hover:bg-gray-950 border border-white hover:shadow-[4px_4px_8px_rgba(255,255,255,0.5)] hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
           // >
           //   Send OTP
           // </button>
           <button
             type="button"
             onClick={handleOtpSubmit}
-            className={`w-full py-2 mt-2 rounded-md bg-orange-500 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-orange-600 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500 ${loadingSendOTP ? 'cursor-not-allowed animate-pulse' : ''
+            className={`w-full py-2 mt-2 rounded-md bg-orange-600 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-orange-600 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500 ${loadingSendOTP ? 'cursor-not-allowed animate-pulse' : ''
               }`}
             disabled={loadingSendOTP}
           >
@@ -327,13 +327,13 @@ const SigninPage: React.FC = () => {
               type="text"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
-              className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              className="w-full p-2 rounded-md bg-gray-950 md:border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
               placeholder="Enter OTP"
             />
 
             <button
               type="submit"
-              className={`w-full py-2 mt-2 rounded-md bg-orange-500 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-orange-600 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500 ${loadingVerifyOTP ? 'cursor-not-allowed animate-pulse' : ''
+              className={`w-full py-2 mt-2 rounded-md bg-orange-600 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-orange-700 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500 ${loadingVerifyOTP ? 'cursor-not-allowed animate-pulse' : ''
                 }`}
               disabled={loadingVerifyOTP}
             >

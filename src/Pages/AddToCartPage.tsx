@@ -238,7 +238,7 @@ const AddToCartPage: React.FC = () => {
                             closePaymentModal={closePaymentModal}
                         />
                     )}
-                    <div className='flex justify-center w-full bg-black/80 z-40 absolute'>
+                    <div className='flex justify-center w-full bg-black/80 z-40 absolute md:p-0 p-10'>
                         {showCheckoutForm && (
                             <div className='inset-0 bg-gray-950 place-items-center grid grid-cols-1'>
                                 <div className="mt-6 p-10 rounded shadow-lg z-50 w-[480px]">
@@ -403,7 +403,7 @@ const AddToCartPage: React.FC = () => {
                                                 </td>
 
                                                 <td className="p-3">{item?.Menu?.name}</td>
-                                                <td className="p-3">${item?.Menu?.price.toFixed(2)}</td>
+                                                <td className="p-3">{item?.Menu?.price.toFixed(2)}</td>
                                                 <td className="p-3 flex items-center space-x-2.5 mt-2">
 
                                                     {item.quantity > 1 ?
@@ -434,7 +434,7 @@ const AddToCartPage: React.FC = () => {
                                                     </button>
                                                 </td>
 
-                                                <td className="p-3">${calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}
+                                                <td className="p-3">{calculateItemTotal(item?.Menu?.price, item?.quantity).toFixed(2)}
                                                 </td>
 
                                                 <td className="p-0">
@@ -517,7 +517,7 @@ const AddToCartPage: React.FC = () => {
 
                         <div className="mt-3 flex justify-between items-center md:pr-[100px] bg-gray-800 text-black">
                             <span className="text-lg font-bold text-white px-2 text-[21px]">Total</span>
-                            <span className="px-4 py-2 font-bold text-[20px] text-white md:mr-12">${calculateTotal()}</span>
+                            <span className="px-4 py-2 font-bold text-[20px] text-white md:mr-12">{calculateTotal()}</span>
                         </div>
 
                         {/* Proceed to Checkout button */}
@@ -581,7 +581,7 @@ const AddToCartPage: React.FC = () => {
                                                 </button>
                                             </div>
                                             <p className="text-sm text-gray-300 font-bold">
-                                                Total: ${calculateItemTotal(item?.Menu?.price, item.quantity)}
+                                                Total: {calculateItemTotal(item?.Menu?.price, item.quantity)}
                                             </p>
                                         </div>
                                         <button

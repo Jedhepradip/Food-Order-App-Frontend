@@ -35,7 +35,7 @@ const MenuPages: React.FC = () => {
             SetMenu(menudata)
         }
         if (!token) {
-            Navigate("/Login")
+            Navigate("/LoginPages")            
         }
     }, [Navigate, menudata, token])
 
