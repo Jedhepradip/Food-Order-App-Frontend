@@ -308,8 +308,8 @@ const RestaurantEdit11: React.FC<UserRestaurentProps> = ({ RestaurentID }) => {
     return (
         <div className="flex justify-center items-center font-serif bg-black/70">
             <ToastContainer />
-            <div className="p-6 rounded-lg shadow-lg w-full md:px-56">
-                <h2 className="text-2xl text-white mb-0 text-center font-serif flex justify-center space-x-1">
+            <div className="p-6 px-10 rounded-lg shadow-lg w-full md:px-56">
+                <h2 className="md:text-2xl text-[18px] mb-2 text-white md:mb-0 text-center font-serif flex justify-center space-x-1">
                     {/* Update Restaurant Details */}
                     {"Update Restaurant Details".split("").map((char, index) => (
                         <span

@@ -37,6 +37,7 @@ const ViewMenuPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [AddToCartLoading, SetAddToCartLoading] = useState(false)
     const [Restaurant, setRestaurant] = useState<Restaura | null>(null);
+    const [MenuID, SetMenuId] = useState<string | null>(null);
     const [menus, setMenus] = useState<menucreateInterface[] | null>(null);
     const RestaurantData = useSelector((state: RootState) => state.AllRestaurant.RestaurantAll);
     const MenuAllData = useSelector((state: RootState) => state.Menu.Menu)
@@ -64,6 +65,7 @@ const ViewMenuPage: React.FC = () => {
 
 
     const AddToCartIncreaseQuantity = async (id: string) => {
+        SetMenuId(id)
         SetAddToCartLoading(true)
         const fromdata = new FormData()
         fromdata.append("productId", id)
@@ -166,7 +168,7 @@ const ViewMenuPage: React.FC = () => {
                                         className={`bg-orange-500 text-white flex justify-center items-center font-semibold py-2 px-4 mt-4 rounded-lg w-full hover:bg-orange-600 transition duration-300 ${AddToCartLoading ? 'cursor-not-allowed' : ''} ${AddToCartLoading ? 'animate-pulse' : ''}`}
                                         disabled={AddToCartLoading}
                                     >
-                                        {AddToCartLoading && (
+                                        {MenuID == val._id && AddToCartLoading && (
                                             <svg
                                                 className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
                                                 viewBox="0 0 24 24"
@@ -188,7 +190,7 @@ const ViewMenuPage: React.FC = () => {
                                                 ></path>
                                             </svg>
                                         )}
-                                        <span>{AddToCartLoading ? 'Loading...' : 'Add To Cart'}</span>
+                                        <span>{MenuID == val._id && AddToCartLoading ? 'Loading...' : 'Add To Cart'}</span>
                                     </button>
                                 </div>
                             </div>

@@ -19,6 +19,8 @@ const MenuPages: React.FC = () => {
     const [loadingOTP, setLoadingOTP] = useState(false);
     const [EditMenu, EditTheMenu] = useState(false);
     const [Menu, SetMenu] = useState<menucreateInterface[] | null>(null);
+    const [MenuID, SetMenuId] = useState<string | null>(null);
+
     const Navigate = useNavigate()
     const dispatch: AppDispatch = useDispatch()
     const menudata = useSelector((state: RootState) => state.Menu.Menu)
@@ -53,6 +55,7 @@ const MenuPages: React.FC = () => {
     }
 
     const UpdateMenuModelShow = (id: string) => {
+        SetMenuId(id)
         EditTheMenu(true)
         setTimeout(() => {
             const EdittheMenu = Menu?.filter((e) => e._id == id)
@@ -65,7 +68,7 @@ const MenuPages: React.FC = () => {
 
     return (
         <>
-            <div className="w-full bg-black text-white py-10 md:h-screen pb-10 z-50">
+            <div className="w-full bg-black text-white py-10 md:h-screen pb-10 md:px-0 p-6 z-50">
                 <ToastContainer />
                 <div className="flex flex-wrap md:flex-nowrap justify-around items-center w-full mb-4 px-4 md:px-0">
                     <h1 className=" font-serif text-white text-2xl text-center md:text-left">Available Menus</h1>
@@ -109,7 +112,7 @@ const MenuPages: React.FC = () => {
                         <div className='md:block hidden'>
                             <div
                                 key={index}
-                                className="flex flex-col md:flex-row px-4 md:px-60 text-black w-full overflow-hidden py-3"
+                                className="flex flex-col md:flex-row md:px-60 text-black w-full overflow-hidden py-3"
                             >
                                 <div className="flex flex-col md:flex-row bg-gray-800 w-full rounded-lg p-2 justify-center md:justify-start items-center">
                                     <img
@@ -126,7 +129,7 @@ const MenuPages: React.FC = () => {
                                                 className={`btn bg-orange-400 flex hover:bg-orange-500 text-black font-semibold rounded-lg px-7 md:px-4 py-1.5 mt-2 md:mt-0 md:float-right 
                                         ${EditMenu ? 'cursor-not-allowed' : ''} ${EditMenu ? 'animate-pulse' : ''}`}
                                                 disabled={EditMenu} >
-                                                {EditMenu && (
+                                                {MenuID == val._id && EditMenu && (
                                                     <svg
                                                         className="animate-spin h-5 w-5 mr-2 text-black rounded-full"
                                                         viewBox="0 0 24 24"
@@ -150,7 +153,7 @@ const MenuPages: React.FC = () => {
                                                 )}
 
                                                 <span>
-                                                    {EditMenu ? 'Loading...' : 'Edit'}
+                                                    {MenuID == val._id && EditMenu ? 'Loading...' : 'Edit'}
                                                 </span>
                                             </button>
                                         </div>
@@ -444,10 +447,10 @@ const MenuUpdateModel = ({ selectedProduct, closeMenuModal }: any) => {
 
     return (
         <>
-            <div className='flex justify-center w-full h-screen'>
+            <div className='flex justify-center w-full md:h-screen'>
                 {/* grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/60 */}
-                <div className='fixed inset-0 z-50 bg-black/85 place-items-center grid grid-cols-1'>
-                    <div className="mt-6 p-11 bg-black rounded shadow-lg absolute z-50 w-[500px]">
+                <div className='fixed inset-0 z-50 bg-black/85 md:place-items-center md:mt-0 mt-20 grid grid-cols-1'>
+                    <div className="mt-6 md:p-11 p-14 bg-black rounded shadow-lg absolute z-50 md:w-[500px]">
                         <RxCross2 className='float-right text-white text-[23px] cursor-pointer' onClick={() => closeMenuModal()} />
                         <h1 className='text-white font-bold text-[20px] '>Update a Menu</h1>
                         <span className='text-gray-500'>Update a Menu that will make your restaurant stand out!</span>
@@ -528,7 +531,7 @@ const MenuUpdateModel = ({ selectedProduct, closeMenuModal }: any) => {
                                             ></path>
                                         </svg>
                                     )}
-                                    <span>{loadingOTP ? 'Loading...' : 'Submit'}</span>
+                                    <span>{loadingOTP ? 'Loading...' : 'Update'}</span>
                                 </button>
                             </div>
                         </form>
