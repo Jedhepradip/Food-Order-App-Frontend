@@ -26,8 +26,6 @@ const Navbar: React.FC = () => {
   }
 
   const token = localStorage.getItem("Token")
-
-  console.log("Rani",User);
   
 
   return (
