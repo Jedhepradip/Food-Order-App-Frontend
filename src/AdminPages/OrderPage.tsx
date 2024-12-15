@@ -41,23 +41,12 @@ interface OrderData {
 }
 
 const OrderPage: React.FC = () => {
-    // const [Menu, SetMenu] = useState<menucreateInterface[] | null>(null);
-    // const [sameProducts, setSameProducts] = useState([]);
     const [AllOrder, SetAllOrderData] = useState<OrderData[]>([])
     const [sameProducts, setSameProducts] = useState<OrderData[]>([])
-    // const [MenuQun, SetMenuQun] = useState<MenuItme[]>([])
-    // const [OrderMenuFilter, SetOrderMenuDataFilter] = useState<OrderData[]>([])
     const Orderdata = useSelector((state: RootState) => state.OrderAll.AllOrder)
-    const user = useSelector((state: RootState) => state.User.User)
     const Restaurant = useSelector((state: RootState) => state.Restaurant.Restaurant)
 
-    console.log("Restaurant :", Restaurant);
-
     const Dispatch: AppDispatch = useDispatch()
-
-    console.log(AllOrder);
-    console.log(user);
-
     useEffect(() => {
         if (Orderdata?.length) {
             SetAllOrderData(Orderdata)
@@ -65,23 +54,16 @@ const OrderPage: React.FC = () => {
 
     }, [Orderdata])
 
-
-    console.log("Orderdata ", Orderdata);
-
     useEffect(() => {
         if (!Restaurant?.menus || !AllOrder) return;
-
         const filteredProducts = AllOrder.filter(productA => {
             const pradip = productA.MenuItemsList.filter(a =>
                 Restaurant?.menus.some(productB => a.menuId === productB)
             );
             return pradip.length > 0;
         });
-
         setSameProducts(filteredProducts);
     }, [AllOrder, Restaurant]);
-
-    console.log("sameProducts:", sameProducts);
 
     useEffect(() => {
         Dispatch(FetchingAllOrderData())
@@ -97,13 +79,10 @@ const OrderPage: React.FC = () => {
             console.error("Invalid data format. Expected an array.");
             return 0;
         }
-
         return data.reduce((total: number, item: MenuItme) => {
             return total + calculateItemTotal(item.price, item.Quantity);
         }, 0); // Initial total is 0
     };
-
-    // Example usage  
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleStatusChange = async (e: any, OrderId: string, menuID: string) => {
@@ -121,9 +100,7 @@ const OrderPage: React.FC = () => {
                     },
                 }
             );
-
             const UserUpdate = response.data;
-
             if (response.status === 200) {
                 toast.success(
                     <div className='font-serif text-[15px] text-black'>{UserUpdate.message}</div>

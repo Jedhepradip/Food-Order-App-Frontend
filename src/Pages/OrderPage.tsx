@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
 import { FetchingOrderMenuData } from '../Redux/Features/OrderMenuSlice';
 
-// import { Link } from 'react-router-dom';
-
 interface MenuItme {
     Quantity: number,
     description: string,

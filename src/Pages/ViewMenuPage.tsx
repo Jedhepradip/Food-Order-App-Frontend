@@ -5,7 +5,6 @@ import { RootState, AppDispatch } from '../Redux/Store/Store';
 import { useSelector, useDispatch } from 'react-redux';
 import { FetchingUserAllRestaurant } from '../Redux/Features/RestaurantAllSlice';
 import { FetchingMenuData } from '../Redux/Features/MenuSlice';
-// import { menucreateInterface } from '../interface/MenucreateInterface';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';

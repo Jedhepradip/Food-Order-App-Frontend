@@ -3,7 +3,6 @@ import { FaEnvelope, FaMapMarkerAlt, FaCity, FaGlobe } from 'react-icons/fa';
 import { IoMdCall } from "react-icons/io";
 import { RxCross2 } from 'react-icons/rx';
 import { useForm, SubmitHandler } from "react-hook-form"
-// import { UserInterFaceData } from '../interface/UserInterface';
 import { FetchingUserData } from '../Redux/Features/UserSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
@@ -51,7 +50,6 @@ const ProfilePage: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const Dispatch: AppDispatch = useDispatch()
   const { register, handleSubmit } = useForm<ProfileUpdateFrom>();
-  // const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [UserInfo, setUserData] = useState<UserInterFaceData[] | any | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -92,7 +90,6 @@ const ProfilePage: React.FC = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            // "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("Token")}`,
           },
         }
