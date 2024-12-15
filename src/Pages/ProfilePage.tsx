@@ -314,7 +314,7 @@ const ProfilePage: React.FC = () => {
             <div className='w-full flex justify-center items-center' onClick={() => setshowmodel()}>
               <button
                 // type='submit'
-                className={`md:w-[12%] w-[20%] flex justify-center items-center py-1 mt-4 bg-orange-500 font-serif text-black rounded-md hover:bg-orange-700 transition duration-300 text-[20px] ${loadingShow ? 'cursor-not-allowed' : ''} ${loadingShow ? 'animate-pulse' : ''}`}
+                className={`md:w-[12%] w-[30%] flex justify-center items-center py-1 mt-4 bg-orange-500 font-serif text-black rounded-md hover:bg-orange-700 transition duration-300 text-[20px] ${loadingShow ? 'cursor-not-allowed' : ''} ${loadingShow ? 'animate-pulse' : ''}`}
                 disabled={loadingShow}
               >
                 {loadingShow && (
