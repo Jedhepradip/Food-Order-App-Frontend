@@ -64,7 +64,7 @@ const SigninPage: React.FC = () => {
     Formdata.append("name", name)
     Formdata.append("contact", contact)
     try {
-      const response = await axios.post("http://localhost:3000/api-user/SendOTP/ForRegistration/User", Formdata,
+      const response = await axios.post("https://food-order-app-backend-9.onrender.com/api-user/SendOTP/ForRegistration/User", Formdata,
         {
           headers: {
             "Content-Type": "application/json"
@@ -159,7 +159,6 @@ const SigninPage: React.FC = () => {
         console.log("Error: Network issue or server not responding", error);
       }
     }
-
   }
 
   return (
