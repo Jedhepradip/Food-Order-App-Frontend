@@ -88,7 +88,7 @@ const Login: React.FC = () => {
               <div className="w-full flex justify-center items-center pb-2">
                 <button
                   type='submit'
-                  className={`mt-2 flex justify-center items-center text-white w-full bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[20px] px-5 py-2.5 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                  className={`mt-2 flex justify-center items-center text-white w-full bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[20px] px-5 py-2.5 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
                   disabled={loadingOTP}
                 >
                   {loadingOTP && (
