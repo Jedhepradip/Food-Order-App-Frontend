@@ -27,7 +27,7 @@ const initialState: UserAllData = {
 
 export const FetchingAllUserData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get("http://localhost:3000/api-user/UserAll/DataSend", {
+        const response = await axios.get("https://food-order-app-backend-9.onrender.com/api-user/UserAll/DataSend", {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }

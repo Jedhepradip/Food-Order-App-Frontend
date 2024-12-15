@@ -17,7 +17,7 @@ const SendLinkEmailPage: React.FC = () => {
         const fromdata = new FormData()
         fromdata.append("email", data.email)
         try {
-            const response = await axios.post("http://localhost:3000/api-user/ForgetPassword", fromdata, {
+            const response = await axios.post("https://food-order-app-backend-9.onrender.com/api-user/ForgetPassword", fromdata, {
                 headers: {
                     "Content-Type": "application/json"
                 }

@@ -93,7 +93,7 @@ const RestaurantPages: React.FC = () => {
         formdata.append("deliveryTime", data.deliveryTime)
         formdata.append("restaurantName", data.restaurantName)
         try {
-            const response = await axios.post("http://localhost:3000/api-restaurant/Create/Restaurant/User", formdata, {
+            const response = await axios.post("https://food-order-app-backend-9.onrender.com/api-restaurant/Create/Restaurant/User", formdata, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     authorization: `Bearer ${token}`,
@@ -302,7 +302,7 @@ const RestaurantEdit11: React.FC<UserRestaurentProps> = ({ RestaurentID }) => {
 
         try {
             const response = await axios.put(
-                `http://localhost:3000/api-restaurant/Restaurant/Updated/${RestaurentID}`,
+                `https://food-order-app-backend-9.onrender.com/api-restaurant/Restaurant/Updated/${RestaurentID}`,
                 formData,
                 {
                     headers: {

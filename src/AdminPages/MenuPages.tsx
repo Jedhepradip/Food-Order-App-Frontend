@@ -256,7 +256,7 @@ const AddMenuModel = ({ closeMenuModal }: any) => {
 
         try {
             const response = await axios.post(
-                `http://localhost:3000/api-Meun/Created/Meun`,
+                `https://food-order-app-backend-9.onrender.com/api-Meun/Created/Meun`,
                 formdata,
                 {
                     headers: {
@@ -408,7 +408,7 @@ const MenuUpdateModel = ({ selectedProduct, closeMenuModal }: any) => {
         fromdata.append("price", data.price)
 
         try {
-            const response = await axios.put(`http://localhost:3000/api-Meun/Menu/Update/${selectedProduct[0]?._id}`, fromdata, {
+            const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-Meun/Menu/Update/${selectedProduct[0]?._id}`, fromdata, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     authorization: `Bearer ${token}`,

@@ -69,7 +69,7 @@ const ViewMenuPage: React.FC = () => {
         const fromdata = new FormData()
         fromdata.append("productId", id)
         try {
-            const response = await axios.post(`http://localhost:3000/api-restaurant/AddToCart/Increase/Quantity`, fromdata, {
+            const response = await axios.post(`https://food-order-app-backend-9.onrender.com/api-restaurant/AddToCart/Increase/Quantity`, fromdata, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,

@@ -125,7 +125,7 @@ const SigninPage: React.FC = () => {
     console.log(file);
 
     try {
-      const response = await axios.post("http://localhost:3000/api-user/Registration/User", Formdata, {
+      const response = await axios.post("https://food-order-app-backend-9.onrender.com/api-user/Registration/User", Formdata, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

@@ -112,7 +112,7 @@ const OrderPage: React.FC = () => {
         fromdata.append("menuID", menuID)
         try {
             const response = await axios.put(
-                `http://localhost:3000/api-restaurant/Status/Update/${OrderId}`,
+                `https://food-order-app-backend-9.onrender.com/api-restaurant/Status/Update/${OrderId}`,
                 fromdata, // Send FormData directly
                 {
                     headers: {

@@ -113,7 +113,7 @@ const AdminDashboard: React.FC = () => {
 
     const MenuDeleteAdmin = async (ID: string) => {
         try {
-            const response = await axios.put(`http://localhost:3000/api-Meun/Admin/Delete/Menu/${ID}`, {}, {
+            const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-Meun/Admin/Delete/Menu/${ID}`, {}, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
@@ -143,7 +143,7 @@ const AdminDashboard: React.FC = () => {
 
     const RestaurantDeleteAdmin = async (ID: string) => {
         try {
-            const response = await axios.put(`http://localhost:3000/api-restaurant/Admin/Delete/Restaurant/${ID}`, {}, {
+            const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-restaurant/Admin/Delete/Restaurant/${ID}`, {}, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
@@ -174,7 +174,7 @@ const AdminDashboard: React.FC = () => {
 
     const UserDeleteAdmin = async (ID: string) => {
         try {
-            const response = await axios.put(`http://localhost:3000/api-user/Admin/Delete/User/${ID}`, {}, {
+            const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-user/Admin/Delete/User/${ID}`, {}, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
