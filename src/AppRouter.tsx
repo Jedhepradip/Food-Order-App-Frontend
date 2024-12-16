@@ -131,7 +131,7 @@ const AppContent: React.FC = () => {
         location.pathname === '/SetNewPassword' ||
         location.pathname === '/AdminDashboard';
 
-    if (user?.idAdmin === false) {
+    if (user?.idAdmin === false || user === null) {
         Navigate("/")
     }
 
@@ -139,11 +139,7 @@ const AppContent: React.FC = () => {
         <>
             {!hideNavbarFooter && <Navbar />}
             <Routes>
-                {user?.idAdmin === true ? (
-                    <>
-                        <Route path='/AdminDashboard' element={<AdminDashboard />} />
-                    </>
-                ) : (
+                {user?.idAdmin === false || user === null ? (
                     <>
                         <Route path="*" element={<NotFound />} />
                         <Route path='/' element={<HomePage />} />
@@ -160,6 +156,10 @@ const AppContent: React.FC = () => {
                         <Route path='/OrderPageAdmin' element={<OrderPageAdmin />} />
                         <Route path='/RestaurantPages' element={<RestaurantPages />} />
                         <Route path='/SendLinkEmailPage' element={<SendLinkEmailPage />} />
+                    </>
+                ) : (
+                    <>
+                        <Route path='/AdminDashboard' element={<AdminDashboard />} />
                     </>
                 )}
             </Routes>

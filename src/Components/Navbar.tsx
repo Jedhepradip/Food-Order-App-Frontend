@@ -25,6 +25,10 @@ const Navbar: React.FC = () => {
     Navigate("/SigninPage")
   }
 
+  if (User?.idAdmin === false || User === null) {
+    Navigate("/")
+  }
+
   const token = localStorage.getItem("Token")
 
   return (
