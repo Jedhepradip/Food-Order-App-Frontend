@@ -27,6 +27,7 @@ interface CheckoutFormData {
     expiry: string;
     cvc: string;
     MenuItem: [],
+    checkbox: string,
 }
 
 const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentModal }) => {
@@ -374,12 +375,19 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
                                 </div>
 
 
-                                <div className="flex items-center">
-                                    <input type="checkbox" id="billing-info" className="mr-2" />
+                                <div className="flex items-center mb-4">
+                                    <input {...register("checkbox", { required: "checkbox is required" })}
+                                        type="checkbox"
+                                        id="billing-info"
+                                        className="mr-2"
+                                    />
                                     <label htmlFor="billing-info" className="font-serif text-gray-300">
                                         Billing info is the same as shipping
                                     </label>
                                 </div>
+                                {errors.checkbox?.message && typeof errors.checkbox.message === "string" && (
+                                    <span className="text-red-500 text-sm">{errors.checkbox.message}</span>
+                                )}
 
                                 {/* Submit Button */}
                                 <button
