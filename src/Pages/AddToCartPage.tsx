@@ -238,7 +238,7 @@ const AddToCartPage: React.FC = () => {
                             closePaymentModal={closePaymentModal}
                         />
                     )}
-                    <div className='flex justify-center w-full bg-black/80 z-40 absolute md:p-0 p-10'>
+                    <div className='flex justify-center w-full bg-black/95 z-40 absolute md:p-0 p-10'>
                         {showCheckoutForm && (
                             <div className='inset-0 bg-gray-950 place-items-center grid grid-cols-1'>
                                 <div className="mt-6 md:p-10  rounded shadow-lg z-50 md:w-[480px]">
@@ -252,7 +252,7 @@ const AddToCartPage: React.FC = () => {
                                                 <label className="block text-sm font-medium text-white">Name</label>
                                                 <input
                                                     type="text"
-                                                    className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded bg-gray-950 text-white"
                                                     defaultValue={UserInfo?.name}
                                                 />
                                             </div>
@@ -261,7 +261,7 @@ const AddToCartPage: React.FC = () => {
                                                 <label className="block text-sm font-medium text-white">Email</label>
                                                 <input
                                                     type="email"
-                                                    className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded bg-gray-950 text-white"
                                                     value={UserInfo?.email}
                                                 />
                                             </div>
@@ -270,7 +270,7 @@ const AddToCartPage: React.FC = () => {
                                                 <label className="block text-sm font-medium text-white">Contact</label>
                                                 <input
                                                     type="tel"
-                                                    className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded bg-gray-950 text-white"
                                                     defaultValue={UserInfo?.contact}
                                                 />
                                             </div>
@@ -279,7 +279,7 @@ const AddToCartPage: React.FC = () => {
                                                 <label className="block text-sm font-medium text-white">Address</label>
                                                 <input
                                                     type="text"
-                                                    className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded bg-gray-950 text-white"
                                                     defaultValue={UserInfo?.address}
                                                 />
                                             </div>
@@ -288,7 +288,7 @@ const AddToCartPage: React.FC = () => {
                                                 <label className="block text-sm font-medium text-white">City</label>
                                                 <input
                                                     type="text"
-                                                    className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded bg-gray-950 text-white"
                                                     defaultValue={UserInfo?.city}
                                                 />
                                             </div>
@@ -297,7 +297,7 @@ const AddToCartPage: React.FC = () => {
                                                 <label className="block text-sm font-medium text-white">Country</label>
                                                 <input
                                                     type="text"
-                                                    className="w-full px-3 py-2 border border-gray-600 rounded bg-gray-900 text-white"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded bg-gray-950 text-white"
                                                     defaultValue={UserInfo?.country}
                                                 />
                                             </div>

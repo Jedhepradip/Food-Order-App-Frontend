@@ -155,8 +155,8 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
                 <ToastContainer />
                 <div className="flex flex-col md:flex-row dark:bg-gray-800 w-full h-full justify-center items-center">
                     {/* Product Info Section */}
-                    <div className="md:w-1/2 w-full flex dark:bg-gray-900 shadow-lg rounded-lg  from-gray-800 to-gray-900">
-                        <div className="container mx-auto p-4 bg-black text-white md:min-h-screen relative">
+                    <div className="md:w-1/2 w-full flex dark:bg-gray-950 shadow-lg rounded-lg  from-gray-950 to-gray-900">
+                        <div className="container mx-auto md:p-4 p-0 bg-black text-white md:min-h-screen relative">
                             <p className="font-serif font-extralight text-[30px]">Pay with Cart</p>
                             <div className="overflow-auto relative">
                                 <table className="min-w-full ">
@@ -202,7 +202,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
                         </div>
                     </div>
 
-                    <div className="md:w-1/2 flex justify-center items-center p-5 bg-black">
+                    <div className="md:w-1/2 flex justify-center items-center md:p-5 mt-5 bg-black">
                         <div className="bg-gray-950 text-white rounded-lg shadow-lg md:w-[80%] w-full p-7 max-w-xl">
                             <RxCross2 className='float-right text-white text-[23px]' onClick={() => closePaymentModal()} />
                             <p className="font-serif font-extralight text-[30px]">Pay with Cart</p>
