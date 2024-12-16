@@ -60,6 +60,7 @@ const AdminDashboard: React.FC = () => {
     const menuall = useSelector((state: RootState) => state.MenuAll.MenuAllData)
     const [UserInfo, setUserData] = useState<UserInterFaceData[] | null>(null);
     const userAll = useSelector((state: RootState) => state.AllUser.AllUser)
+    const user = useSelector((state:RootState) => state.User.User)
     const [RestaurentEditdata, SetRestaurentFrom] = useState(false)
     const [RestaurentID, SetRestaurentID] = useState(String)
     const [activeTab, setActiveTab] = useState("users");
@@ -108,9 +109,13 @@ const AdminDashboard: React.FC = () => {
     useEffect(() => {
         dispatch(FetchinMenuAlldata())
         dispatch(FetchingAllUserData())
+        dispatch(FetchingUserData())
         dispatch(FetchingUserAllRestaurant())
     }, [dispatch])
 
+
+    console.log("user :",user);
+    
     const MenuDeleteAdmin = async (ID: string) => {
         try {
             const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-Meun/Admin/Delete/Menu/${ID}`, {}, {

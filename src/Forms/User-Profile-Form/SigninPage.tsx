@@ -33,7 +33,22 @@ const SigninPage: React.FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<InputFormSignIn>();
   //Send OTP Email 
 
+  const [customError, setCustomError] = useState<string | null>(null);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const emailValue = e.target.value;
+    if (/[A-Z]/.test(emailValue)) {
+      setCustomError("Email must not contain uppercase letters.");
+    } else {
+      setCustomError(null);
+    }
+    setEmail(emailValue.toLowerCase());
+  };
+
+
   const handleOtpSubmit = async () => {
+    if (!(customError == null)) {
+      return
+    }
     SetloadingSendOTP(true)
     if (!name) {
       SetloadingSendOTP(false)
@@ -103,9 +118,6 @@ const SigninPage: React.FC = () => {
     if (!file) {
       return toast.success(<div className='font-serif text-[15px] text-black'>{"Profile Picture is required.."}</div>);
     }
-    console.log(otp);
-    console.log(data.OTP);
-
 
     if (!(data.OTP === otp)) {
       return toast.error("OTP doesn't match, please try again.")
@@ -179,7 +191,7 @@ const SigninPage: React.FC = () => {
             />
             {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
           </div>
-          <div>
+          {/* <div>
             <label className="block mb-2 text-lg font-serif">Email</label>
             <input
               {...register("email", { required: "Email is required", pattern: { value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, message: "Invalid email format" } })}
@@ -190,7 +202,34 @@ const SigninPage: React.FC = () => {
               placeholder="email"
             />
             {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
+          </div> */}
+
+          <div>
+            <label className="block mb-2 text-lg font-serif">Email</label>
+            <input
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                  message: "Invalid email format",
+                },
+              })}
+              type="email"
+              name="email"
+              onChange={handleEmailChange}
+              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              placeholder="email"
+            />
+            {/* Validation Error */}
+            {errors.email && (
+              <span className="text-red-500 text-sm">{errors.email.message}</span>
+            )}
+
+            {customError && (
+              <span className="text-red-500 text-sm font-serif ">{customError}</span>
+            )}
           </div>
+
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -206,22 +245,24 @@ const SigninPage: React.FC = () => {
             {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
           </div>
 
-          <div>
-            <label className="block mb-2 text-lg font-serif">Contact</label>
-            <input
-              {...register("contact", {
-                required: "Contact is required",
-                minLength: { value: 10, message: "Contact must be at least 10 digits" },
-                maxLength: { value: 10, message: "Contact must be exactly 10 digits" },
-              })}
-              onChange={(e) => setContact(e.target.value)}
-              type="tel"
-              name='contact'
-              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-              placeholder="contact"
-            />
-            {errors.contact && <span className="text-red-500 text-sm">{errors.contact.message}</span>}
-          </div>
+            <div>
+              <label className="block mb-2 text-lg font-serif">Contact</label>
+              <input
+                {...register("contact", {
+                  required: "Contact is required",
+                  minLength: { value: 10, message: "Contact must be at least 10 digits" },
+                  maxLength: { value: 10, message: "Contact must be exactly 10 digits" },
+                })}
+                onChange={(e) => setContact(e.target.value)}
+                type="tel"
+                name='contact'
+                className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+                placeholder="contact"
+              />
+              {errors.contact && <span className="text-red-500 text-sm">{errors.contact.message}</span>}
+            </div>
+
+          
 
         </div>
 
