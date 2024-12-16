@@ -115,12 +115,8 @@ const AdminDashboard: React.FC = () => {
         dispatch(FetchingUserAllRestaurant())
     }, [dispatch])
 
-
-    console.log("user :", user);
-
     if (user?.idAdmin === false) {
         console.log("Not");
-        
         Navigate("/")
     }
 
