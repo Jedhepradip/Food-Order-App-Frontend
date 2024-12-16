@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
 
   const handlelogout = () => {
     localStorage.removeItem("Token")
-    Navigate("/SigninPages")
+    Navigate("/SigninPage")
   }
 
   const token = localStorage.getItem("Token")
@@ -113,7 +113,9 @@ const Navbar: React.FC = () => {
                           <NavLink to={"/MenuPages"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Menu</NavLink>
                         </li>
                         <li>
-                          <NavLink to={"/OrderPageAdmin"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Order</NavLink>
+                          <NavLink to={"/OrderPageAdmin"} className="flex px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                            <h4>Menu Order</h4>
+                          </NavLink>
                         </li>
                       </ul>
                     </div>

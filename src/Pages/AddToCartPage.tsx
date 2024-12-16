@@ -241,7 +241,7 @@ const AddToCartPage: React.FC = () => {
                     <div className='flex justify-center w-full bg-black/80 z-40 absolute md:p-0 p-10'>
                         {showCheckoutForm && (
                             <div className='inset-0 bg-gray-950 place-items-center grid grid-cols-1'>
-                                <div className="mt-6 p-10 rounded shadow-lg z-50 w-[480px]">
+                                <div className="mt-6 md:p-10  rounded shadow-lg z-50 md:w-[480px]">
                                     <RxCross2 className='float-right text-white text-[23px]' onClick={() => setShowCheckoutForm(false)} />
                                     <h3 className="text-xl font-semibold mb-2 text-white">Review Your Order</h3>
                                     <p className='text-[14px] text-gray-400 mb-2'>Double-check your delivery details ensure erveryting's in order. When you're ready,hit confirm to finalize your order</p>
