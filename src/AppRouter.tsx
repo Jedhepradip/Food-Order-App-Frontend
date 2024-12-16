@@ -131,7 +131,7 @@ const AppContent: React.FC = () => {
         location.pathname === '/SetNewPassword' ||
         location.pathname === '/AdminDashboard';
 
-    if (user?.idAdmin === false || user === null) {
+    if (user?.idAdmin === false) {
         Navigate("/")
     }
 
@@ -139,7 +139,7 @@ const AppContent: React.FC = () => {
         <>
             {!hideNavbarFooter && <Navbar />}
             <Routes>
-                {user?.idAdmin === false || user === null ? (
+                {user?.idAdmin === false || user == null ? (
                     <>
                         <Route path="*" element={<NotFound />} />
                         <Route path='/' element={<HomePage />} />
