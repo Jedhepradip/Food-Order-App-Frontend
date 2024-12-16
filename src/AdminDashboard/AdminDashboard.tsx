@@ -14,6 +14,7 @@ import { FetchingAllUserData } from "../Redux/Features/AllUserDataSlice";
 import { FetchingUserAllRestaurant } from "../Redux/Features/RestaurantAllSlice";
 import { FaUsers, FaUtensils, FaClipboardList, FaEdit, FaTrashAlt } from "react-icons/fa";
 import { FetchingUserData } from "../Redux/Features/UserSlice";
+import { useNavigate } from "react-router-dom";
 
 export interface UserInterFaceData {
     profilePictuer: string;  //profilePicture
@@ -60,7 +61,7 @@ const AdminDashboard: React.FC = () => {
     const menuall = useSelector((state: RootState) => state.MenuAll.MenuAllData)
     const [UserInfo, setUserData] = useState<UserInterFaceData[] | null>(null);
     const userAll = useSelector((state: RootState) => state.AllUser.AllUser)
-    const user = useSelector((state:RootState) => state.User.User)
+    const user = useSelector((state: RootState) => state.User.User)
     const [RestaurentEditdata, SetRestaurentFrom] = useState(false)
     const [RestaurentID, SetRestaurentID] = useState(String)
     const [activeTab, setActiveTab] = useState("users");
@@ -69,6 +70,7 @@ const AdminDashboard: React.FC = () => {
     const [MenuID, SetMenuID] = useState(String)
     const [UserID, SetUserID] = useState(String)
     const dispatch: AppDispatch = useDispatch()
+    const Navigate = useNavigate()
 
     useEffect(() => {
         if (RestureantdataAll) {
@@ -114,8 +116,14 @@ const AdminDashboard: React.FC = () => {
     }, [dispatch])
 
 
-    console.log("user :",user);
-    
+    console.log("user :", user);
+
+    if (user?.idAdmin === false) {
+        console.log("Not");
+        
+        Navigate("/")
+    }
+
     const MenuDeleteAdmin = async (ID: string) => {
         try {
             const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-Meun/Admin/Delete/Menu/${ID}`, {}, {
