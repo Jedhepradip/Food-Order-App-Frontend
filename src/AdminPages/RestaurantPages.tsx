@@ -42,6 +42,13 @@ interface UserRestaurentProps {
     // closeMenuModal: () => void;
 }
 
+interface PaymentData {
+    name: string;
+    email: string;
+    amount: number;
+    paymentId: string;
+}
+
 const RestaurantPages: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [loadingOTP, setLoadingOTP] = useState(false);
@@ -52,7 +59,7 @@ const RestaurantPages: React.FC = () => {
     const Dispatch: AppDispatch = useDispatch()
     const token = localStorage.getItem("Token")
 
-    const [Paymentdata, SetPaymentData] = useState(String)
+    const [Payment, SetPaymentData] = useState<PaymentData | null>(null);
 
     useEffect(() => {
         if (RestaurantData) {
@@ -116,6 +123,8 @@ const RestaurantPages: React.FC = () => {
 
     useEffect(() => {
         const payToCheckTheRestaurant = async () => {
+            console.log("okok");
+
             try {
                 const response = await axios.get("https://food-order-app-backend-9.onrender.com/api-Payment-restaurant/Payment/Get/Info", {
                     headers: {
@@ -126,180 +135,190 @@ const RestaurantPages: React.FC = () => {
                 const restaurant = response.data;
                 if (response.status === 200) {
                     console.log("Paymentdata Get ", restaurant);
-                    SetPaymentData(restaurant.data)
+                    SetPaymentData(restaurant)
                 }
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } catch (error: any) {
-                if (error.response) {
-                    const errorMessage = error.response.data.message;
-                    if (error.response.status === 409 || errorMessage === "User already exists") {
-                        console.log("Error: User already exists.");
-                        toast.error(
-                            <div className="font-serif text-[15px] text-black">
-                                {errorMessage}
-                            </div>
-                        );
-                    } else {
-                        toast.error(
-                            <div className="font-serif text-[15px] text-black">
-                                {errorMessage || "Unexpected error occurred."}
-                            </div>
-                        );
-                        console.log("Error: ", errorMessage);
-                    }
-                } else {
-                    console.log("Error: Network issue or server not responding", error);
-                }
+            } catch (error) {
+                // if (error.response) {
+                //     const errorMessage = error.response.data.message;
+                //     if (error.response.status === 409 || errorMessage === "User already exists") {
+                //         console.log("Error: User already exists.");
+                //         toast.error(
+                //             <div className="font-serif text-[15px] text-black">
+                //                 {errorMessage}
+                //             </div>
+                //         );
+                //     } else {
+                //         toast.error(
+                //             <div className="font-serif text-[15px] text-black">
+                //                 {errorMessage || "Unexpected error occurred."}
+                //             </div>
+                //         );
+                //         console.log("Error: ", errorMessage);
+                //     }
+                // } else {
+                //     console.log("Error: Network issue or server not responding", error);
+                // }
+                console.log(error);
             }
         };
         payToCheckTheRestaurant(); // Call the async function
     }, [token]);
 
 
+    console.log("Paymentdata", Payment);
+
     return (
         <>
             <div className='flex justify-center w-full bg-black md:p-10 p-0'>
                 <>
                     <Elements stripe={stripePromise}>
-                        {Paymentdata && (
-                            <PaymentPageData
-                                SetShowMenuId={11}
-                            />
-                        )}
-                        {!Restaurant ?
+
+                        {!Payment || Payment == null ?
                             <>
-                                <div className='grid justify-center items-center grid-cols-1 mb-10 w-[85%]'>
-                                    <ToastContainer />
-                                    <div className="md:mt-6 mt-0 p-6 rounded shadow-lg font-serif">
-                                        <h2 className="text-2xl text-white mb-0 text-center font-serif flex justify-center space-x-1">
-                                            {"Create The Restaurant".split("").map((char, index) => (
-                                                <span
-                                                    key={index}
-                                                    className="inline-block animate-bounce"
-                                                    style={{
-                                                        animationDelay: `${index * 0.1}s`,
-                                                        animationDuration: "2s",
-                                                    }}
-                                                >
-                                                    {char}
-                                                </span>
-                                            ))}
-                                        </h2>
-
-                                        <form onSubmit={handleSubmit(onsubmit)}>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 md:mb-4 space-y-3">
-                                                <div>
-                                                    <label className="block text-[20px] font-normal text-white md:mb-1">Restaurant</label>
-                                                    <input {...register("restaurantName", { required: "Restaurant Name is required", minLength: { value: 1, message: "Name must be at least 5 character" } })}
-                                                        type="text"
-                                                        name='restaurantName'
-                                                        placeholder='Restaurant Name'
-                                                        className="w-full px-3 py-2 border mt-3 border-gray-300 rounded bg-black text-white"
-                                                    />
-                                                    {errors.restaurantName && <span className="text-red-500 text-sm">{errors.restaurantName.message}</span>}
-                                                </div>
-
-                                                <div>
-                                                    <label className="block text-[20px] font-normal text-white md:mb-1">City</label>
-                                                    <input {...register("city", { required: "City Name is required", minLength: { value: 1, message: "Name must be at least 5 character" } })}
-                                                        type="text"
-                                                        name='city'
-                                                        placeholder='City'
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded bg-black text-white"
-                                                    />
-                                                    {errors.city && <span className="text-red-500 text-sm">{errors.city.message}</span>}
-                                                </div>
-
-                                                <div>
-                                                    <label className="block text-[20px] font-normal text-white md:mb-1">Country</label>
-                                                    <input {...register("country", { required: "Country is required", minLength: { value: 1, message: "Name must be at least 5 character" } })}
-                                                        type="text"
-                                                        name='country'
-                                                        placeholder='Country'
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded bg-black text-white"
-                                                    />
-                                                    {errors.country && <span className="text-red-500 text-sm">{errors.country.message}</span>}
-                                                </div>
-
-                                                <div>
-                                                    <label className="block text-[20px] font-normal text-white md:mb-1">Estimated Delivery Time(mi)</label>
-                                                    <input {...register("deliveryTime", { required: "deliveryTime is required" })}
-                                                        type="text"
-                                                        name='deliveryTime'
-                                                        placeholder='delivery Time'
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded bg-black text-white"
-                                                    />
-                                                    {errors.deliveryTime && <span className="text-red-500 text-sm">{errors.deliveryTime.message}</span>}
-                                                </div>
-
-                                                <div>
-                                                    <label className="block text-[20px] font-normal text-white md:mb-1">Cuisines</label>
-                                                    <input {...register("cuisines", { required: "Cuisines is required", minLength: { value: 1, message: "Name must be at least 5 character" } })}
-                                                        type="text"
-                                                        name='cuisines'
-                                                        placeholder='italian Chinese indian'
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded bg-black text-white"
-                                                    />
-                                                    {errors.cuisines && <span className="text-red-500 text-sm">{errors.cuisines.message}</span>}
-                                                </div>
-
-                                                <div>
-                                                    <label className="block text-[20px] font-normal text-white mb-1">Restaurant Banner</label>
-                                                    <input
-                                                        {...register("RestaurantBanner", { required: "Restaurant Banner is required" })}
-                                                        type="file"
-                                                        name='RestaurantBanner'
-                                                        onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
-                                                        className="w-full px-2 py-1.5 border border-gray-300 rounded bg-black text-white"
-                                                    />
-                                                    {errors.RestaurantBanner && <span className="text-red-500 text-sm">{errors.RestaurantBanner.message}</span>}
-                                                </div>
-                                            </div>
-
-                                            <div className="w-ful pb-2">
-                                                <button
-                                                    type='submit'
-                                                    onClick={() => CheckTheLoginUser()}
-                                                    className={`px-6 py-2 flex bg-orange-500 float-right md:mt-0 mt-3  hover:bg-orange-600 rounded font-serif ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
-                                                    disabled={loadingOTP}
-                                                >
-                                                    {loadingOTP && (
-                                                        <svg
-                                                            className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
-                                                            viewBox="0 0 24 24"
-                                                            fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                        >
-                                                            <circle
-                                                                className="opacity-25"
-                                                                cx="12"
-                                                                cy="12"
-                                                                r="10"
-                                                                stroke="currentColor"
-                                                                strokeWidth="4"
-                                                            ></circle>
-                                                            <path
-                                                                className="opacity-75"
-                                                                fill="currentColor"
-                                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                                                            ></path>
-                                                        </svg>
-                                                    )}
-                                                    <span>{loadingOTP ? 'Loading...' : 'Create'}</span>
-                                                </button>
-                                            </div>
-
-                                        </form>
-                                    </div>
-                                </div>
+                                {Payment || Payment == null && (
+                                    <PaymentPageData
+                                        SetShowMenuId={11}
+                                    />
+                                )}
                             </>
                             :
                             <>
-                                <div className='grid justify-center items-center grid-cols-1'>
-                                    <RestaurantEdit11 RestaurentID={Restaurant?._id} />
-                                </div>
-                            </>
-                        }
+                                {!Restaurant ?
+                                    <>
+                                        <div className='grid justify-center items-center grid-cols-1 mb-10 w-[85%]'>
+                                            <ToastContainer />
+                                            <div className="md:mt-6 mt-0 p-6 rounded shadow-lg font-serif">
+                                                <h2 className="text-2xl text-white mb-0 text-center font-serif flex justify-center space-x-1">
+                                                    {"Create The Restaurant".split("").map((char, index) => (
+                                                        <span
+                                                            key={index}
+                                                            className="inline-block animate-bounce"
+                                                            style={{
+                                                                animationDelay: `${index * 0.1}s`,
+                                                                animationDuration: "2s",
+                                                            }}
+                                                        >
+                                                            {char}
+                                                        </span>
+                                                    ))}
+                                                </h2>
+
+                                                <form onSubmit={handleSubmit(onsubmit)}>
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 md:mb-4 space-y-3">
+                                                        <div>
+                                                            <label className="block text-[20px] font-normal text-white md:mb-1">Restaurant</label>
+                                                            <input {...register("restaurantName", { required: "Restaurant Name is required", minLength: { value: 1, message: "Name must be at least 5 character" } })}
+                                                                type="text"
+                                                                name='restaurantName'
+                                                                placeholder='Restaurant Name'
+                                                                className="w-full px-3 py-2 border mt-3 border-gray-300 rounded bg-black text-white"
+                                                            />
+                                                            {errors.restaurantName && <span className="text-red-500 text-sm">{errors.restaurantName.message}</span>}
+                                                        </div>
+
+                                                        <div>
+                                                            <label className="block text-[20px] font-normal text-white md:mb-1">City</label>
+                                                            <input {...register("city", { required: "City Name is required", minLength: { value: 1, message: "Name must be at least 5 character" } })}
+                                                                type="text"
+                                                                name='city'
+                                                                placeholder='City'
+                                                                className="w-full px-3 py-2 border border-gray-300 rounded bg-black text-white"
+                                                            />
+                                                            {errors.city && <span className="text-red-500 text-sm">{errors.city.message}</span>}
+                                                        </div>
+
+                                                        <div>
+                                                            <label className="block text-[20px] font-normal text-white md:mb-1">Country</label>
+                                                            <input {...register("country", { required: "Country is required", minLength: { value: 1, message: "Name must be at least 5 character" } })}
+                                                                type="text"
+                                                                name='country'
+                                                                placeholder='Country'
+                                                                className="w-full px-3 py-2 border border-gray-300 rounded bg-black text-white"
+                                                            />
+                                                            {errors.country && <span className="text-red-500 text-sm">{errors.country.message}</span>}
+                                                        </div>
+
+                                                        <div>
+                                                            <label className="block text-[20px] font-normal text-white md:mb-1">Estimated Delivery Time(mi)</label>
+                                                            <input {...register("deliveryTime", { required: "deliveryTime is required" })}
+                                                                type="text"
+                                                                name='deliveryTime'
+                                                                placeholder='delivery Time'
+                                                                className="w-full px-3 py-2 border border-gray-300 rounded bg-black text-white"
+                                                            />
+                                                            {errors.deliveryTime && <span className="text-red-500 text-sm">{errors.deliveryTime.message}</span>}
+                                                        </div>
+
+                                                        <div>
+                                                            <label className="block text-[20px] font-normal text-white md:mb-1">Cuisines</label>
+                                                            <input {...register("cuisines", { required: "Cuisines is required", minLength: { value: 1, message: "Name must be at least 5 character" } })}
+                                                                type="text"
+                                                                name='cuisines'
+                                                                placeholder='italian Chinese indian'
+                                                                className="w-full px-3 py-2 border border-gray-300 rounded bg-black text-white"
+                                                            />
+                                                            {errors.cuisines && <span className="text-red-500 text-sm">{errors.cuisines.message}</span>}
+                                                        </div>
+
+                                                        <div>
+                                                            <label className="block text-[20px] font-normal text-white mb-1">Restaurant Banner</label>
+                                                            <input
+                                                                {...register("RestaurantBanner", { required: "Restaurant Banner is required" })}
+                                                                type="file"
+                                                                name='RestaurantBanner'
+                                                                onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+                                                                className="w-full px-2 py-1.5 border border-gray-300 rounded bg-black text-white"
+                                                            />
+                                                            {errors.RestaurantBanner && <span className="text-red-500 text-sm">{errors.RestaurantBanner.message}</span>}
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="w-ful pb-2">
+                                                        <button
+                                                            type='submit'
+                                                            onClick={() => CheckTheLoginUser()}
+                                                            className={`px-6 py-2 flex bg-orange-500 float-right md:mt-0 mt-3  hover:bg-orange-600 rounded font-serif ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                                                            disabled={loadingOTP}
+                                                        >
+                                                            {loadingOTP && (
+                                                                <svg
+                                                                    className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                                    viewBox="0 0 24 24"
+                                                                    fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                >
+                                                                    <circle
+                                                                        className="opacity-25"
+                                                                        cx="12"
+                                                                        cy="12"
+                                                                        r="10"
+                                                                        stroke="currentColor"
+                                                                        strokeWidth="4"
+                                                                    ></circle>
+                                                                    <path
+                                                                        className="opacity-75"
+                                                                        fill="currentColor"
+                                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                                    ></path>
+                                                                </svg>
+                                                            )}
+                                                            <span>{loadingOTP ? 'Loading...' : 'Create'}</span>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <div className='grid justify-center items-center grid-cols-1'>
+                                            <RestaurantEdit11 RestaurentID={Restaurant?._id} />
+                                        </div>
+                                    </>
+                                }
+                            </>}
+
                     </Elements>
                 </>
             </div>
@@ -596,7 +615,7 @@ const PaymentPageData: React.FC<PaymentPageProps> = ({ SetShowMenuId }) => {
 
     return (
         <>
-            <div className="absolute w-full bg-black text-white z-50">
+            <div className="absolute w-full bg-black text-white z-30">
                 <ToastContainer />
                 <div className="flex flex-col md:flex-row dark:bg-gray-800 w-full h-full justify-center items-center">
                     {/* Product Info Section */}
