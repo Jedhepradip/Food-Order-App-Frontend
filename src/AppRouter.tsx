@@ -94,7 +94,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Provider } from 'react-redux';
 import { RootState, AppDispatch, store } from './Redux/Store/Store';
 import { FetchingUserData } from './Redux/Features/UserSlice';
-import { useNavigate } from 'react-router-dom';
 
 import HomePage from './Pages/HomePage';
 import Navbar from './Components/Navbar';
@@ -118,7 +117,6 @@ import SendLinkEmailPage from './Forms/User-Profile-Form/SendLinkEmailPage';
 const AppContent: React.FC = () => {
     const user = useSelector((state: RootState) => state.User.User);
     const dispatch: AppDispatch = useDispatch();
-    const Navigate = useNavigate()
     useEffect(() => {
         dispatch(FetchingUserData());
     }, [dispatch]);
@@ -131,9 +129,7 @@ const AppContent: React.FC = () => {
         location.pathname === '/SetNewPassword' ||
         location.pathname === '/AdminDashboard';
 
-    if (user?.idAdmin === false) {
-        Navigate("/")
-    }
+  
 
     return (
         <>

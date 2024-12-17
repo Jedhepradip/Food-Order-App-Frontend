@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
 
   const handlelogout = () => {
     localStorage.removeItem("Token")
-    Navigate("/SigninPage")
+    Navigate("/LoginPage")
   }
 
   if (User?.idAdmin === false) {

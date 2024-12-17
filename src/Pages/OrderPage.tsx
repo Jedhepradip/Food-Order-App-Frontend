@@ -42,6 +42,8 @@ const OrderPage: React.FC = () => {
     const Dispatch: AppDispatch = useDispatch()
     const OrderMenuData = useSelector((state: RootState) => state.Order.Order)
 
+    console.log("OrderMenuData :", OrderMenuData?.length);
+
     useEffect(() => {
         if (OrderMenuData?.length) {
             SetOrderMenuData(OrderMenuData)

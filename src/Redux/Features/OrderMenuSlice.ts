@@ -2,8 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/Store";
 import axios from "axios";
 
-
-
 interface MenuItme {
     Quantity: number,
     description: string,
