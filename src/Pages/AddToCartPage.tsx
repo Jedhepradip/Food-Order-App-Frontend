@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { RxCross2 } from "react-icons/rx";
 import axios from 'axios';
-// import { UserInterFaceData } from '../interface/UserInterface';
 import { FetchingUserData } from '../Redux/Features/UserSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
@@ -12,6 +11,7 @@ import { Elements } from '@stripe/react-stripe-js'
 import { ToastContainer, toast } from 'react-toastify';
 import PaymentPage from './Payment/PaymentPage';
 import { NavLink } from 'react-router-dom';
+
 const stripePromise = loadStripe("pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24")
 
 
@@ -130,7 +130,6 @@ const AddToCartPage: React.FC = () => {
         }
     }
 
-
     const AddToCartdecreaseQuantity = async (id: number | string,) => {
         const fromdata = new FormData()
         fromdata.append("productId", id.toString())
@@ -225,7 +224,6 @@ const AddToCartPage: React.FC = () => {
             }
         }
     };
-
 
     return (
         <>
