@@ -560,7 +560,8 @@ const PaymentPageData: React.FC<PaymentPageProps> = ({ SetShowMenuId }) => {
             }
 
             const { data } = await axios.post(
-                `https://food-order-app-backend-9.onrender.com/api-Order/OrderTo/Menu/Payment/${UserInfo?._id}`,
+                // `https://food-order-app-backend-9.onrender.com/api-Order/OrderTo/Menu/Payment/${UserInfo?._id}`,
+                `http://localhost:3000/api-Order/OrderTo/Menu/Payment/${UserInfo?._id}`,
                 fromdata, // Send FormData directly,
                 {
                     headers: {
@@ -592,7 +593,7 @@ const PaymentPageData: React.FC<PaymentPageProps> = ({ SetShowMenuId }) => {
             if (result.error) {
                 toast.error(result.error.message);
             } else if (result.paymentIntent?.status === "succeeded") {
-                navigate("/OrderPage")
+                // payToCheckTheRestaurant()             
                 toast.success("Payment succeeded!");
             } else {
                 toast.error("Payment status is not successful.");
