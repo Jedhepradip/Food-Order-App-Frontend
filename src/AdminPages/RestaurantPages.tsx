@@ -124,20 +124,18 @@ const RestaurantPages: React.FC = () => {
     useEffect(() => {
         const payToCheckTheRestaurant = async () => {
             console.log("okok");
-
             try {
-                const response = await axios.get("https://food-order-app-backend-9.onrender.com/api-Payment-restaurant/Payment/Get/Info", {
+                const response = await axios.get("http://localhost:3000/api-Payment/Payment/Get/Info", {
                     headers: {
-                        authorization: `Bearer ${token}`,
-                    },
+                        authorization: `Bearer ${localStorage.getItem("Token")}`
+                    }
                 });
-
+                console.log("Response data:", response.data);
                 const restaurant = response.data;
                 if (response.status === 200) {
                     console.log("Paymentdata Get ", restaurant);
                     SetPaymentData(restaurant)
                 }
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (error) {
                 // if (error.response) {
                 //     const errorMessage = error.response.data.message;
@@ -165,16 +163,13 @@ const RestaurantPages: React.FC = () => {
         payToCheckTheRestaurant(); // Call the async function
     }, [token]);
 
-
-    console.log("Paymentdata", Payment);
-
     return (
         <>
             <div className='flex justify-center w-full bg-black md:p-10 p-0'>
                 <>
                     <Elements stripe={stripePromise}>
 
-                        {!Payment || Payment == null ?
+                        { !Payment ?
                             <>
                                 {Payment || Payment == null && (
                                     <PaymentPageData

@@ -11,9 +11,7 @@ import { Elements } from '@stripe/react-stripe-js'
 import { ToastContainer, toast } from 'react-toastify';
 import PaymentPage from './Payment/PaymentPage';
 import { NavLink } from 'react-router-dom';
-
-const stripePromise = loadStripe("pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24")
-
+const stripe = await loadStripe("pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24");
 
 interface Menuinterfase {
     name: string;
@@ -52,12 +50,14 @@ const AddToCartPage: React.FC = () => {
     const [loadingClearAll, SetLoadingClearAll] = useState(false)
     const [loadingRemove, SetLoadingRemove] = useState(false)
     const [loadingBuyNow, SetLoadingBuyNow] = useState(false)
+    const [Menuremove, Setramove] = useState<number | string>(String)
     const [loadingPayment, SetContinuePayment] = useState(false)
     const [showCheckoutForm, setShowCheckoutForm] = useState(false);
     const [Paymentmodel, ShowPaymentModel] = useState<boolean>(false);
     const [UserInfo, setUserData] = useState<UserInterFaceData[] | any | null>(null);
     const UserData: any = useSelector((state: RootState) => state.User.User)
     const [MenuID, SetMenuId] = useState<string | number>("")
+    const [FilterPayment, SetPaymentData] = useState<CartItem[] | any | null>(null);
 
     useEffect(() => {
         Dispatch(FetchingUserData())
@@ -70,7 +70,6 @@ const AddToCartPage: React.FC = () => {
     }, [UserData])
 
     const calculateItemTotal = (price: number, quantity: number) => price * quantity;
-
     const calculateTotal = () => {
         return UserInfo?.items.reduce((total: number, item: { Menu: { price: number; }; quantity: number; }) =>
             total + calculateItemTotal(item.Menu.price, item.quantity), 0);
@@ -78,6 +77,8 @@ const AddToCartPage: React.FC = () => {
 
     const handleProceedToCheckout = (menuId: number | string,) => {
         SetLoadingBuyNow(true)
+        const menufilter = UserInfo?.items?.filter((e: { Menu: { _id: string | number; }; }) => menuId == e?.Menu?._id)
+        SetPaymentData(menufilter)
         setTimeout(() => {
             SetLoadingBuyNow(false)
             setShowCheckoutForm(true);
@@ -85,14 +86,58 @@ const AddToCartPage: React.FC = () => {
         }, 1200);
     };
 
-    const SetThePaymentModel = () => {
-        SetContinuePayment(true)
-        setTimeout(() => {
-            ShowPaymentModel(true)
-            setShowCheckoutForm(false)
-            SetContinuePayment(false)
-        }, 1200);
-    }
+    const SetThePaymentModel = async () => {
+        SetContinuePayment(true);
+        try {
+            if (!stripe) {
+                toast.error("Stripe initialization failed.");
+                return;
+            }
+
+            const formattedData = FilterPayment.map((val: any) => ({
+                name: val.Menu.name,
+                description: val.Menu.description,
+                price: val.Menu.price,
+                menuPicture: val.Menu.menuPicture!,  // Fixed typo here (menuPictuer -> menuPicture)
+                restaurantId: val.Menu.restaurantId,
+                MenuId: val.Menu._id,
+                quantity: val.quantity,
+            }));
+
+            const token = localStorage.getItem("Token");
+            if (!token) {
+                toast.error("User is not authenticated. Please log in again.");
+                return;
+            }
+
+            const response = await axios.post(
+                "https://food-order-app-backend-9.onrender.com/api-Order/OrderTo/Menu/Payment",
+                formattedData[0], // Only sending the first item for testing; adapt if handling multiple
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const session = response.data;
+            // Redirect to Stripe Checkout
+            const result = await stripe.redirectToCheckout({ sessionId: session.id });
+            if (result.error) {
+                console.error("Stripe Error:", result.error.message);
+                toast.error(result.error.message);
+            }
+        } catch (error: any) {
+            if (error.response) {
+                toast.error(`Server error: ${error.response.data.message}`);
+            } else if (error.request) {
+                toast.error("Network error occurred. Please try again.");
+            } else {
+                toast.error(`Error: ${error.message}`);
+            }
+        }
+    };
 
     const closePaymentModal = () => {
         ShowPaymentModel(false)
@@ -162,6 +207,7 @@ const AddToCartPage: React.FC = () => {
     }
 
     const RemoveToaddToCart = async (id: number | string) => {
+        Setramove(id)
         SetLoadingRemove(true)
         try {
             const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-restaurant/AddToCart/Remove/MenuItems/${id}`, {}, {
@@ -228,7 +274,7 @@ const AddToCartPage: React.FC = () => {
     return (
         <>
             <div className='realtive w-full h-full bg-black'>
-                <Elements stripe={stripePromise}>
+                <Elements stripe={stripe}>
                     <ToastContainer />
                     {Paymentmodel && MenuID && (
                         <PaymentPage
@@ -443,7 +489,7 @@ const AddToCartPage: React.FC = () => {
                                                             className={`px-2 py-1 flex bg-orange-500 hover:bg-orange-600 text-white rounded font-serif${loadingRemove ? 'cursor-not-allowed' : ''} ${loadingRemove ? 'animate-pulse' : ''}`}
                                                             disabled={loadingRemove}
                                                         >
-                                                            {loadingRemove && (
+                                                            {Menuremove == item?.Menu?._id && loadingRemove && (
                                                                 <svg
                                                                     className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
                                                                     viewBox="0 0 24 24"
@@ -479,7 +525,7 @@ const AddToCartPage: React.FC = () => {
                                                             className={`px-2 py-1 flex bg-orange-500 hover:bg-orange-600 text-white rounded font-serif${loadingBuyNow ? 'cursor-not-allowed' : ''} ${loadingBuyNow ? 'animate-pulse' : ''}`}
                                                             disabled={loadingBuyNow}
                                                         >
-                                                            {loadingBuyNow && (
+                                                            {MenuID == item?.Menu?._id && loadingBuyNow && (
                                                                 <svg
                                                                     className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
                                                                     viewBox="0 0 24 24"
