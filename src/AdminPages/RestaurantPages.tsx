@@ -3,7 +3,7 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { loadStripe } from '@stripe/stripe-js'
 import { useNavigate } from 'react-router-dom';
-import { Elements } from '@stripe/react-stripe-js'
+// import { Elements } from '@stripe/react-stripe-js'
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -14,8 +14,6 @@ import { FetchingRestaurant } from '../Redux/Features/RestaurantSlice';
 import { RestaurantInterface } from '../interface/RestaurantInterface';
 // import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { FetchingUserAllRestaurant } from '../Redux/Features/RestaurantAllSlice';
-
-const stripePromise = loadStripe("pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24")
 
 // interface PaymentPageProps {
 //     SetShowMenuId: string | number,
@@ -219,7 +217,7 @@ const RestaurantPages: React.FC = () => {
         <>
             <div className='flex justify-center w-full bg-black md:p-10 p-0'>
                 <>
-                    <Elements stripe={stripePromise}>
+                    {/* <Elements stripe={stripePromise}> */}
 
                         {!Payment ?
                             <>
@@ -364,7 +362,7 @@ const RestaurantPages: React.FC = () => {
                                 }
                             </>}
 
-                    </Elements>
+                    {/* </Elements> */}
                 </>
             </div>
         </>
