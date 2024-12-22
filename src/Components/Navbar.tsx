@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
 
   const token = localStorage.getItem("Token")
 
-  const NavigatetoHomePage = () => {
+  const handelgobackhomepage = () => {
     Navigate("/")
   }
 
@@ -239,7 +239,9 @@ const Navbar: React.FC = () => {
           </>
             :
             <>
-              {NavigatetoHomePage()}
+              <button onClick={() => handelgobackhomepage()} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+
+              </button>
             </>
           }
         </>
