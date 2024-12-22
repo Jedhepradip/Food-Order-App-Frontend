@@ -38,8 +38,8 @@ const AppContent: React.FC = () => {
         location.pathname === '/SigninPage' ||
         location.pathname === '/SendLinkEmailPage' ||
         location.pathname === '/SetNewPassword' ||
-        location.pathname === '/AdminDashboard';
-
+        location.pathname === '/AdminDashboard' || 
+        location.pathname === "/CancelledPaymentPage"
 
     return (
         <>
