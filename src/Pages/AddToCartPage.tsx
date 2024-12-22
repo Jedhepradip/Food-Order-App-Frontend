@@ -7,11 +7,10 @@ import { FetchingUserData } from '../Redux/Features/UserSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
 import { loadStripe } from '@stripe/stripe-js'
-import { Elements } from '@stripe/react-stripe-js'
+// import { Elements } from '@stripe/react-stripe-js'
 import { ToastContainer, toast } from 'react-toastify';
 import PaymentPage from './Payment/PaymentPage';
 import { NavLink } from 'react-router-dom';
-const stripe = await loadStripe("pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24");
 
 interface Menuinterfase {
     name: string;
@@ -88,6 +87,11 @@ const AddToCartPage: React.FC = () => {
 
     const SetThePaymentModel = async () => {
         SetContinuePayment(true);
+
+        const stripe = await loadStripe(
+            'pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24'
+          );
+
         try {
             if (!stripe) {
                 toast.error("Stripe initialization failed.");
@@ -274,7 +278,7 @@ const AddToCartPage: React.FC = () => {
     return (
         <>
             <div className='realtive w-full h-full bg-black'>
-                <Elements stripe={stripe}>
+                {/* <Elements stripe={stripe}> */}
                     <ToastContainer />
                     {Paymentmodel && MenuID && (
                         <PaymentPage
@@ -667,7 +671,7 @@ const AddToCartPage: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                </Elements>
+                {/* </Elements> */}
             </div>
 
         </>
