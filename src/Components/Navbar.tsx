@@ -27,6 +27,9 @@ const Navbar: React.FC = () => {
 
   const token = localStorage.getItem("Token")
 
+  const NavigatetoHomePage = () => {
+    Navigate("/")
+  }
   return (
     <nav className="bg-black text-white sticky top-0 left-0 z-50">
       {User?.idAdmin === false || User === null ? <>
@@ -235,7 +238,7 @@ const Navbar: React.FC = () => {
           </>
             :
             <>
-              {Navigate("/")}
+              {NavigatetoHomePage()}
             </>
           }
         </>
