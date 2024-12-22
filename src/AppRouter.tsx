@@ -17,7 +17,7 @@ import ViewMenuPage from './Pages/ViewMenuPage';
 import AddToCartPage from './Pages/AddToCartPage';
 import Filtercuisines from './Pages/Filtercuisines';
 import OrderPageAdmin from './AdminPages/OrderPage';
-import CancelPaymentPage from "./Pages/cancelPaymentPages"
+import CancelledPaymentPage from "./Pages/CancelledPaymentPage"
 import RestaurantPages from './AdminPages/RestaurantPages';
 import LoginPage from './Forms/User-Profile-Form/LoginPage';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
@@ -61,7 +61,7 @@ const AppContent: React.FC = () => {
                         <Route path='/ViewMenuPage/:id' element={<ViewMenuPage />} />
                         <Route path='/OrderPageAdmin' element={<OrderPageAdmin />} />
                         <Route path='/RestaurantPages' element={<RestaurantPages />} />
-                        <Route path='/CancelPaymentPage' element={<CancelPaymentPage />} />
+                        <Route path='/CancelPaymentPage' element={<CancelledPaymentPage />} />
                         <Route path='/SendLinkEmailPage' element={<SendLinkEmailPage />} />
                     </>
                 ) : (
