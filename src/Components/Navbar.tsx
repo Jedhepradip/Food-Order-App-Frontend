@@ -118,7 +118,7 @@ const Navbar: React.FC = () => {
                         </li>
                         <li>
                           <NavLink to={"/OrderPageAdmin"} className="flex px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                            <h4>Menu Order</h4>
+                            <h4>Order</h4>
                           </NavLink>
                         </li>
                       </ul>
@@ -135,7 +135,7 @@ const Navbar: React.FC = () => {
                   <NavLink to={"/MenuPages"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuSquareMenu className="md:hidden" /> Menu</NavLink>
                 </li>
                 <li>
-                  <NavLink to={"/OrderPageAdmin"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuPackageCheck className="md:hidden" /> Order</NavLink>
+                  <NavLink to={"/OrderPageAdmin"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuPackageCheck className="md:hidden" />Restaurant Orders</NavLink>
                 </li>
               </li>
 

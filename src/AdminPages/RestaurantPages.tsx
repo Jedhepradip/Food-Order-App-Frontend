@@ -8,24 +8,22 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, SubmitHandler } from "react-hook-form"
 import { AppDispatch, RootState } from '../Redux/Store/Store';
-import { FetchingUserData } from '../Redux/Features/UserSlice';
-import { UserInterFaceData } from '../interface/UserInterface';
+// import { FetchingUserData } from '../Redux/Features/UserSlice';
+// import { UserInterFaceData } from '../interface/UserInterface';
 import { FetchingRestaurant } from '../Redux/Features/RestaurantSlice';
 import { RestaurantInterface } from '../interface/RestaurantInterface';
-import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+// import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { FetchingUserAllRestaurant } from '../Redux/Features/RestaurantAllSlice';
 
 const stripePromise = loadStripe("pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24")
 
+// interface PaymentPageProps {
+//     SetShowMenuId: string | number,
+// }
 
-interface PaymentPageProps {
-    SetShowMenuId: string | number,
-}
-
-interface CheckoutFormData {
-    email: string;
-
-}
+// interface CheckoutFormData {
+//     email: string;
+// }
 
 interface RestaurantInterfaceInput {
     file: string,
@@ -163,18 +161,70 @@ const RestaurantPages: React.FC = () => {
         payToCheckTheRestaurant(); // Call the async function
     }, [token]);
 
+    const PaymentPageData = async () => {
+        try {
+            // Initialize Stripe
+            const stripe = await loadStripe(
+                "pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24"
+            );
+
+            if (!stripe) {
+                toast.error("Stripe initialization failed.");
+                return;
+            }
+
+            // Retrieve token
+            const token = localStorage.getItem("Token");
+            if (!token) {
+                toast.error("User is not authenticated. Please log in again.");
+                return;
+            }
+
+            const fromdata = new FormData()
+
+            // Send payment request
+            const response = await axios.post(
+                "https://food-order-app-backend-9.onrender.com/api-Payment/Payment/Restaurant/User",
+                fromdata,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            // Extract session from response
+            const session = response.data;
+            // Redirect to Stripe Checkout
+            const result = await stripe.redirectToCheckout({ sessionId: session.id });
+            if (result.error) {
+                console.error("Stripe Error:", result.error.message);
+                toast.error(result.error.message);
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            // Handle different error scenarios
+            if (error.response) {
+                toast.error(`Server error: ${error.response.data.message}`);
+            } else if (error.request) {
+                toast.error("Network error occurred. Please try again.");
+            } else {
+                toast.error(`Error: ${error.message}`);
+            }
+        }
+    }
+
     return (
         <>
             <div className='flex justify-center w-full bg-black md:p-10 p-0'>
                 <>
                     <Elements stripe={stripePromise}>
 
-                        { !Payment ?
+                        {!Payment ?
                             <>
                                 {Payment || Payment == null && (
-                                    <PaymentPageData
-                                        SetShowMenuId={11}
-                                    />
+                                    PaymentPageData()
                                 )}
                             </>
                             :
@@ -519,176 +569,176 @@ const RestaurantEdit11: React.FC<UserRestaurentProps> = ({ RestaurentID }) => {
     );
 };
 
-const PaymentPageData: React.FC<PaymentPageProps> = ({ SetShowMenuId }) => {
-    const stripe = useStripe();
-    const elements = useElements();
-    const [loading, setLoading] = useState(false);
-    const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
-    const dispatch: AppDispatch = useDispatch()
-    const navigate = useNavigate();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const UserData: any = useSelector((state: RootState) => state.User.User)
-    const { handleSubmit } = useForm<CheckoutFormData>();
-    console.log(SetShowMenuId);
-    useEffect(() => {
-        if (UserData) {
-            setUserData(UserData)
-        }
-    }, [UserData, UserInfo])
+// const PaymentPageData: React.FC<PaymentPageProps> = ({ SetShowMenuId }) => {
+//     const stripe = useStripe();
+//     const elements = useElements();
+//     const [loading, setLoading] = useState(false);
+//     const [UserInfo, setUserData] = useState<UserInterFaceData | null>(null);
+//     const dispatch: AppDispatch = useDispatch()
+//     const navigate = useNavigate();
+//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//     const UserData: any = useSelector((state: RootState) => state.User.User)
+//     const { handleSubmit } = useForm<CheckoutFormData>();
+//     console.log(SetShowMenuId);
+//     useEffect(() => {
+//         if (UserData) {
+//             setUserData(UserData)
+//         }
+//     }, [UserData, UserInfo])
 
-    useEffect(() => {
-        dispatch(FetchingUserData());
-    }, [dispatch]);
+//     useEffect(() => {
+//         dispatch(FetchingUserData());
+//     }, [dispatch]);
 
-    const onsubmit: SubmitHandler<CheckoutFormData> = async () => {
-        const fromdata = {
-            totaleAmount: "50000"
-        };
-        if (!stripe || !elements) return;
-        setLoading(true);
+//     const onsubmit: SubmitHandler<CheckoutFormData> = async () => {
+//         const fromdata = {
+//             totaleAmount: "50000"
+//         };
+//         if (!stripe || !elements) return;
+//         setLoading(true);
 
-        try {
-            const Token = localStorage.getItem("Token");
-            if (!Token) {
-                toast.error("You need to log in first.");
-                return navigate("/login");
-            }
+//         try {
+//             const Token = localStorage.getItem("Token");
+//             if (!Token) {
+//                 toast.error("You need to log in first.");
+//                 return navigate("/login");
+//             }
 
-            const { data } = await axios.post(
-                // `https://food-order-app-backend-9.onrender.com/api-Order/OrderTo/Menu/Payment/${UserInfo?._id}`,
-                `http://localhost:3000/api-Order/OrderTo/Menu/Payment/${UserInfo?._id}`,
-                fromdata, // Send FormData directly,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        authorization: `Bearer ${Token}`, // Do not set Content-Type manually
-                    },
-                }
-            );
+//             const { data } = await axios.post(
+//                 // `https://food-order-app-backend-9.onrender.com/api-Order/OrderTo/Menu/Payment/${UserInfo?._id}`,
+//                 `http://localhost:3000/api-Order/OrderTo/Menu/Payment/${UserInfo?._id}`,
+//                 fromdata, // Send FormData directly,
+//                 {
+//                     headers: {
+//                         "Content-Type": "application/json",
+//                         authorization: `Bearer ${Token}`, // Do not set Content-Type manually
+//                     },
+//                 }
+//             );
 
-            setLoading(false);
+//             setLoading(false);
 
-            const clientSecret = data.clientSecret;
-            if (!clientSecret) {
-                toast.error(<div>Failed to retrieve payment intent.</div>);
-                return;
-            }
+//             const clientSecret = data.clientSecret;
+//             if (!clientSecret) {
+//                 toast.error(<div>Failed to retrieve payment intent.</div>);
+//                 return;
+//             }
 
-            const result = await stripe.confirmCardPayment(clientSecret, {
-                payment_method: {
-                    card: elements.getElement(CardElement)!,
-                    billing_details: {
-                        email: data.email,
-                        name: data.fullName,
-                        address: data.address,
-                    },
-                },
-            });
+//             const result = await stripe.confirmCardPayment(clientSecret, {
+//                 payment_method: {
+//                     card: elements.getElement(CardElement)!,
+//                     billing_details: {
+//                         email: data.email,
+//                         name: data.fullName,
+//                         address: data.address,
+//                     },
+//                 },
+//             });
 
-            if (result.error) {
-                toast.error(result.error.message);
-            } else if (result.paymentIntent?.status === "succeeded") {
-                // payToCheckTheRestaurant()             
-                toast.success("Payment succeeded!");
-            } else {
-                toast.error("Payment status is not successful.");
-            }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            if (error.response) {
-                toast.error(error.response.data.message);
-            } else if (error.request) {
-                toast.error("Network error occurred. Please try again.");
-            } else {
-                toast.error(error.message);
-            }
-        } finally {
-            setLoading(false);
-            setTimeout(() => {
-            }, 2500);
-        }
-    };
+//             if (result.error) {
+//                 toast.error(result.error.message);
+//             } else if (result.paymentIntent?.status === "succeeded") {
+//                 // payToCheckTheRestaurant()             
+//                 toast.success("Payment succeeded!");
+//             } else {
+//                 toast.error("Payment status is not successful.");
+//             }
+//             // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//         } catch (error: any) {
+//             if (error.response) {
+//                 toast.error(error.response.data.message);
+//             } else if (error.request) {
+//                 toast.error("Network error occurred. Please try again.");
+//             } else {
+//                 toast.error(error.message);
+//             }
+//         } finally {
+//             setLoading(false);
+//             setTimeout(() => {
+//             }, 2500);
+//         }
+//     };
 
-    return (
-        <>
-            <div className="absolute w-full bg-black text-white z-30">
-                <ToastContainer />
-                <div className="flex flex-col md:flex-row dark:bg-gray-800 w-full h-full justify-center items-center">
-                    {/* Product Info Section */}
-                    <div className="md:w-1/2 p-5 w-full flex dark:bg-gray-950 shadow-lg rounded-lg from-gray-950 to-gray-900">
-                        <div className="p-5 animate-fade-in-up">
-                            <h1 className="font-serif text-3xl text-blue-500 animate-bounce">CraveCourier Website Registration Fees</h1>
-                            <p className="mt-3 text-lg text-gray-300 animate-pulse">
-                                Complete your registration for <span className="text-yellow-400">CraveCourier</span> with a one-time
-                                registration fee of <span className="text-green-400 font-bold">₹50,000</span>. This fee ensures
-                                premium access and benefits tailored to your needs.
-                            </p>
-                            <p className="mt-3 text-lg text-gray-300 animate-fade-in">
-                                By registering, you gain exclusive access to CraveCourier's advanced features, such as seamless courier tracking,
-                                priority shipping benefits, and a dedicated support team. Start growing your business with unmatched reliability.
-                            </p>
-                            <div className="mt-5 animate-pulse">
-                                <p className="text-lg text-gray-200">Payment Information:</p>
-                                <ul className="mt-2 list-disc list-inside text-gray-400 animate-slide-in">
-                                    <li>Email: <span className="text-gray-200">{"userEmail"}</span></li>
-                                    <li>Contact: <span className="text-gray-200">{"userContact"}</span></li>
-                                    <li>Amount to Pay: <span className="text-green-400">₹50,000</span></li>
-                                </ul>
-                            </div>
-                            <p className="mt-3 text-gray-300 animate-fade-in">
-                                Join <span className="text-yellow-400">CraveCourier</span> today and experience efficiency like never before.
-                                Make your payments securely and confidently. Let us help you take your courier business to the next level.
-                            </p>
-                        </div>
-                    </div>
+//     return (
+//         <>
+//             <div className="absolute w-full bg-black text-white z-30">
+//                 <ToastContainer />
+//                 <div className="flex flex-col md:flex-row dark:bg-gray-800 w-full h-full justify-center items-center">
+//                     {/* Product Info Section */}
+//                     <div className="md:w-1/2 p-5 w-full flex dark:bg-gray-950 shadow-lg rounded-lg from-gray-950 to-gray-900">
+//                         <div className="p-5 animate-fade-in-up">
+//                             <h1 className="font-serif text-3xl text-blue-500 animate-bounce">CraveCourier Website Registration Fees</h1>
+//                             <p className="mt-3 text-lg text-gray-300 animate-pulse">
+//                                 Complete your registration for <span className="text-yellow-400">CraveCourier</span> with a one-time
+//                                 registration fee of <span className="text-green-400 font-bold">₹50,000</span>. This fee ensures
+//                                 premium access and benefits tailored to your needs.
+//                             </p>
+//                             <p className="mt-3 text-lg text-gray-300 animate-fade-in">
+//                                 By registering, you gain exclusive access to CraveCourier's advanced features, such as seamless courier tracking,
+//                                 priority shipping benefits, and a dedicated support team. Start growing your business with unmatched reliability.
+//                             </p>
+//                             <div className="mt-5 animate-pulse">
+//                                 <p className="text-lg text-gray-200">Payment Information:</p>
+//                                 <ul className="mt-2 list-disc list-inside text-gray-400 animate-slide-in">
+//                                     <li>Email: <span className="text-gray-200">{"userEmail"}</span></li>
+//                                     <li>Contact: <span className="text-gray-200">{"userContact"}</span></li>
+//                                     <li>Amount to Pay: <span className="text-green-400">₹50,000</span></li>
+//                                 </ul>
+//                             </div>
+//                             <p className="mt-3 text-gray-300 animate-fade-in">
+//                                 Join <span className="text-yellow-400">CraveCourier</span> today and experience efficiency like never before.
+//                                 Make your payments securely and confidently. Let us help you take your courier business to the next level.
+//                             </p>
+//                         </div>
+//                     </div>
 
-                    {/* Payment Form Section */}
-                    <div className="md:w-1/2 w-full flex dark:bg-gray-950 shadow-lg md:p-12 p-5 rounded-lg from-gray-950 to-gray-900">
-                        <div className="bg-gray-950 text-white rounded-lg shadow-lg md:w-[80%] w-full p-7 max-w-xl animate-zoom-in">
-                            <p className="font-serif font-extralight text-[30px]">Pay with Card</p>
-                            <form onSubmit={handleSubmit(onsubmit)} className="space-y-6">
-                                {/* Payment Details */}
-                                <h2 className="font-serif text-lg text-gray-300 animate-slide-in">Payment Details</h2>
+//                     {/* Payment Form Section */}
+//                     <div className="md:w-1/2 w-full flex dark:bg-gray-950 shadow-lg md:p-12 p-5 rounded-lg from-gray-950 to-gray-900">
+//                         <div className="bg-gray-950 text-white rounded-lg shadow-lg md:w-[80%] w-full p-7 max-w-xl animate-zoom-in">
+//                             <p className="font-serif font-extralight text-[30px]">Pay with Card</p>
+//                             <form onSubmit={handleSubmit(onsubmit)} className="space-y-6">
+//                                 {/* Payment Details */}
+//                                 <h2 className="font-serif text-lg text-gray-300 animate-slide-in">Payment Details</h2>
 
-                                <div className="py-3 px-2.5 bg-gray-800 rounded-lg border border-gray-600">
-                                    <CardElement
-                                        options={{
-                                            style: {
-                                                base: {
-                                                    fontSize: "16px",
-                                                    color: "#ffffff",
-                                                    "::placeholder": {
-                                                        color: "#aab7c4",
-                                                    },
-                                                },
-                                                invalid: {
-                                                    color: "#9e2146",
-                                                },
-                                            },
-                                        }}
-                                    />
-                                </div>
+//                                 <div className="py-3 px-2.5 bg-gray-800 rounded-lg border border-gray-600">
+//                                     <CardElement
+//                                         options={{
+//                                             style: {
+//                                                 base: {
+//                                                     fontSize: "16px",
+//                                                     color: "#ffffff",
+//                                                     "::placeholder": {
+//                                                         color: "#aab7c4",
+//                                                     },
+//                                                 },
+//                                                 invalid: {
+//                                                     color: "#9e2146",
+//                                                 },
+//                                             },
+//                                         }}
+//                                     />
+//                                 </div>
 
-                                {/* Submit Button */}
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className={`w-full py-2 text-lg font-serif px-4 rounded-lg text-white ${loading
-                                        ? "bg-blue-500 cursor-not-allowed animate-pulse"
-                                        : "bg-blue-500 hover:bg-blue-700 animate-fade-in"
-                                        } transition duration-300`}
-                                >
-                                    {loading ? "Processing..." : "Pay ₹50,000"}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+//                                 {/* Submit Button */}
+//                                 <button
+//                                     type="submit"
+//                                     disabled={loading}
+//                                     className={`w-full py-2 text-lg font-serif px-4 rounded-lg text-white ${loading
+//                                         ? "bg-blue-500 cursor-not-allowed animate-pulse"
+//                                         : "bg-blue-500 hover:bg-blue-700 animate-fade-in"
+//                                         } transition duration-300`}
+//                                 >
+//                                     {loading ? "Processing..." : "Pay ₹50,000"}
+//                                 </button>
+//                             </form>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
 
-        </>
-    );
-};
+//         </>
+//     );
+// };
 
 
 export default RestaurantPages
