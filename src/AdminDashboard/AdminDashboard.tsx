@@ -15,6 +15,7 @@ import { FetchingUserAllRestaurant } from "../Redux/Features/RestaurantAllSlice"
 import { FaUsers, FaUtensils, FaClipboardList, FaEdit, FaTrashAlt } from "react-icons/fa";
 import { FetchingUserData } from "../Redux/Features/UserSlice";
 import { useNavigate } from "react-router-dom";
+import { MdLogout } from "react-icons/md";
 
 export interface UserInterFaceData {
     profilePictuer: string;  //profilePicture
@@ -120,9 +121,14 @@ const AdminDashboard: React.FC = () => {
         Navigate("/")
     }
 
+    const handellogout = () => {
+        localStorage.removeItem("Token")
+        Navigate("/LoginPage")
+    }
+
     const MenuDeleteAdmin = async (ID: string) => {
         try {
-            const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-Meun/Admin/Delete/Menu/${ID}`, {}, {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api-Meun/Admin/Delete/Menu/${ID}`, {}, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
@@ -152,7 +158,7 @@ const AdminDashboard: React.FC = () => {
 
     const RestaurantDeleteAdmin = async (ID: string) => {
         try {
-            const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-restaurant/Admin/Delete/Restaurant/${ID}`, {}, {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api-restaurant/Admin/Delete/Restaurant/${ID}`, {}, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
@@ -183,7 +189,7 @@ const AdminDashboard: React.FC = () => {
 
     const UserDeleteAdmin = async (ID: string) => {
         try {
-            const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-user/Admin/Delete/User/${ID}`, {}, {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api-user/Admin/Delete/User/${ID}`, {}, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
@@ -255,6 +261,16 @@ const AdminDashboard: React.FC = () => {
                         <FaClipboardList />
                         <span>Menus</span>
                     </button>
+
+                    <button
+                        onClick={() => handellogout()}
+                        className={`flex items-center gap-2 p-3 px-3.5 w-full rounded-md ${activeTab === "menus" ? "bg-gray-700" : "hover:bg-gray-800"
+                            }`}
+                    >
+                        <MdLogout />
+                        <span>LogOut</span>
+                    </button>
+
                 </nav>
             </aside>
 

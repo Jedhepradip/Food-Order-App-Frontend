@@ -39,7 +39,7 @@ const initialState: RestaurantState = {
 
 export const FetchingUserAllRestaurant = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get("https://food-order-app-backend-9.onrender.com/api-restaurant/Get/RestaurantData/AllUser", {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-restaurant/Get/RestaurantData/AllUser`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }

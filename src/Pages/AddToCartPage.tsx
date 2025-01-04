@@ -115,7 +115,7 @@ const AddToCartPage: React.FC = () => {
             }
 
             const response = await axios.post(
-                "https://food-order-app-backend-9.onrender.com/api-Order/OrderTo/Menu/Payment",
+                `${import.meta.env.VITE_BACKEND_URL}/api-Order/OrderTo/Menu/Payment`,
                 formattedData[0], // Only sending the first item for testing; adapt if handling multiple
                 {
                     headers: {
@@ -152,7 +152,7 @@ const AddToCartPage: React.FC = () => {
         const fromdata = new FormData()
         fromdata.append("productId", id.toString())
         try {
-            const response = await axios.post(`https://food-order-app-backend-9.onrender.com/api-restaurant/AddToCart/Increase/Quantity`, fromdata, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-restaurant/AddToCart/Increase/Quantity`, fromdata, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
@@ -183,7 +183,7 @@ const AddToCartPage: React.FC = () => {
         const fromdata = new FormData()
         fromdata.append("productId", id.toString())
         try {
-            const response = await axios.post(`https://food-order-app-backend-9.onrender.com/api-restaurant/AddToCart/Decrease/Quantity`, fromdata, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-restaurant/AddToCart/Decrease/Quantity`, fromdata, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
@@ -214,7 +214,7 @@ const AddToCartPage: React.FC = () => {
         Setramove(id)
         SetLoadingRemove(true)
         try {
-            const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-restaurant/AddToCart/Remove/MenuItems/${id}`, {}, {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api-restaurant/AddToCart/Remove/MenuItems/${id}`, {}, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
@@ -246,7 +246,7 @@ const AddToCartPage: React.FC = () => {
     const ClearAllAddToCart = async () => {
         SetLoadingClearAll(true)
         try {
-            const response = await axios.delete(`https://food-order-app-backend-9.onrender.com/api-restaurant/ClearAll/AddToCart`, {
+            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api-restaurant/ClearAll/AddToCart`, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }

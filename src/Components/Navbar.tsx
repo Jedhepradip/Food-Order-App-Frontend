@@ -129,7 +129,13 @@ const Navbar: React.FC = () => {
 
               <li className='bg-black md:hidden'>
                 <li>
-                  <NavLink to={"/RestaurantPages"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuUtensilsCrossed className='md:hidden' /> Restaurant</NavLink>
+                  <div className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" 
+                  onClick={() => {
+                    setIsMobileMenuOpen(!isMobileMenuOpen);
+                    // CheckUserPayaRestaurantfees();
+                }}
+                
+                  > <LuUtensilsCrossed className='md:hidden' /> Restaurant</div>
                 </li>
                 <li>
                   <NavLink to={"/MenuPages"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuSquareMenu className="md:hidden" /> Menu</NavLink>

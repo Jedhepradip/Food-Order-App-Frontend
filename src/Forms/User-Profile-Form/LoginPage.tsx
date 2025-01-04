@@ -21,7 +21,7 @@ const Login: React.FC = () => {
     fromdata.append("email", data.email)
     fromdata.append("password", data.password)
     try {
-      const response = await axios.post("https://food-order-app-backend-9.onrender.com/api-user/Login/User", fromdata, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-user/Login/User`, fromdata, {
         headers: {
           "Content-Type": "application/json"
         }

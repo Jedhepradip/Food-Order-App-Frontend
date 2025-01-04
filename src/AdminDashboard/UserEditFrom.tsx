@@ -55,7 +55,7 @@ const UserEditFrom: React.FC<UserEditFormProps> = ({ UserID, closeMenuModal }: a
 
         try {
             const response = await axios.post(
-                `https://food-order-app-backend-9.onrender.com/api-user/Update/User/${UserID}`,
+                `${import.meta.env.VITE_BACKEND_URL}/api-user/Update/User/${UserID}`,
                 formdata,
                 {
                     headers: {
@@ -176,10 +176,8 @@ const UserEditFrom: React.FC<UserEditFormProps> = ({ UserID, closeMenuModal }: a
                                 Update
                             </button>
                         </form>
-
                     </div>
                 </div>
-
             </div>
         </div>
     )

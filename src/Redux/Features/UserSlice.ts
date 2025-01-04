@@ -27,7 +27,7 @@ export interface UserInterFaceData {
     contact: string;
     password: string;
     address: string;
-    idAdmin:boolean;
+    idAdmin: boolean;
     country: string;
     city: string;
     updatedAt: string;
@@ -47,13 +47,13 @@ const initialState: UserState = {
 
 export const FetchingUserData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get("https://food-order-app-backend-9.onrender.com/api-user/Login/UserData", {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-user/Login/UserData`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         });
-        dispatch(SetUserData(response.data)); 
-        
+        dispatch(SetUserData(response.data));
+
     } catch (error) {
         console.error(error); // Changed to console.error for clarity
     }

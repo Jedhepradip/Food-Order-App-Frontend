@@ -13,7 +13,7 @@ const initialState: MenuState = {
 
 export const FetchingMenuData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get("https://food-order-app-backend-9.onrender.com/api-Meun/Get/Login/User/Data", {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Meun/Get/Login/User/Data`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }

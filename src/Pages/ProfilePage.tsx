@@ -85,7 +85,7 @@ const ProfilePage: React.FC = () => {
 
     try {
       const response = await axios.post(
-        `https://food-order-app-backend-9.onrender.com/api-user/Update/User/${UserInfo?._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api-user/Update/User/${UserInfo?._id}`,
         formdata,
         {
           headers: {

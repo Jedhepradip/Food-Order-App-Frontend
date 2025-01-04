@@ -47,7 +47,7 @@ const initialState: OrderState = {
 
 export const FetchingAllOrderData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get("https://food-order-app-backend-9.onrender.com/api-Order/All/Order/Data", {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Order/All/Order/Data`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }

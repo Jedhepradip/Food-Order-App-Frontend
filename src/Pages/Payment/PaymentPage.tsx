@@ -95,7 +95,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
             }
 
             const { data } = await axios.post(
-                "https://food-order-app-backend-9.onrender.com/api-Order/OrderTo/Menu/Payment",
+                `${import.meta.env.VITE_BACKEND_URL}/api-Order/OrderTo/Menu/Payment`,
                 fromdata, // Send FormData directly,
                 {
                     headers: {

@@ -58,7 +58,7 @@ const RestaurantEdit: React.FC<UserRestaurentProps> = ({ RestaurentID, closeMenu
 
         try {
             const response = await axios.put(
-                `https://food-order-app-backend-9.onrender.com/api-restaurant/Restaurant/Updated/${RestaurentID}`,
+                `${import.meta.env.VITE_BACKEND_URL}/api-restaurant/Restaurant/Updated/${RestaurentID}`,
                 formData,
                 {
                     headers: {

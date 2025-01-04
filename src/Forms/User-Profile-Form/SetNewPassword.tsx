@@ -28,7 +28,7 @@ const SetNewPassword: React.FC = () => {
         fromdata.append("password", data.password)
         fromdata.append("Cpassword", data.Cpassword)
         try {
-            const response = await axios.post("https://food-order-app-backend-9.onrender.com/api-user/User/Password/Reset", fromdata, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-user/User/Password/Reset`, fromdata, {
                 headers: {
                     "Content-Type": "application/json"
                 }

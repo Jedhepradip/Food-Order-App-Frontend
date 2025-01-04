@@ -74,7 +74,7 @@ const MenuEditFrom: React.FC<UserMenuProps> = ({ MenuID, closeMenuModal }: any) 
         fromdata.append("price", data.price)
 
         try {
-            const response = await axios.put(`https://food-order-app-backend-9.onrender.com/api-Meun/Menu/Update/${MenuID}`, fromdata, {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api-Meun/Menu/Update/${MenuID}`, fromdata, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     authorization: `Bearer ${token}`,

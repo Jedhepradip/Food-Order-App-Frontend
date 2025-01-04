@@ -78,8 +78,9 @@ const SigninPage: React.FC = () => {
     Formdata.append("email", email)
     Formdata.append("name", name)
     Formdata.append("contact", contact)
+    // ${import.meta.env.VITE_BACKEND_URL} 17
     try {
-      const response = await axios.post("https://food-order-app-backend-9.onrender.com/api-user/SendOTP/ForRegistration/User", Formdata,
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-user/SendOTP/ForRegistration/User`, Formdata,
         {
           headers: {
             "Content-Type": "application/json"
@@ -137,7 +138,7 @@ const SigninPage: React.FC = () => {
     console.log(file);
 
     try {
-      const response = await axios.post("https://food-order-app-backend-9.onrender.com/api-user/Registration/User", Formdata, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-user/Registration/User`, Formdata, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -245,24 +246,24 @@ const SigninPage: React.FC = () => {
             {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
           </div>
 
-            <div>
-              <label className="block mb-2 text-lg font-serif">Contact</label>
-              <input
-                {...register("contact", {
-                  required: "Contact is required",
-                  minLength: { value: 10, message: "Contact must be at least 10 digits" },
-                  maxLength: { value: 10, message: "Contact must be exactly 10 digits" },
-                })}
-                onChange={(e) => setContact(e.target.value)}
-                type="tel"
-                name='contact'
-                className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-                placeholder="contact"
-              />
-              {errors.contact && <span className="text-red-500 text-sm">{errors.contact.message}</span>}
-            </div>
+          <div>
+            <label className="block mb-2 text-lg font-serif">Contact</label>
+            <input
+              {...register("contact", {
+                required: "Contact is required",
+                minLength: { value: 10, message: "Contact must be at least 10 digits" },
+                maxLength: { value: 10, message: "Contact must be exactly 10 digits" },
+              })}
+              onChange={(e) => setContact(e.target.value)}
+              type="tel"
+              name='contact'
+              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+              placeholder="contact"
+            />
+            {errors.contact && <span className="text-red-500 text-sm">{errors.contact.message}</span>}
+          </div>
 
-          
+
 
         </div>
 
