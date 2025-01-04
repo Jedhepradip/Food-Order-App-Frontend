@@ -11,7 +11,7 @@ import AdminDashboard from "../AdminDashboard/AdminDashboard"
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const dispatch: AppDispatch = useDispatch()
   const User = useSelector((state: RootState) => state.User.User)
 
@@ -67,10 +67,56 @@ const Navbar: React.FC = () => {
 
           <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} w-full md:flex md:items-center md:justify-between md:w-auto`} id="navbar-dropdown">
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-black md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
-              <li>
-                <NavLink to={"/"} className="cursor-pointer py-2 px-3 text-white flex md:gap-0 gap-2 hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                  <FaHome className='md:hidden' /> Home</NavLink>
-              </li>
+              {User?.role === "customer" && (
+                <>
+                  <li>
+                    <NavLink to={"/"} className="cursor-pointer py-2 px-3 text-white flex md:gap-0 gap-2 hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                      <FaHome className='md:hidden' /> Home</NavLink>
+                  </li>
+                </>
+              )}
+
+              {User?.role === "customer" && (
+                <>
+                  <li>
+                    <NavLink to={"/OrderPage"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                      <LuHandPlatter className='md:hidden' /> Order</NavLink>
+                  </li>
+                </>
+              )}
+
+              {User?.role === "RestroRecruit" && (
+                <>
+                  <li>
+                    <NavLink
+                      to="/RestaurantPages"
+                      className="block hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Restaurant
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/MenuPages"
+                      className="block hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Menu
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/OrderPageAdmin"
+                      className="block hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <h4>Order</h4>
+                    </NavLink>
+                  </li>
+                </>
+              )}
+
               {token ?
                 <>
                   <li>
@@ -81,97 +127,61 @@ const Navbar: React.FC = () => {
                 null
               }
 
-              <li>
-                <NavLink to={"/OrderPage"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                  <LuHandPlatter className='md:hidden' /> Order</NavLink>
-              </li>
-
-              <li className='bg-black md:block hidden'>
-                <div className="relative inline-block text-left">
-                  <button
-                    id="dropdownDelayButton"
-                    onMouseEnter={() => setIsOpen(true)}
-                    onMouseLeave={() => setIsOpen(false)}
-                    className="text-white bg-black hover:bg-gray-800 focus:ring-1 font-medium rounded-lg text-[17px] text-center inline-flex items-center"
-                    type="button"
-                  >
-                    Dashboard
-                    <svg className="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                    </svg>
-                  </button>
-
-                  {/* Dropdown menu */}
-                  {isOpen && (
-                    <div
-                      id="dropdownDelay"
-                      className="absolute z-50 bg-black divide-y overflow-hidden divide-gray-100 rounded-lg shadow shadow-gray-300 w-28"
-                      onMouseEnter={() => setIsOpen(true)}
-                      onMouseLeave={() => setIsOpen(false)}
-                    >
-                      <ul className="py-2 text-sm z-50 text-white bg-black" aria-labelledby="dropdownDelayButton">
-                        <li>
-                          <NavLink to={"/RestaurantPages"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Restaurant</NavLink>
-                        </li>
-                        <li>
-                          <NavLink to={"/MenuPages"} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>Menu</NavLink>
-                        </li>
-                        <li>
-                          <NavLink to={"/OrderPageAdmin"} className="flex px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                            <h4>Order</h4>
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </li>
-
-              <li className='bg-black md:hidden'>
-                <li>
-                  <div className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" 
-                  onClick={() => {
-                    setIsMobileMenuOpen(!isMobileMenuOpen);
-                    // CheckUserPayaRestaurantfees();
-                }}
-                
-                  > <LuUtensilsCrossed className='md:hidden' /> Restaurant</div>
-                </li>
-                <li>
-                  <NavLink to={"/MenuPages"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuSquareMenu className="md:hidden" /> Menu</NavLink>
-                </li>
-                <li>
-                  <NavLink to={"/OrderPageAdmin"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuPackageCheck className="md:hidden" />Restaurant Orders</NavLink>
-                </li>
-              </li>
+              {User?.role === "RestroRecruit" && (
+                <>
+                  <li className='bg-black md:hidden'>
+                    <li>
+                      <div className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0"
+                        onClick={() => {
+                          setIsMobileMenuOpen(!isMobileMenuOpen);
+                        }}
+                      > <LuUtensilsCrossed className='md:hidden' />Restaurant</div>
+                    </li>
+                    <li>
+                      <NavLink to={"/MenuPages"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuSquareMenu className="md:hidden" /> Menu</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to={"/OrderPageAdmin"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <LuPackageCheck className="md:hidden" />Restaurant Orders</NavLink>
+                    </li>
+                  </li>
+                </>
+              )}
 
               {token ? <>
-                <li className="relative hidden md:block">
-                  <NavLink
-                    to="/AddToCartPage"
-                    className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 transition duration-300 ease-in-out md:p-0"
-                    aria-current="page"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <FiShoppingCart />
-                  </NavLink>
-                  {User?.items?.length ? (
-                    <div className="absolute flex items-center justify-center h-5 w-5 text-xs font-bold text-white bg-red-500 rounded-full 
+                {User?.role === "customer" && (
+                  <>
+                    <li className="relative hidden md:block">
+                      <NavLink
+                        to="/AddToCartPage"
+                        className="block cursor-pointer py-2 px-3 text-[25px] text-white hover:bg-gray-700 transition duration-300 ease-in-out md:p-0"
+                        aria-current="page"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <FiShoppingCart />
+                      </NavLink>
+                      {User?.items?.length ? (
+                        <div className="absolute flex items-center justify-center h-5 w-5 text-xs font-bold text-white bg-red-500 rounded-full 
                     md:-top-2 md:-right-2 top-1 left-6 shadow-md animate-pulse">{User?.items.length}
-                    </div>
-                  )
-                    :
-                    null}
-                </li>
+                        </div>
+                      )
+                        :
+                        null}
+                    </li>
+                  </>
+                )}
 
-                <li className="relative block md:hidden">
-                  <NavLink
-                    to={"/AddToCartPage"}
-                    className="cursor-pointer py-1 px-3 mb-2 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0"
-                    aria-current="page"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  >
-                    <FiShoppingCart /> Cart({User?.items.length})
-                  </NavLink>
-                </li>
+                {User?.role === "customer" && (
+                  <>
+                    <li className="relative block md:hidden">
+                      <NavLink
+                        to={"/AddToCartPage"}
+                        className="cursor-pointer py-1 px-3 mb-2 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0"
+                        aria-current="page"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                      >
+                        <FiShoppingCart /> Cart({User?.items.length})
+                      </NavLink>
+                    </li>
+                  </>
+                )}
 
                 <li className='bg-black md:block hidden'>
                   <div className='rounded-full cursor-pointer overflow-hidden md:ml-0 ml-2.5'>
@@ -188,7 +198,6 @@ const Navbar: React.FC = () => {
                 :
                 null
               }
-
               <div className="button-container space-y-4">
                 {token ? <>
                   <span

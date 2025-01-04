@@ -22,6 +22,7 @@ export interface CartItem {
 
 export interface UserInterFaceData {
     profilePictuer: string;  //profilePicture
+    role: string,
     name: string;
     email: string;
     contact: string;

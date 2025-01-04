@@ -222,7 +222,7 @@ const RestaurantPages: React.FC = () => {
                 <>
                     {/* <Elements stripe={stripePromise}> */}
 
-                    {!Payment ?
+                    {Payment ?
                         <>
                             {Payment || Payment == null && (
                                 <div onClick={() => PaymentPageData()} className='text-white h-10 w-20 bg-red-600'>
