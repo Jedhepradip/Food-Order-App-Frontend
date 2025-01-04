@@ -9,6 +9,7 @@ import "./Signin.css"
 import axios from 'axios';
 
 interface InputFormSignIn {
+  role: string,
   OTP: string,
   city: string;
   name: string;
@@ -133,9 +134,7 @@ const SigninPage: React.FC = () => {
     Formdata.append("address", data.address)
     Formdata.append("country", data.country)
     Formdata.append("city", data.city)
-    console.log(Formdata);
-
-    console.log(file);
+    Formdata.append("role", data.role)
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-user/Registration/User`, Formdata, {
@@ -177,6 +176,7 @@ const SigninPage: React.FC = () => {
   return (
     <div className="flex items-center justify-center p-4 md:h-screen md:px-10 px-2 bg-black text-white">
       <ToastContainer />
+
       <form onSubmit={handleSubmit(onsubmit)} className="w-full max-w-lg pt-2 border md:border-gray-500 border-gray-100 px-5 pr-5 pb-5 bg-gray-950 rounded-lg shadow-lg animate-fadeIn">
         <h2 className="text-3xl font-serif text-center mb-3">Profile Form</h2>
 
@@ -192,19 +192,6 @@ const SigninPage: React.FC = () => {
             />
             {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
           </div>
-          {/* <div>
-            <label className="block mb-2 text-lg font-serif">Email</label>
-            <input
-              {...register("email", { required: "Email is required", pattern: { value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, message: "Invalid email format" } })}
-              type="email"
-              name='email'
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-              placeholder="email"
-            />
-            {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
-          </div> */}
-
           <div>
             <label className="block mb-2 text-lg font-serif">Email</label>
             <input
@@ -262,9 +249,6 @@ const SigninPage: React.FC = () => {
             />
             {errors.contact && <span className="text-red-500 text-sm">{errors.contact.message}</span>}
           </div>
-
-
-
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -315,20 +299,48 @@ const SigninPage: React.FC = () => {
             />
             {errors.profilePicture && <span className="text-red-500 text-sm">{errors.profilePicture.message}</span>}
           </div>
+
+          <div className="flex flex-col">
+            <h1 className="block text-lg font-serif">User Role</h1>
+            <div className="flex items-center space-x-4"> {/* Ensures radio buttons are spaced horizontally */}
+              <div className="flex items-center gap-2">
+                <input
+                  {...register("role", { required: "Please select a user type" })}
+                  type="radio"
+                  id="customer"
+                  name="role"
+                  value="customer"
+                  className="form-radio text-black focus:ring-black"
+                />
+                <label htmlFor="customer" className="text-gray-700 font-serif">Customer</label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input
+                  {...register("role", { required: "Please select a user type" })}
+                  type="radio"
+                  id="RestroRecruit"
+                  value="RestroRecruit"
+                  name="role"
+                  className="form-radio text-black focus:ring-black"
+                />
+                <label htmlFor="RestroRecruit" className="text-gray-700 font-serif">RestroRecruit</label>
+              </div>
+            </div>
+            {errors.role && (
+              <div className="text-red-500 text-lg font-serif mt-2">
+                {errors.role.message}
+              </div>
+            )}
+          </div>
+
         </div>
 
         {!otpSent && (
-          // <button
-          //   type="button"
-          //   onClick={handleOtpSubmit}
-          //   className="w-full py-0.5 mt-2 rounded-md bg-white text-black text-[25px] mb-2 font-serif hover:bg-gray-950 border border-white hover:shadow-[4px_4px_8px_rgba(255,255,255,0.5)] hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
-          // >
-          //   Send OTP
-          // </button>
           <button
             type="button"
             onClick={handleOtpSubmit}
-            className={`w-full py-2 mt-2 rounded-md bg-orange-600 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-orange-600 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500 ${loadingSendOTP ? 'cursor-not-allowed animate-pulse' : ''
+            className={`w-full py-2 rounded-md bg-orange-600 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-orange-600 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500 ${loadingSendOTP ? 'cursor-not-allowed animate-pulse' : ''
               }`}
             disabled={loadingSendOTP}
           >
@@ -363,7 +375,7 @@ const SigninPage: React.FC = () => {
         )}
 
         {otpSent && (
-          <div className="mt-1  ">
+          <div>
             <label className="block mb-2 text-lg font-serif">Enter OTP</label>
             <input  {...register("OTP", { required: "OTP is required" })}
               type="text"
@@ -407,12 +419,6 @@ const SigninPage: React.FC = () => {
                 <span>Verify OTP</span>
               )}
             </button>
-            {/* <button
-              type="submit"
-              className="w-full py-0.5 mt-2 rounded-md bg-blue-500 text-black text-[25px] mb-2 font-serif hover:bg-blue-700"
-            >
-              Verify OTP
-            </button> */}
           </div>
         )}
 

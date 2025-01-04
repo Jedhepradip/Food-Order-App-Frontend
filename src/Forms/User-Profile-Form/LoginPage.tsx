@@ -9,23 +9,27 @@ import { useNavigate } from 'react-router-dom';
 interface InputFormLogin {
   email: string,
   password: string,
+  role: string,
 }
 
 const Login: React.FC = () => {
   const [loadingOTP, setLoadingOTP] = useState(false);
-  const { register, handleSubmit } = useForm<InputFormLogin>();
-  const Navigate = useNavigate()
+  const { register, handleSubmit, formState: { errors } } = useForm<InputFormLogin>();
+  const Navigate = useNavigate();
+
   const onsubmit: SubmitHandler<InputFormLogin> = async (data) => {
     setLoadingOTP(true);
-    const fromdata = new FormData()
-    fromdata.append("email", data.email)
-    fromdata.append("password", data.password)
+    const fromdata = new FormData();
+    fromdata.append("email", data.email);
+    fromdata.append("password", data.password);
+    fromdata.append("role", data.role); // Make sure the role is also sent in the request
+
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-user/Login/User`, fromdata, {
         headers: {
           "Content-Type": "application/json"
         }
-      })
+      });
       const UserResponse = response.data;
       if (response.status === 200) {
         toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
@@ -43,18 +47,12 @@ const Login: React.FC = () => {
           setLoadingOTP(false);
         }, 1600);
         const errorMessage = error.response.data.message;
-        if (error.response.status === 409 || errorMessage === "User already exists") {
-          console.log("Error: User already exists.");
-          toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
-        } else {
-          toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
-          console.log("Error: ", errorMessage || "Unexpected error occurred.");
-        }
+        toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
       } else {
         console.log("Error: Network issue or server not responding", error);
       }
     }
-  }
+  };
 
   return (
     <>
@@ -64,31 +62,72 @@ const Login: React.FC = () => {
           <h1 className='text-center font-medium font-serif text-[30px] animate-slideIn'>Login</h1>
           <form onSubmit={handleSubmit(onsubmit)}>
             <div className='space-y-1 font-serif'>
-
               <div>
                 <label className='block text-lg font-medium'>Email</label>
-                <input {...register("email")}
+                <input
+                  {...register("email", { required: "Email is required" })}
                   type="text"
-                  name='email'
-                  placeholder='PradipJedhe@gmail.com'
-                  className='w-full px-4 py-2.5 border border-gray-300 rounded-md bg-black focus:ring-2 focus:ring-white outline-none focus:border-transparent text-white'
+                  name="email"
+                  placeholder="PradipJedhe@gmail.com"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md bg-black focus:ring-2 focus:ring-white outline-none focus:border-transparent text-white"
                 />
+                {errors.email && (
+                  <div className="text-red-500 text-lg font-serif mt-2">{errors.email.message}</div>
+                )}
               </div>
 
               <div>
                 <label className='block text-lg font-medium'>Password</label>
-                <input {...register("password")}
+                <input
+                  {...register("password", { required: "Password is required" })}
                   type="password"
-                  name='password'
-                  placeholder='password'
-                  className='w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2  bg-black focus:ring-white focus:border-transparent outline-none text-white'
+                  name="password"
+                  placeholder="password"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 bg-black focus:ring-white focus:border-transparent outline-none text-white"
                 />
+                {errors.password && (
+                  <div className="text-red-500 text-lg font-serif mt-2">{errors.password.message}</div>
+                )}
+              </div>
+
+              <div className="flex flex-col">
+                <h1 className="block text-lg font-serif">User Role</h1>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center gap-2">
+                    <input
+                      {...register("role", { required: "Please select a user type" })}
+                      type="radio"
+                      id="customer"
+                      name="role"
+                      value="customer"
+                      className="form-radio text-black focus:ring-black"
+                    />
+                    <label htmlFor="customer" className="text-gray-700 font-serif">Customer</label>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      {...register("role", { required: "Please select a user type" })}
+                      type="radio"
+                      id="RestroRecruit"
+                      value="RestroRecruit"
+                      name="role"
+                      className="form-radio text-black focus:ring-black"
+                    />
+                    <label htmlFor="RestroRecruit" className="text-gray-700 font-serif">RestroRecruit</label>
+                  </div>
+                </div>
+                {errors.role && (
+                  <div className="text-red-500 text-lg font-serif mt-2">
+                    {errors.role.message}
+                  </div>
+                )}
               </div>
 
               <div className="w-full flex justify-center items-center pb-2">
                 <button
-                  type='submit'
-                  className={`mt-2 flex justify-center items-center text-white w-full bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[20px] px-5 py-2.5 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
+                  type="submit"
+                  className={`mt-2 flex justify-center items-center text-white w-full bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-white font-medium rounded-md text-[20px] px-5 py-2 ${loadingOTP ? 'cursor-not-allowed' : ''} ${loadingOTP ? 'animate-pulse' : ''}`}
                   disabled={loadingOTP}
                 >
                   {loadingOTP && (
@@ -116,13 +155,11 @@ const Login: React.FC = () => {
                   <span>{loadingOTP ? 'Loading...' : 'Login'}</span>
                 </button>
               </div>
-              
             </div>
 
             <div className='flex text-white'>
               <NavLink to={"/SigninPage"}>
-                <h1 className='mt-2 text-[10px] px-1 font-medium'>Create New Account? <span className='text-blue-500 hover:underline'>
-                  SignIn</span></h1>
+                <h1 className='mt-2 text-[10px] px-1 font-medium'>Create New Account? <span className='text-blue-500 hover:underline'>SignIn</span></h1>
               </NavLink>
               <NavLink to={"/SendLinkEmailPage"}>
                 <h1 className='cursor-pointer text-[11px] mt-3 ml-5 hover:underline text-blue-500 font-medium'>Forget Password</h1>
@@ -150,7 +187,7 @@ const Login: React.FC = () => {
         .animate-slideIn { animation: slideIn 0.7s ease-in-out; }
       `}</style>
     </>
-  )
-}
+  );
+};
 
 export default Login;
