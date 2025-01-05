@@ -26,7 +26,7 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      {user?.role === "customer" ?
+      {user?.role === "customer" || user === null ?
         <>
           <div className="min-h-screen bg-black flex items-center justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl p-5">

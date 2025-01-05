@@ -31,6 +31,8 @@ const Navbar: React.FC = () => {
     Navigate("/")
   }
 
+  console.log(User?.role === "customer");
+
   return (
     <nav className="bg-black text-white sticky top-0 left-0 z-50">
       {User?.idAdmin === false || User === null ? <>
@@ -67,7 +69,8 @@ const Navbar: React.FC = () => {
 
           <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} w-full md:flex md:items-center md:justify-between md:w-auto`} id="navbar-dropdown">
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-black md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
-              {User?.role === "customer" && (
+
+              {(User?.role === "customer" || User === null) && (
                 <>
                   <li>
                     <NavLink to={"/"} className="cursor-pointer py-2 px-3 text-white flex md:gap-0 gap-2 hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -76,18 +79,23 @@ const Navbar: React.FC = () => {
                 </>
               )}
 
-              {User?.role === "customer" && (
-                <>
-                  <li>
-                    <NavLink to={"/OrderPage"} className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                      <LuHandPlatter className='md:hidden' /> Order</NavLink>
-                  </li>
-                </>
+              {(User?.role === "customer" || User === null) && (
+                <li>
+                  <NavLink
+                    to={"/OrderPage"}
+                    className="cursor-pointer py-2 px-3 flex md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0"
+                    aria-current="page"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  >
+                    <LuHandPlatter className="md:hidden" /> Order
+                  </NavLink>
+                </li>
               )}
 
               {User?.role === "RestroRecruit" && (
                 <>
-                  <li>
+                  {/* <div className='md:block hidden'> */}
+                  <li className='md:block hidden'>
                     <NavLink
                       to="/RestaurantPages"
                       className="block hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -96,7 +104,7 @@ const Navbar: React.FC = () => {
                       Restaurant
                     </NavLink>
                   </li>
-                  <li>
+                  <li className='md:block hidden'>
                     <NavLink
                       to="/MenuPages"
                       className="block hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -105,7 +113,7 @@ const Navbar: React.FC = () => {
                       Menu
                     </NavLink>
                   </li>
-                  <li>
+                  <li className='md:block hidden'>
                     <NavLink
                       to="/OrderPageAdmin"
                       className="block hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -114,14 +122,17 @@ const Navbar: React.FC = () => {
                       <h4>Order</h4>
                     </NavLink>
                   </li>
+                  {/* </div> */}
                 </>
               )}
 
               {token ?
                 <>
-                  <li>
-                    <NavLink to={"/ProfilePage"} className="flex cursor-pointer py-2 px-3 md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <FaUser className='md:hidden' /> Profile</NavLink>
-                  </li>
+                  {User?.role === "RestroRecruit" || User?.role === "customer" && (
+                    <li>
+                      <NavLink to={"/ProfilePage"} className="flex cursor-pointer py-2 px-3 md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <FaUser className='md:hidden block' /> Profile</NavLink>
+                    </li>
+                  )}
                 </>
                 :
                 null
@@ -183,17 +194,22 @@ const Navbar: React.FC = () => {
                   </>
                 )}
 
-                <li className='bg-black md:block hidden'>
-                  <div className='rounded-full cursor-pointer overflow-hidden md:ml-0 ml-2.5'>
-                    <img src={User?.profilePictuer} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
-                  </div>
-                </li>
-                <li className='bg-black block md:hidden'>
-                  <div className='rounded-full cursor-pointer gap-2 flex overflow-hidden md:ml-0 ml-2.5'>
-                    <img src={User?.profilePictuer} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
-                    <span className='mt-1'>{User?.name}</span>
-                  </div>
-                </li>
+                {User?.role === "RestroRecruit" || User?.role === "customer" && (
+                  <>
+                    <li className='bg-black md:block hidden'>
+                      <div className='rounded-full cursor-pointer overflow-hidden md:ml-0 ml-2.5'>
+                        <img src={User?.profilePictuer} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+                      </div>
+                    </li>
+
+                    <li className='bg-black block md:hidden'>
+                      <div className='rounded-full cursor-pointer gap-2 flex overflow-hidden md:ml-0 ml-2.5'>
+                        <img src={User?.profilePictuer} alt="" className='h-8 w-8 rounded-full object-cover' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+                        <span className='mt-1'>{User?.name}</span>
+                      </div>
+                    </li>
+                  </>
+                )}
               </>
                 :
                 null

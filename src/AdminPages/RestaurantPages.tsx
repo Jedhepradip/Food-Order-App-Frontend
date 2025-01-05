@@ -48,6 +48,7 @@ interface PaymentData {
 const RestaurantPages: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [loadingOTP, setLoadingOTP] = useState(false);
+    const [loadingPayment, setLoadingPamyent] = useState(false);
     const [Restaurant, setRestaurant] = useState<RestaurantInterface | null>(null);
     const RestaurantData = useSelector((state: RootState) => state.Restaurant.Restaurant)
     const { register, handleSubmit, formState: { errors } } = useForm<RestaurantInterfaceInput>();
@@ -55,7 +56,7 @@ const RestaurantPages: React.FC = () => {
     const Dispatch: AppDispatch = useDispatch()
     const token = localStorage.getItem("Token")
 
-    const [Payment, SetPaymentData] = useState<PaymentData | null>(null);
+    const [Payment, SetPaymentData] = useState<PaymentData[] | []>([]);
 
     useEffect(() => {
         if (RestaurantData) {
@@ -117,11 +118,10 @@ const RestaurantPages: React.FC = () => {
         }
     }
 
-
     useEffect(() => {
         const payToCheckTheRestaurant = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Payment/Payment/Get/Info`, {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Payment/Restaurant/Payment/Get/Info`, {
                     headers: {
                         authorization: `Bearer ${token}`,
                     },
@@ -167,16 +167,17 @@ const RestaurantPages: React.FC = () => {
 
     const PaymentPageData = async () => {
         try {
-            // Initialize Stripe
-
+            setLoadingPamyent(true)
             const stripe = await loadStripe(
                 `${import.meta.env.VITE_STRIPE_URL}`
             );
 
             if (!stripe) {
                 toast.error("Stripe initialization failed.");
+                setLoadingPamyent(false);
                 return;
             }
+
             // Retrieve token
             const token = localStorage.getItem("Token");
             if (!token) {
@@ -202,9 +203,11 @@ const RestaurantPages: React.FC = () => {
                 console.error("Stripe Error:", result.error.message);
                 toast.error(result.error.message);
             }
+            setLoadingPamyent(false)
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             // Handle different error scenarios
+            setLoadingPamyent(false)
             if (error.response) {
                 toast.error(`Server error: ${error.response.data.message}`);
             } else if (error.request) {
@@ -215,6 +218,9 @@ const RestaurantPages: React.FC = () => {
         }
     }
 
+    if (Payment.length === 0) {
+        console.log(Payment.length);
+    }
 
     return (
         <>
@@ -222,7 +228,7 @@ const RestaurantPages: React.FC = () => {
                 <>
                     {/* <Elements stripe={stripePromise}> */}
 
-                    {!Payment ?
+                    {(Payment?.length === 0) ?
                         <>
                             <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white animate-pulse p-6">
                                 {/* Heading Section */}
@@ -236,12 +242,50 @@ const RestaurantPages: React.FC = () => {
                                 </p>
 
                                 {/* Payment Button Section */}
+
                                 <button
+                                    type='button'
                                     onClick={() => PaymentPageData()}
-                                    className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg rounded-lg shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-purple-400"
+                                    className={`flex  px-8 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg rounded-lg shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-purple-400 disabled:bg-purple-400 disabled:cursor-not-allowed${loadingPayment ? 'cursor-not-allowed' : ''} ${loadingPayment ? 'animate-pulse' : ''}`}
+                                    disabled={loadingPayment}
                                 >
-                                    Pay Now 💳
+                                    {loadingPayment && (
+                                        <svg
+                                            className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                            ></path>
+                                        </svg>
+                                    )}
+                                    <span>{loadingPayment ? 'Loading...' : "Pay Now 💳"}</span>
                                 </button>
+
+                                {/* <div className="text-center mt-6">
+                                    <button
+                                        disabled={loadingPayment}  // Disable button while loading
+                                        className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg rounded-lg shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-purple-400 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                    >
+                                        {loadingPayment ? (
+                                            <span className="animate-spin mr-2">🔄</span>  // You can add a spinner here
+                                        ) : (
+                                            "Pay Now 💳"
+                                        )}
+                                    </button>
+                                </div> */}
                             </div>
                         </>
                         :

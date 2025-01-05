@@ -3,6 +3,7 @@ import { AppDispatch } from "../Store/Store";
 import axios from "axios";
 
 export interface UserInterFaceData {
+    role:string,
     profilePictuer: string;  //profilePicture
     name: string;
     email: string;

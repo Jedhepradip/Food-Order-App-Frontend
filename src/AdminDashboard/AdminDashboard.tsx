@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 
 export interface UserInterFaceData {
+    role: string,
     profilePictuer: string;  //profilePicture
     name: string;
     email: string;
@@ -309,6 +310,7 @@ const AdminDashboard: React.FC = () => {
                                             <div>
                                                 <h3 className="font-semibold">{user.name}</h3>
                                                 <p>Email :{user.email}</p>
+
                                                 <p >
 
                                                     {AllRestaurant?.map((valrest) => (
@@ -323,6 +325,10 @@ const AdminDashboard: React.FC = () => {
                                                         ))
                                                     ))}
                                                 </p>
+                                                <p className="text-lg font-medium ">
+                                                    Role: <span className="font-bold text-blue-300">{user.role}</span>
+                                                </p>
+
                                             </div>
                                             <div className="flex gap-2">
                                                 <button onClick={() => handelUserEditFrom(user._id)} className="p-2 bg-blue-600 hover:bg-blue-700 rounded-md">
