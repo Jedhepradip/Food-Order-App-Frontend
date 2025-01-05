@@ -117,7 +117,7 @@ const RestaurantPages: React.FC = () => {
         }
     }
 
-    
+
     useEffect(() => {
         const payToCheckTheRestaurant = async () => {
             try {
@@ -168,8 +168,9 @@ const RestaurantPages: React.FC = () => {
     const PaymentPageData = async () => {
         try {
             // Initialize Stripe
+
             const stripe = await loadStripe(
-                "pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24"
+                `${import.meta.env.VITE_STRIPE_URL}`
             );
 
             if (!stripe) {
@@ -183,13 +184,11 @@ const RestaurantPages: React.FC = () => {
                 return;
             }
 
-            const fromdata = new FormData()
             const response = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/api-Payment/restaurant/Payment/Restaurant/Data`,
-                fromdata,
+                `${import.meta.env.VITE_BACKEND_URL}/api-Payment/Restaurant/Data`,
+                {},
                 {
                     headers: {
-                        "Content-Type": "application/json",
                         authorization: `Bearer ${token}`,
                     },
                 }
@@ -216,19 +215,34 @@ const RestaurantPages: React.FC = () => {
         }
     }
 
+
     return (
         <>
             <div className='flex justify-center w-full bg-black md:p-10 p-0'>
                 <>
                     {/* <Elements stripe={stripePromise}> */}
 
-                    {Payment ?
+                    {!Payment ?
                         <>
-                            {Payment || Payment == null && (
-                                <div onClick={() => PaymentPageData()} className='text-white h-10 w-20 bg-red-600'>
-                                    PaymentPageData
-                                </div>
-                            )}
+                            <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white animate-pulse p-6">
+                                {/* Heading Section */}
+                                <h1 className="text-4xl md:text-5xl font-extrabold mb-8 animate-bounce text-center leading-tight">
+                                    Unlock Premium Access with <span className="text-purple-500">CraveCourier!</span>
+                                </h1>
+
+                                {/* Payment Details Section */}
+                                <p className="text-lg md:text-xl mb-6 text-center">
+                                    Pay a one-time fee of <span className="text-yellow-400 font-bold">$50,000</span> to enjoy exclusive benefits!
+                                </p>
+
+                                {/* Payment Button Section */}
+                                <button
+                                    onClick={() => PaymentPageData()}
+                                    className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg rounded-lg shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-purple-400"
+                                >
+                                    Pay Now 💳
+                                </button>
+                            </div>
                         </>
                         :
                         <>
