@@ -56,9 +56,9 @@ const OrderPage: React.FC = () => {
 
     useEffect(() => {
         if (!Restaurant?.menus || !AllOrder) return;
-        const filteredProducts = AllOrder.filter(productA => {
-            const pradip = productA.MenuItemsList.filter(a =>
-                Restaurant?.menus.some(productB => a.menuId === productB)
+        const filteredProducts = AllOrder?.filter(productA => {
+            const pradip = productA?.MenuItemsList?.filter(a =>
+                Restaurant?.menus.some(productB => a?.menuId === productB)
             );
             return pradip.length > 0;
         });
@@ -134,13 +134,13 @@ const OrderPage: React.FC = () => {
                 <h2 className="text-2xl font-semibold text-center text-red-500">Order Overview</h2>
                 {sameProducts.map((userOrder, index) => (
                     <>
-                        {userOrder.MenuItemsList?.map((item) => (
+                        {userOrder?.MenuItemsList?.map((item) => (
                             <div key={index} className="border shadow-lg rounded-lg p-6 mb-6 animate__animated animate__fadeInUp">
                                 <div className="flex justify-between items-center w-full">
                                     <div className="mb-4 md:w-[50%] w-full">
                                         <div className="text-start mt-4 font-serif">
-                                            <p className="text-lg font-medium">{userOrder.deliveryDetails.name}</p>
-                                            <p className="text-md">{userOrder.deliveryDetails.address || "Not Provided"}</p>
+                                            <p className="text-lg font-medium">{userOrder?.deliveryDetails?.name}</p>
+                                            <p className="text-md">{userOrder?.deliveryDetails?.address || "Not Provided"}</p>
                                             <h3 className="text-lg font-serif">Total Amount: $
                                                 {calculateTotal([item])}
                                             </h3>
@@ -152,7 +152,7 @@ const OrderPage: React.FC = () => {
                                         <label htmlFor="status" className="block text-lg font-medium mb-2">Order Status</label>
                                         <select
                                             id="status"
-                                            onChange={(e) => handleStatusChange(e.target.value, userOrder._id, item.menuId)}
+                                            onChange={(e) => handleStatusChange(e.target.value, userOrder?._id, item?.menuId)}
                                             className="w-full p-2 rounded-lg bg-gray-900 border text-white border-none focus:outline-none">
                                             <option value="">Select Status</option>
                                             <option value="Pending">Pending</option>
@@ -172,14 +172,14 @@ const OrderPage: React.FC = () => {
                                             key={item._id}
                                             className="flex items-center border text-white shadow-md rounded-lg p-3"
                                         >                 <img
-                                                src={item.image}
-                                                alt={item.name}
+                                                src={item?.image}
+                                                alt={item?.name}
                                                 className="w-16 h-16 rounded-lg mr-4 object-cover border border-gray-600"
                                             />
                                             <div className="flex-1">
-                                                <h2 className="text-xl font-semibold">{item.name}</h2>
-                                                <p className="text-gray-400">Price: ${item.price}</p>
-                                                <p className="text-gray-400">Quantity: {item.Quantity}</p>
+                                                <h2 className="text-xl font-semibold">{item?.name}</h2>
+                                                <p className="text-gray-400">Price: ${item?.price}</p>
+                                                <p className="text-gray-400">Quantity: {item?.Quantity}</p>
                                             </div>
                                         </div>
                                     </div>
