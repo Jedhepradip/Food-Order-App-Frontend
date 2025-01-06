@@ -128,7 +128,7 @@ const Navbar: React.FC = () => {
 
               {token ?
                 <>
-                  {User?.role === "RestroRecruit" || User?.role === "customer" && (
+                  {(User?.role === "RestroRecruit" || User?.role === "customer") && (
                     <li>
                       <NavLink to={"/ProfilePage"} className="flex cursor-pointer py-2 px-3 md:gap-0 gap-2 text-white hover:bg-gray-700 md:p-0" aria-current="page" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}> <FaUser className='md:hidden block' /> Profile</NavLink>
                     </li>
@@ -194,7 +194,7 @@ const Navbar: React.FC = () => {
                   </>
                 )}
 
-                {User?.role === "RestroRecruit" || User?.role === "customer" && (
+                {(User?.role === "RestroRecruit" || User?.role === "customer") && (
                   <>
                     <li className='bg-black md:block hidden'>
                       <div className='rounded-full cursor-pointer overflow-hidden md:ml-0 ml-2.5'>
