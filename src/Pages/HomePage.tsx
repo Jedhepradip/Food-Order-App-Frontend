@@ -12,13 +12,17 @@ const HomePage: React.FC = () => {
   const Navigate = useNavigate()
   const Dispatch: AppDispatch = useDispatch()
   const user = useSelector((state: RootState) => state.User.User)
-    
+
   useEffect(() => {
     Dispatch(FetchingUserData())
   }, [Dispatch])
 
+  const token = localStorage.getItem("Token")
   const SearchToCountry = () => {
     if (search.length) {
+      if (!token) {
+        Navigate("/LoginPage")
+      }
       Dispatch(SetSearchByCountry([{ Country: search }]));
       Navigate("/SearchPage")
     }
