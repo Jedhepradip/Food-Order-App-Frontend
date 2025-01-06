@@ -22,6 +22,7 @@ const HomePage: React.FC = () => {
     if (search.length) {
       if (!token) {
         Navigate("/LoginPage")
+        return
       }
       Dispatch(SetSearchByCountry([{ Country: search }]));
       Navigate("/SearchPage")
