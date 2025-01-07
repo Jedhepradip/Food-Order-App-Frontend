@@ -2,8 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/Store";
 import axios from "axios";
 
-
-
 interface MenuItme {
     Quantity: number,
     description: string,
@@ -15,24 +13,30 @@ interface MenuItme {
     _id: string
 }
 
-interface deliveryDetails {
+interface user {
+    profilePictuer: string;  //profilePicture
+    role: string,
     name: string;
     email: string;
+    contact: string;
+    password: string;
     address: string;
+    idAdmin: boolean;
+    country: string;
     city: string;
-    country: string,
-    expiry: string,
-    cvc: string,
+    updatedAt: string;
+    items: string[]; // Array of individual CartItem objects
+    __v: string;
+    _id: string;
 }
 
 interface OrderData {
     MenuItemsList: MenuItme[],
-    deliveryDetails: deliveryDetails,
     restaurant: string,
     totalAmount: number,
     createdAt: string,
     updatedAt: string,
-    user: [],
+    user: user,
     __v: string,
     _id: string,
 }
@@ -52,6 +56,7 @@ export const FetchingAllOrderData = () => async (dispatch: AppDispatch) => {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         });
+
         dispatch(OrderAllDataShow(response?.data)); // Dispatch the user data received    
     } catch (error) {
         console.log(error);

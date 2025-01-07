@@ -13,19 +13,17 @@ interface MenuItme {
     _id: string
 }
 
-interface deliveryDetails {
+interface user {
     name: string;
     email: string;
     address: string;
     city: string;
     country: string,
-    expiry: string,
-    cvc: string,
 }
 
 interface OrderData {
     MenuItemsList: MenuItme[],
-    deliveryDetails: deliveryDetails,
+    deliveryDetails: user,
     restaurant: string,
     totalAmount: number,
     createdAt: string,

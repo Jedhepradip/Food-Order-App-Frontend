@@ -22,8 +22,7 @@ export const FetchingRestaurant = () => async (dispatch: AppDispatch) => {
                 },
             }
         );
-        dispatch(SetRestaurantData(response.data)); // Dispatch the restaurant data received
-        console.log("Restaurant Slice", response.data);
+        dispatch(SetRestaurantData(response.data));
     } catch (error) {
         console.error("Error fetching restaurant data:", error);
     }

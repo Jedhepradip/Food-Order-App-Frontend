@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/Store";
 import axios from "axios";
 
-
  interface Restaurant {
     _id: string;
     restaurantName: string;

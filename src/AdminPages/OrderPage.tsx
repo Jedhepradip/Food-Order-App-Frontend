@@ -18,24 +18,30 @@ interface MenuItme {
     _id: string
 }
 
-interface deliveryDetails {
+interface user {
+    profilePictuer: string;  //profilePicture
+    role: string,
     name: string;
     email: string;
+    contact: string;
+    password: string;
     address: string;
+    idAdmin: boolean;
+    country: string;
     city: string;
-    country: string,
-    expiry: string,
-    cvc: string,
+    updatedAt: string;
+    items: string[]; // Array of individual CartItem objects
+    __v: string;
+    _id: string;
 }
 
 interface OrderData {
     MenuItemsList: MenuItme[],
-    deliveryDetails: deliveryDetails,
     restaurant: string,
     totalAmount: number,
     createdAt: string,
     updatedAt: string,
-    user: [],
+    user: user,
     __v: string,
     _id: string,
 }
@@ -43,7 +49,8 @@ interface OrderData {
 const OrderPage: React.FC = () => {
     const [AllOrder, SetAllOrderData] = useState<OrderData[]>([])
     const [sameProducts, setSameProducts] = useState<OrderData[]>([])
-    const Orderdata = useSelector((state: RootState) => state.OrderAll.AllOrder)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const Orderdata: any = useSelector((state: RootState) => state.OrderAll.AllOrder)
     const Restaurant = useSelector((state: RootState) => state.Restaurant.Restaurant)
 
     const Dispatch: AppDispatch = useDispatch()
@@ -139,8 +146,8 @@ const OrderPage: React.FC = () => {
                                 <div className="flex justify-between items-center w-full">
                                     <div className="mb-4 md:w-[50%] w-full">
                                         <div className="text-start mt-4 font-serif">
-                                            <p className="text-lg font-medium">{userOrder?.deliveryDetails?.name}</p>
-                                            <p className="text-md">{userOrder?.deliveryDetails?.address || "Not Provided"}</p>
+                                            <p className="text-lg font-medium">{userOrder?.user?.name || "Not Provided"}</p>
+                                            <p className="text-md">{userOrder?.user?.address || "Not Provided"}</p>
                                             <h3 className="text-lg font-serif">Total Amount: $
                                                 {calculateTotal([item])}
                                             </h3>
@@ -163,7 +170,6 @@ const OrderPage: React.FC = () => {
                                         </select>
                                     </div>
                                 </div>
-
 
                                 <div className="flex justify-between items-center gap-2">
 

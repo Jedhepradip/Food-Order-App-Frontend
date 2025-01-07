@@ -85,9 +85,9 @@ const AddToCartPage: React.FC = () => {
         }, 1200);
     };
 
+    //stripe
     const SetThePaymentModel = async () => {
         SetContinuePayment(true);
-
         const stripe = await loadStripe(
             'pk_test_51Q7VKrP6jlrB3RhjwiYFqR25TaT6c8SGVXjkatIkKyq7nmtGNt4zhAFKF3lbjDUfp4emprVclNUXi1uGni0Vufje006Hvc0x24'
           );
