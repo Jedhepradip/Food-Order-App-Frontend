@@ -130,7 +130,7 @@ const ViewMenuPage: React.FC = () => {
                 {Restaurant?.cuisines.map((val, index) => (
                     <span
                         key={index}
-                        className={`px-3 py-0.5 rounded-md m-1 inline-block bg-red-600 bg-black border border-gray-300'
+                        className={`px-3 py-0.5 rounded-md m-1 inline-block bg-black border border-gray-300'
                             }`}
                     >
                         {val}
