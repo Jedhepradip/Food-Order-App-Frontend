@@ -6,7 +6,6 @@ import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store/Store";
-// import { menucreateInterface } from "../../interface/MenucreateInterface";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../Redux/Store/Store";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -106,7 +105,6 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ SetShowMenuId, closePaymentMo
             );
 
             setLoading(false);
-
             const clientSecret = data.clientSecret;
             if (!clientSecret) {
                 toast.error(<div>Failed to retrieve payment intent.</div>);

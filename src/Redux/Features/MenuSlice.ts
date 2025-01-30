@@ -19,8 +19,6 @@ export const FetchingMenuData = () => async (dispatch: AppDispatch) => {
             }
         });
         dispatch(SetMenuData(response?.data?.menus)); // Dispatch the user data received
-        console.log(response.data);
-
     } catch (error) {
         console.log(error);
     }

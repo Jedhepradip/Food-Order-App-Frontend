@@ -56,13 +56,11 @@ const ViewMenuPage: React.FC = () => {
             ) || null; // Ensure the result is `Restaura | null`
             setRestaurant(filteredRestaurant as Restaura | null);
         }
-
         if (Restaurant?.menus?.length) {
             setMenus(Restaurant?.menus)
         }
 
     }, [MenuAllData, Restaurant?.menus, RestaurantData, id]);
-
 
     const AddToCartIncreaseQuantity = async (id: string) => {
         SetMenuId(id)

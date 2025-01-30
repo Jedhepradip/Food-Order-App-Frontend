@@ -52,13 +52,11 @@ const OrderPage: React.FC = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const Orderdata: any = useSelector((state: RootState) => state.OrderAll.AllOrder)
     const Restaurant = useSelector((state: RootState) => state.Restaurant.Restaurant)
-
     const Dispatch: AppDispatch = useDispatch()
     useEffect(() => {
         if (Orderdata?.length) {
             SetAllOrderData(Orderdata)
         }
-
     }, [Orderdata])
 
     useEffect(() => {
@@ -190,7 +188,6 @@ const OrderPage: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         ))}
                     </>

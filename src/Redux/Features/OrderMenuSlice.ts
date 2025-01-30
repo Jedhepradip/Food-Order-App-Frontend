@@ -13,26 +13,15 @@ interface MenuItme {
     _id: string
 }
 
-// interface user {
-//     name: string;
-//     email: string;
-//     address: string;
-//     city: string;
-//     country: string,
-// }
-
-// interface OrderData {
-//     MenuItemsList: MenuItme[],
-//     deliveryDetails: user,
-//     restaurant: string,
-//     totalAmount: number,
-//     createdAt: string,
-//     updatedAt: string,
-//     user: [],
-//     __v: string,
-//     _id: string,
-// }
-
+interface deliveryDetails {
+    name: string;
+    email: string;
+    address: string;
+    city: string;
+    country: string,
+    expiry: string,
+    cvc: string,
+}
 
 interface user {
     profilePictuer: string;  //profilePicture
@@ -55,6 +44,7 @@ interface OrderData {
     MenuItemsList: MenuItme[],
     restaurant: string,
     totalAmount: number,
+    deliveryDetails:deliveryDetails,
     createdAt: string,
     updatedAt: string,
     user: user,

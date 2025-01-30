@@ -53,8 +53,7 @@ export const FetchingUserData = () => async (dispatch: AppDispatch) => {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         });
-        dispatch(SetUserData(response.data));
-
+        dispatch(SetUserData(response?.data));
     } catch (error) {
         console.error(error); // Changed to console.error for clarity
     }

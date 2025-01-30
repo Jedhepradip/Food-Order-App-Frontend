@@ -118,7 +118,6 @@ const AdminDashboard: React.FC = () => {
     }, [dispatch])
 
     if (user?.idAdmin === false) {
-        console.log("Not");
         Navigate("/")
     }
 

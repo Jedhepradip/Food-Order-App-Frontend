@@ -11,7 +11,6 @@ import AdminDashboard from "../AdminDashboard/AdminDashboard"
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // const [isOpen, setIsOpen] = useState(false);
   const dispatch: AppDispatch = useDispatch()
   const User = useSelector((state: RootState) => state.User.User)
 
@@ -24,15 +23,11 @@ const Navbar: React.FC = () => {
     localStorage.removeItem("Token")
     Navigate("/LoginPage")
   }
-
   const token = localStorage.getItem("Token")
-
   const handelgobackhomepage = () => {
     Navigate("/")
   }
-
-  console.log(User?.role === "customer");
-
+  
   return (
     <nav className="bg-black text-white sticky top-0 left-0 z-50">
       {User?.idAdmin === false || User === null ? <>

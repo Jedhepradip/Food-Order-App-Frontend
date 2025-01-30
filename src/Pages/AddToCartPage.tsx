@@ -673,7 +673,6 @@ const AddToCartPage: React.FC = () => {
                     </div>
                 {/* </Elements> */}
             </div>
-
         </>
     );
 };

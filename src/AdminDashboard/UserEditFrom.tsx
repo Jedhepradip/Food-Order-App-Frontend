@@ -16,7 +16,6 @@ interface UserEditFormProps {
     closeMenuModal: () => void;
 }
 
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const UserEditFrom: React.FC<UserEditFormProps> = ({ UserID, closeMenuModal }: any) => {
     const [file, setFile] = useState<File | null>(null);
@@ -35,7 +34,6 @@ const UserEditFrom: React.FC<UserEditFormProps> = ({ UserID, closeMenuModal }: a
     useEffect(() => {
         if (UserInfo && UserID) {
             const user = UserInfo?.filter((val) => val._id == UserID);
-            console.log(user);
             UserDataShow(user); // Set `null` if `user` is undefined
         }
     }, [UserID, UserInfo]);

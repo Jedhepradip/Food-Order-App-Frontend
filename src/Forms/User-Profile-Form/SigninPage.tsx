@@ -179,199 +179,199 @@ const SigninPage: React.FC = () => {
 
       <form onSubmit={handleSubmit(onsubmit)} className="w-full max-w-lg pt-2 border md:border-gray-500 border-gray-100 px-5 pr-5 pb-5 bg-gray-950 rounded-lg shadow-lg animate-fadeIn">
         <h2 className="text-3xl font-serif text-center mb-3">Profile Form</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block mb-2 text-lg font-serif">Name</label>
-            <input {...register("name", { required: "Name is required", minLength: { value: 1, message: "Name must be at least 1 character" } })}
-              type="text"
-              name='name'
-              onChange={(e) => setname(e.target.value)}
-              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-              placeholder="name"
-            />
-            {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
-          </div>
-          <div>
-            <label className="block mb-2 text-lg font-serif">Email</label>
-            <input
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                  message: "Invalid email format",
-                },
-              })}
-              type="email"
-              name="email"
-              onChange={handleEmailChange}
-              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-              placeholder="email"
-            />
-            {/* Validation Error */}
-            {errors.email && (
-              <span className="text-red-500 text-sm">{errors.email.message}</span>
-            )}
-
-            {customError && (
-              <span className="text-red-500 text-sm font-serif ">{customError}</span>
-            )}
-          </div>
-
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block mb-2 text-lg font-serif">Password</label>
-            <input
-              {...register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" } })}
-              type="password"
-              name='password'
-              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-              placeholder="password"
-            />
-            {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
-          </div>
-
-          <div>
-            <label className="block mb-2 text-lg font-serif">Contact</label>
-            <input
-              {...register("contact", {
-                required: "Contact is required",
-                minLength: { value: 10, message: "Contact must be at least 10 digits" },
-                maxLength: { value: 10, message: "Contact must be exactly 10 digits" },
-              })}
-              onChange={(e) => setContact(e.target.value)}
-              type="tel"
-              name='contact'
-              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-              placeholder="contact"
-            />
-            {errors.contact && <span className="text-red-500 text-sm">{errors.contact.message}</span>}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block mb-2 text-lg font-serif">City</label>
-            <input
-              {...register("city", { required: "City is required" })}
-              type="text"
-              name='city'
-              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-              placeholder="city"
-            />
-            {errors.city && <span className="text-red-500 text-sm">{errors.city.message}</span>}
-          </div>
-          <div>
-            <label className="block mb-2 text-lg font-serif">Address</label>
-            <input
-              {...register("address", { required: "Address is required" })}
-              type="text"
-              name='address'
-              className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-              placeholder="address"
-            />
-            {errors.address && <span className="text-red-500 text-sm">{errors.address.message}</span>}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block mb-2 text-lg font-serif">Country</label>
-            <input
-              {...register("country", { required: "Country is required" })}
-              type="text"
-              name='country'
-              className="w-full p-2 rounded-md bg-gray-950 border md:border-white border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-              placeholder="country"
-            />
-            {errors.country && <span className="text-red-500 text-sm">{errors.country.message}</span>}
-          </div>
-          <div>
-            <label className="block mb-2 text-lg font-serif">Profile Picture</label>
-            <input
-              {...register("profilePicture", { required: "Profile picture is required" })}
-              type="file"
-              name='profilePicture:'
-              onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
-              className="w-full p-1.5 rounded-md bg-gray-950 border md:border-white border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
-            />
-            {errors.profilePicture && <span className="text-red-500 text-sm">{errors.profilePicture.message}</span>}
-          </div>
-
-          <div className="flex flex-col">
-            <h1 className="block text-lg font-serif">User Role</h1>
-            <div className="flex items-center space-x-4"> {/* Ensures radio buttons are spaced horizontally */}
-              <div className="flex items-center gap-2">
-                <input
-                  {...register("role", { required: "Please select a user type" })}
-                  type="radio"
-                  id="customer"
-                  name="role"
-                  value="customer"
-                  className="form-radio text-black focus:ring-black"
+        {!otpSent && (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block mb-2 text-lg font-serif">Name</label>
+                <input {...register("name", { required: "Name is required", minLength: { value: 1, message: "Name must be at least 1 character" } })}
+                  type="text"
+                  name='name'
+                  onChange={(e) => setname(e.target.value)}
+                  className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+                  placeholder="name"
                 />
-                <label htmlFor="customer" className="text-gray-700 font-serif">Customer</label>
+                {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
+              </div>
+              <div>
+                <label className="block mb-2 text-lg font-serif">Email</label>
+                <input
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                      message: "Invalid email format",
+                    },
+                  })}
+                  type="email"
+                  name="email"
+                  onChange={handleEmailChange}
+                  className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+                  placeholder="email"
+                />
+                {/* Validation Error */}
+                {errors.email && (
+                  <span className="text-red-500 text-sm">{errors.email.message}</span>
+                )}
+
+                {customError && (
+                  <span className="text-red-500 text-sm font-serif ">{customError}</span>
+                )}
               </div>
 
-              <div className="flex items-center gap-2">
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block mb-2 text-lg font-serif">Password</label>
                 <input
-                  {...register("role", { required: "Please select a user type" })}
-                  type="radio"
-                  id="RestroRecruit"
-                  value="RestroRecruit"
-                  name="role"
-                  className="form-radio text-black focus:ring-black"
+                  {...register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" } })}
+                  type="password"
+                  name='password'
+                  className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+                  placeholder="password"
                 />
-                <label htmlFor="RestroRecruit" className="text-gray-700 font-serif">RestroRecruit</label>
+                {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
+              </div>
+
+              <div>
+                <label className="block mb-2 text-lg font-serif">Contact</label>
+                <input
+                  {...register("contact", {
+                    required: "Contact is required",
+                    minLength: { value: 10, message: "Contact must be at least 10 digits" },
+                    maxLength: { value: 10, message: "Contact must be exactly 10 digits" },
+                  })}
+                  onChange={(e) => setContact(e.target.value)}
+                  type="tel"
+                  name='contact'
+                  className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+                  placeholder="contact"
+                />
+                {errors.contact && <span className="text-red-500 text-sm">{errors.contact.message}</span>}
               </div>
             </div>
-            {errors.role && (
-              <div className="text-red-500 text-lg font-serif mt-2">
-                {errors.role.message}
-              </div>
-            )}
-          </div>
 
-        </div>
-
-        {!otpSent && (
-          <button
-            type="button"
-            onClick={handleOtpSubmit}
-            className={`w-full py-2 rounded-md bg-orange-600 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-orange-600 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500 ${loadingSendOTP ? 'cursor-not-allowed animate-pulse' : ''
-              }`}
-            disabled={loadingSendOTP}
-          >
-            {loadingSendOTP ? (
-              <div className="flex items-center justify-center">
-                <svg
-                  className="animate-spin h-5 w-5 text-white"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                  ></path>
-                </svg>
-                <span className="ml-2">Loading...</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block mb-2 text-lg font-serif">City</label>
+                <input
+                  {...register("city", { required: "City is required" })}
+                  type="text"
+                  name='city'
+                  className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+                  placeholder="city"
+                />
+                {errors.city && <span className="text-red-500 text-sm">{errors.city.message}</span>}
               </div>
-            ) : (
-              <span>Send OTP</span>
-            )}
-          </button>
+              <div>
+                <label className="block mb-2 text-lg font-serif">Address</label>
+                <input
+                  {...register("address", { required: "Address is required" })}
+                  type="text"
+                  name='address'
+                  className="w-full p-2 rounded-md bg-gray-950 border border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+                  placeholder="address"
+                />
+                {errors.address && <span className="text-red-500 text-sm">{errors.address.message}</span>}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block mb-2 text-lg font-serif">Country</label>
+                <input
+                  {...register("country", { required: "Country is required" })}
+                  type="text"
+                  name='country'
+                  className="w-full p-2 rounded-md bg-gray-950 border md:border-white border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+                  placeholder="country"
+                />
+                {errors.country && <span className="text-red-500 text-sm">{errors.country.message}</span>}
+              </div>
+              <div>
+                <label className="block mb-2 text-lg font-serif">Profile Picture</label>
+                <input
+                  {...register("profilePicture", { required: "Profile picture is required" })}
+                  type="file"
+                  name='profilePicture:'
+                  onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+                  className="w-full p-1.5 rounded-md bg-gray-950 border md:border-white border-white text-white focus:outline-none font-serif focus:ring-2 focus:ring-purple-500"
+                />
+                {errors.profilePicture && <span className="text-red-500 text-sm">{errors.profilePicture.message}</span>}
+              </div>
+
+              <div className="flex flex-col">
+                <h1 className="block text-lg font-serif">User Role</h1>
+                <div className="flex items-center space-x-4"> {/* Ensures radio buttons are spaced horizontally */}
+                  <div className="flex items-center gap-2">
+                    <input
+                      {...register("role", { required: "Please select a user type" })}
+                      type="radio"
+                      id="customer"
+                      name="role"
+                      value="customer"
+                      className="form-radio text-black focus:ring-black"
+                    />
+                    <label htmlFor="customer" className="text-gray-700 font-serif">Customer</label>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      {...register("role", { required: "Please select a user type" })}
+                      type="radio"
+                      id="RestroRecruit"
+                      value="RestroRecruit"
+                      name="role"
+                      className="form-radio text-black focus:ring-black"
+                    />
+                    <label htmlFor="RestroRecruit" className="text-gray-700 font-serif">RestroRecruit</label>
+                  </div>
+                </div>
+                {errors.role && (
+                  <div className="text-red-500 text-lg font-serif mt-2">
+                    {errors.role.message}
+                  </div>
+                )}
+              </div>
+
+            </div>
+            <button
+              type="button"
+              onClick={handleOtpSubmit}
+              className={`w-full py-2 rounded-md bg-orange-600 text-black text-xl font-serif mb-2 transition-transform duration-300 ease-in-out hover:bg-orange-600 hover:shadow-lg hover:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-500 ${loadingSendOTP ? 'cursor-not-allowed animate-pulse' : ''
+                }`}
+              disabled={loadingSendOTP}
+            >
+              {loadingSendOTP ? (
+                <div className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    ></path>
+                  </svg>
+                  <span className="ml-2">Loading...</span>
+                </div>
+              ) : (
+                <span>Send OTP</span>
+              )}
+            </button>
+          </>
         )}
 
         {otpSent && (

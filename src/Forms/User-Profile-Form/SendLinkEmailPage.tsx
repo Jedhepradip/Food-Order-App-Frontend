@@ -23,7 +23,6 @@ const SendLinkEmailPage: React.FC = () => {
                 }
             })
             const UserResponse = response.data;
-            console.log("Send Link To Email :", UserResponse);
             if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
                 setTimeout(() => {

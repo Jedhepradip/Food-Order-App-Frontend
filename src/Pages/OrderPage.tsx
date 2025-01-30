@@ -25,6 +25,23 @@ interface deliveryDetails {
     cvc: string,
 }
 
+interface user {
+        profilePictuer: string;  //profilePicture
+        role: string,
+        name: string;
+        email: string;
+        contact: string;
+        password: string;
+        address: string;
+        idAdmin: boolean;
+        country: string;
+        city: string;
+        updatedAt: string;
+        items: string[]; // Array of individual CartItem objects
+        __v: string;
+        _id: string;
+    }
+
 interface OrderData {
     MenuItemsList: MenuItme[],
     deliveryDetails: deliveryDetails,
@@ -32,7 +49,7 @@ interface OrderData {
     totalAmount: number,
     createdAt: string,
     updatedAt: string,
-    user: [],
+    user: user,
     __v: string,
     _id: string,
 }

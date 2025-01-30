@@ -20,7 +20,6 @@ const MenuPages: React.FC = () => {
     const [EditMenu, EditTheMenu] = useState(false);
     const [Menu, SetMenu] = useState<menucreateInterface[] | null>(null);
     const [MenuID, SetMenuId] = useState<string | null>(null);
-
     const Navigate = useNavigate()
     const dispatch: AppDispatch = useDispatch()
     const menudata = useSelector((state: RootState) => state.Menu.Menu)

@@ -22,7 +22,7 @@ export const FetchingRestaurant = () => async (dispatch: AppDispatch) => {
                 },
             }
         );
-        dispatch(SetRestaurantData(response.data));
+        dispatch(SetRestaurantData(response?.data));
     } catch (error) {
         console.error("Error fetching restaurant data:", error);
     }

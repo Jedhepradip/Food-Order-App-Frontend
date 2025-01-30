@@ -52,8 +52,6 @@ export const FetchingAllOrderData = () => async (dispatch: AppDispatch) => {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         });
-        console.log("response.data ",response.data);
-        
         dispatch(OrderAllDataShow(response?.data)); // Dispatch the user data received    
     } catch (error) {
         console.log(error);

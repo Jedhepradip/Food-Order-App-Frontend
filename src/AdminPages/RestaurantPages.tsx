@@ -3,25 +3,13 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { loadStripe } from '@stripe/stripe-js'
 import { useNavigate } from 'react-router-dom';
-// import { Elements } from '@stripe/react-stripe-js'
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, SubmitHandler } from "react-hook-form"
 import { AppDispatch, RootState } from '../Redux/Store/Store';
-// import { FetchingUserData } from '../Redux/Features/UserSlice';
-// import { UserInterFaceData } from '../interface/UserInterface';
 import { FetchingRestaurant } from '../Redux/Features/RestaurantSlice';
 import { RestaurantInterface } from '../interface/RestaurantInterface';
-// import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { FetchingUserAllRestaurant } from '../Redux/Features/RestaurantAllSlice';
-
-// interface PaymentPageProps {
-//     SetShowMenuId: string | number,
-// }
-
-// interface CheckoutFormData {
-//     email: string;
-// }
 
 interface RestaurantInterfaceInput {
     file: string,
@@ -35,7 +23,6 @@ interface RestaurantInterfaceInput {
 
 interface UserRestaurentProps {
     RestaurentID: string;
-    // closeMenuModal: () => void;
 }
 
 interface PaymentData {
@@ -55,7 +42,6 @@ const RestaurantPages: React.FC = () => {
     const Navigate = useNavigate()
     const Dispatch: AppDispatch = useDispatch()
     const token = localStorage.getItem("Token")
-
     const [Payment, SetPaymentData] = useState<PaymentData[] | []>([]);
 
     useEffect(() => {
@@ -217,11 +203,7 @@ const RestaurantPages: React.FC = () => {
             }
         }
     }
-
-    if (Payment.length === 0) {
-        console.log(Payment.length);
-    }
-
+    
     return (
         <>
             <div className='flex justify-center w-full bg-black md:p-10 p-0'>

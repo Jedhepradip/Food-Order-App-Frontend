@@ -43,17 +43,12 @@ const Filtercuisines: React.FC = () => {
         dispatch(SetFilterCuisines([{ Cuisines: "" }]));
     }
 
-    // console.log(allCuisines.filter());
-
     useEffect(() => {
         const data = allCuisines?.filter((item: string) => item.trim() !== '')
         console.log(data);
         Cuisinesdata(data)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    console.log("Cuisines ", Cuisines);
-
 
     return (
 
