@@ -157,7 +157,7 @@ const ViewMenuPage: React.FC = () => {
                                 <p className="text-gray-500 mt-2">
                                     {val.description}
                                 </p>
-                                <p className="text-orange-400 font-semibold mt-2"><span className='text-white'>Price:</span> {val.price}</p>
+                                <p className="text-orange-400 font-semibold mt-2"><span className='text-white'>Price:</span> ₹{val.price}</p>
 
                                 <div className="w-ful pb-2 flex overflow-hidden justify-center items-center">
                                     <button

@@ -146,12 +146,11 @@ const OrderPage: React.FC = () => {
                                         <div className="text-start mt-4 font-serif">
                                             <p className="text-lg font-medium">{userOrder?.user?.name || "Not Provided"}</p>
                                             <p className="text-md">{userOrder?.user?.address || "Not Provided"}</p>
-                                            <h3 className="text-lg font-serif">Total Amount: $
+                                            <h3 className="text-lg font-serif">Total Amount: ₹
                                                 {calculateTotal([item])}
                                             </h3>
                                         </div>
                                     </div>
-
 
                                     <div className="mb-4 md:w-[50%] w-full">
                                         <label htmlFor="status" className="block text-lg font-medium mb-2">Order Status</label>
@@ -170,20 +169,22 @@ const OrderPage: React.FC = () => {
                                 </div>
 
                                 <div className="flex justify-between items-center gap-2">
-
                                     <div className="md:w-[50%] w-full">
                                         <div
-                                            key={item._id}
+                                            key={item?._id}
                                             className="flex items-center border text-white shadow-md rounded-lg p-3"
-                                        >                 <img
+                                        > <img
                                                 src={item?.image}
                                                 alt={item?.name}
                                                 className="w-16 h-16 rounded-lg mr-4 object-cover border border-gray-600"
                                             />
                                             <div className="flex-1">
                                                 <h2 className="text-xl font-semibold">{item?.name}</h2>
-                                                <p className="text-gray-400">Price: ${item?.price}</p>
-                                                <p className="text-gray-400">Quantity: {item?.Quantity}</p>
+                                                <p className="text-gray-400">Price: ₹{item?.price}</p>
+                                                <div className="flex gap-1 justify-between">
+                                                    <p className="text-gray-400">Quantity: {item?.Quantity}</p>
+                                                    <p className="text-gray-400 text-[15px]">Order Status: {item?.status}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
