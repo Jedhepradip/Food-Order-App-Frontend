@@ -7,7 +7,6 @@ import { FetchingUserData } from '../Redux/Features/UserSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/Store/Store';
 import { loadStripe } from '@stripe/stripe-js'
-// import { Elements } from '@stripe/react-stripe-js'
 import { ToastContainer, toast } from 'react-toastify';
 import PaymentPage from './Payment/PaymentPage';
 import { NavLink } from 'react-router-dom';
@@ -25,12 +24,12 @@ interface Menuinterfase {
 }
 
 export interface CartItem {
-    Menu: Menuinterfase; // Single Menu object
-    quantity: number; // Quantity for the specific menu item
+    Menu: Menuinterfase;
+    quantity: number; 
 }
 
 export interface UserInterFaceData {
-    profilePictuer: string;  //profilePicture
+    profilePictuer: string; 
     name: string;
     email: string;
     contact: string;
