@@ -38,7 +38,7 @@ export interface UserInterFaceData {
     country: string;
     city: string;
     updatedAt: string;
-    items: CartItem[]; // Array of individual CartItem objects
+    items: CartItem[];
     __v: string;
     _id: string;
 }
