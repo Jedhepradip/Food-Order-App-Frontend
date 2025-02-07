@@ -157,7 +157,7 @@ const AddToCartPage: React.FC = () => {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
             })
-        
+
             if (response.status === 200) {
                 Dispatch(FetchingUserData())
             }
@@ -240,6 +240,7 @@ const AddToCartPage: React.FC = () => {
             }
         }
     };
+
 
     const ClearAllAddToCart = async () => {
         SetLoadingClearAll(true)
@@ -350,7 +351,6 @@ const AddToCartPage: React.FC = () => {
                                     </div>
                                     <button
                                         onClick={() => SetThePaymentModel()}
-                                        // type='submit'
                                         className={`px-4 py-2 flex bg-orange-500 float-right hover:bg-orange-600 text-white rounded font-serif ${loadingPayment ? 'cursor-not-allowed' : ''} ${loadingPayment ? 'animate-pulse' : ''}`}
                                         disabled={loadingPayment}
                                     >
@@ -516,7 +516,6 @@ const AddToCartPage: React.FC = () => {
                                                         <span>{loadingRemove ? 'Loading...' : 'Remove'}</span>
                                                     </button>
                                                 </div>
-
                                             </td>
 
                                             <td className="p-0">
@@ -532,8 +531,7 @@ const AddToCartPage: React.FC = () => {
                                                                 className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
                                                                 viewBox="0 0 24 24"
                                                                 fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                            >
+                                                                xmlns="http://www.w3.org/2000/svg">
                                                                 <circle
                                                                     className="opacity-25"
                                                                     cx="12"
@@ -570,7 +568,7 @@ const AddToCartPage: React.FC = () => {
                     <div className="mt-4 flex justify-end md:pr-[100px]">
                         <NavLink to={"/"} >
                             <button className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded font-serif">
-                                {/* Proceed to Checkout                                 */}
+                                {/* Proceed to Checkout*/}
                                 Continue Shopping
                             </button>
                         </NavLink>
