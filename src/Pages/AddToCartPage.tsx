@@ -157,7 +157,7 @@ const AddToCartPage: React.FC = () => {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
             })
-
+        
             if (response.status === 200) {
                 Dispatch(FetchingUserData())
             }
@@ -218,7 +218,6 @@ const AddToCartPage: React.FC = () => {
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
             })
-
             if (response.status === 200) {
                 setTimeout(() => {
                     SetLoadingRemove(false)
