@@ -73,7 +73,7 @@ const SearchPage: React.FC = () => {
 
     useEffect(() => {
         dispatch(FetchingUserAllRestaurant())
-    }, [dispatch])
+    }, [dispatch,SearchTheCountry])
 
     useEffect(() => {
         if (SearchCountry?.length) {

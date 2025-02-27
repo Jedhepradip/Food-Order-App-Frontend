@@ -44,11 +44,10 @@ const Filtercuisines: React.FC = () => {
     }
 
     useEffect(() => {
-        const data = allCuisines?.filter((item: string) => item.trim() !== '')
-        console.log(data);
+        const data = allCuisines?.filter((item: string) => item.trim() !== '')      
         Cuisinesdata(data)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [allCuisines])
+
 
     return (
 

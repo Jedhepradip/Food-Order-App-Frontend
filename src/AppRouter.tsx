@@ -67,6 +67,8 @@ const AppContent: React.FC = () => {
                 ) : (
                     <>
                         <Route path='/AdminDashboard' element={<AdminDashboard />} />
+                        <Route path='/LoginPage' element={<LoginPage />} />
+                        <Route path='/SigninPage' element={<SigninPage />} />
                     </>
                 )}
             </Routes>

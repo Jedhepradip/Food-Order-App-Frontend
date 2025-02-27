@@ -383,7 +383,6 @@ const AddToCartPage: React.FC = () => {
                         </div>
                     )}
                 </div>
-
                 <div className="container mx-auto p-4 bg-black md:block hidden text-white min-h-screen">
 
                     <h2 className="text-2xl font-bold mb-1">Shopping Cart</h2>
@@ -667,7 +666,6 @@ const AddToCartPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                {/* </Elements> */}
             </div>
         </>
     );
